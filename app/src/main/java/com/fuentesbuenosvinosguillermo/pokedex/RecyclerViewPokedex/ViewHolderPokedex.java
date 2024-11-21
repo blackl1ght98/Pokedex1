@@ -1,18 +1,16 @@
 package com.fuentesbuenosvinosguillermo.pokedex.RecyclerViewPokedex;
 
-import android.view.View;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.PokedexCardviewBinding;
 
-public class ViewHolder extends RecyclerView.ViewHolder {
+public class ViewHolderPokedex extends RecyclerView.ViewHolder {
     private final PokedexCardviewBinding binding;
 
     // Constructor
-    public ViewHolder(PokedexCardviewBinding binding) {
+    public ViewHolderPokedex(PokedexCardviewBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
     }

@@ -1,14 +1,9 @@
 
 package com.fuentesbuenosvinosguillermo.pokedex;
 import android.os.Bundle;
-import android.view.Menu;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 import com.fuentesbuenosvinosguillermo.pokedex.Fragments.Ajustes;
 import com.fuentesbuenosvinosguillermo.pokedex.Fragments.Pokedex;
@@ -23,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private TabAdapter tabAdapter;
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
+
     // Configuración de la barra de acción
 
 

@@ -17,13 +17,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Adapter extends RecyclerView.Adapter<ViewHolder> {
+public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
     private final List<PokemonResult> pokemonList;
     private final OnItemClickListener listener;
     private final PokeApiService pokeApiService;  // Agregar servicio de API
 
     // Constructor para recibir la lista de Pokémon, un listener y el servicio de la API
-    public Adapter(List<PokemonResult> pokemonList, OnItemClickListener listener, PokeApiService pokeApiService) {
+    public AdapterPokedex(List<PokemonResult> pokemonList, OnItemClickListener listener, PokeApiService pokeApiService) {
         this.pokemonList = pokemonList;
         this.listener = listener;
         this.pokeApiService = pokeApiService;
@@ -31,18 +31,18 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolderPokedex onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Inflar el layout utilizando View Binding
         PokedexCardviewBinding binding = PokedexCardviewBinding.inflate(
                 LayoutInflater.from(parent.getContext()),
                 parent,
                 false
         );
-        return new ViewHolder(binding);
+        return new ViewHolderPokedex(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolderPokedex holder, int position) {
         // Obtener el Pokémon de la lista
         PokemonResult pokemonResult = pokemonList.get(position);
 

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class Pokemon {
 
     private int id;
-    public String name;
+    private String name;
 
     @SerializedName("base_experience")
     private int baseExperience;

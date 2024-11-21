@@ -2,13 +2,27 @@ package com.fuentesbuenosvinosguillermo.pokedex.RecyclerViewCapturados;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fuentesbuenosvinosguillermo.pokedex.databinding.PokedexCardviewBinding;
+import com.bumptech.glide.Glide;
+import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.PokemonCapturadosCardviewBinding;
 
-public class ViewHolderCapturados  extends RecyclerView.ViewHolder{
-    private PokemonCapturadosCardviewBinding binding;
-    public ViewHolderCapturados(PokemonCapturadosCardviewBinding binding){
+public class ViewHolderCapturados extends RecyclerView.ViewHolder {
+    private final PokemonCapturadosCardviewBinding binding;
+
+    // Constructor
+    public ViewHolderCapturados(PokemonCapturadosCardviewBinding binding) {
         super(binding.getRoot());
-        this.binding=binding;
+        this.binding = binding;
+    }
+
+    // Método bind para vincular los datos al layout
+    public void bind(Pokemon pokemon) {
+        // Establecer el nombre del Pokémon
+        binding.nombrepokemon.setText(pokemon.getName());
+
+        // Cargar la imagen del Pokémon (usando Glide)
+        Glide.with(binding.getRoot().getContext())
+                .load(pokemon.getSprites().getFrontDefault()) // URL de la imagen
+                .into(binding.imagepokemon);
     }
 }
