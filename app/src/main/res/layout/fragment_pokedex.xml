@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="35dp"
+
+    android:fitsSystemWindows="true"
+    tools:context=".Fragments.Pokedex">
+    <!--Layout que usa el layout personajes_cardview.xml para mostrar los personajes.
+    El motivo por el que es un CoordinatorLayout es para manejar interacciones y
+    comportamientos de desplazamiento entre los componentes que contiene. Es útil
+    cuando se integran otros elementos interactivos, como Snackbars o
+    FloatingActionButtons, que pueden necesitar moverse en relación con el contenido.-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/pokedex_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:paddingTop="?attr/actionBarSize" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

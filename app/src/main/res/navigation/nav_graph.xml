@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/pokedex">
+    <fragment
+        android:id="@+id/pokedex"
+        android:name="com.fuentesbuenosvinosguillermo.pokedex.Fragments.Pokedex"
+        android:label="fragment_pokedex"
+        tools:layout="@layout/fragment_pokedex" />
+    <fragment
+        android:id="@+id/pokemonCapturados"
+        android:name="com.fuentesbuenosvinosguillermo.pokedex.Fragments.pokemonCapturados"
+        android:label="fragment_pokemon_capturados"
+        tools:layout="@layout/fragment_pokemon_capturados" />
+    <fragment
+        android:id="@+id/ajustes"
+        android:name="com.fuentesbuenosvinosguillermo.pokedex.Fragments.Ajustes"
+        android:label="fragment_ajustes"
+        tools:layout="@layout/fragment_ajustes" />
+</navigation>

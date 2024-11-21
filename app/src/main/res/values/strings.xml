@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Pokedex</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nombre_pokemon">Nombre</string>
+    <string name="indice_pokemon">Indice</string>
+    <string name="peso_pokemon">Peso</string>
+    <string name="altura_pokemon">Altura</string>
+    <string name="ajustes">Ajustes</string>
+    <string name="Acercade">Acerca de...</string>
+
+    <string name="nav_settings">Ajustes</string>
+    <string name="pagina_inicio">Pagina Inicio</string>
+    <string name="lista_pokemons">Lista Pokemons</string>
+    <string name="habilitar_eliminacion_capturados">Habilitar eliminación pokemons capturados</string>
+    <string name="idioma">Cambiar español/ingles</string>
+    <string name="cerrar_sesion">Cerrar sesion</string>
+    <string name="pokedex">Pokedex</string>
+    <string name="pokemon_capturados">Pokemon Capturados</string>
+    <string name="longin">Iniciar sesion</string>
+    <string name="introduce_email">Introduce tu email</string>
+    <string name="introduce_password">Introduce tu constraseña</string>
+    <string name="register">Registrar usuario</string>
+    <string name="iniciar_google">Iniciar sesion con google</string>
+    <string name="Ir_registro">Registrarse</string>
+</resources>
