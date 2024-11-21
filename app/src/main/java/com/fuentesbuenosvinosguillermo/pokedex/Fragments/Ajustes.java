@@ -46,14 +46,7 @@ private FragmentAjustesBinding binding;
         binding.cerrarSesion.setOnClickListener(v -> logOut());
         return binding.getRoot();
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (getActivity() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getContext().getString(R.string.ajustes));
 
-        }
-    }
     public void setLocale(String lang){
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);

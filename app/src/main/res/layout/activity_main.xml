@@ -7,28 +7,17 @@
     tools:context=".MainActivity"
     tools:ignore="MissingClass">
 
-    <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
 
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu" />
 
     <!-- TabLayout -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+
         app:tabMode="fixed"
         app:tabIndicatorColor="@color/white"
-         />
+        tools:ignore="MissingConstraints" />
 
     <!-- ViewPager2 -->
     <androidx.viewpager2.widget.ViewPager2

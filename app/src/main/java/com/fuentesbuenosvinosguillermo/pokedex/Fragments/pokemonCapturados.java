@@ -25,12 +25,5 @@ private FragmentPokemonCapturadosBinding binding;
         binding= FragmentPokemonCapturadosBinding.inflate(inflater,container,false);
         return binding.getRoot();
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (getActivity() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getContext().getString(R.string.pokemon_capturados));
 
-        }
-    }
 }

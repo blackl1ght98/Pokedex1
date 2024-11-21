@@ -47,13 +47,7 @@ public class Pokedex extends Fragment {
         return binding.getRoot();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (getActivity() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getContext().getString(R.string.pokedex));
-        }
-    }
+
 
     private void setupRecyclerView() {
         // Crear una instancia de PokedexRepository
