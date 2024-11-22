@@ -38,7 +38,23 @@ public class pokemonCapturados extends Fragment {
         setupRecyclerView();
 
         // Observar cambios en los Pokémon capturados usando el SharedViewModel
+        //Inicializa SharedViewModel
         SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        //llama a un metodo que hemos creado en sharedViewModel el cual es una lista dinamica y a esta lista
+        //le pasamos un observador 'observe' que detectara los cambios en dicha lista ha este obsevador le pasamos
+        //el ciclo de vida de la vista con getViewLifecycleOwner() que puede tener estos ciclos -->
+        /*
+        * Namely, the lifecycle of the Fragment's View is:
+            created after onViewStateRestored(Bundle) --> creado
+            started after onStart()--> empezado
+            resumed after onResume()-->mostrado
+            paused before onPause()-->pausado
+            stopped before onStop()-->parado
+            destroyed before onDestroyView()-->destruido
+        *
+        * */
+        //luego le pasamos el nombre de la variable que retorna getCapturedPokemons() que es capturedPokemons y finalmente
+        //esto va al adaptador y actualiza los datos con los nuevos pokemons
         sharedViewModel.getCapturedPokemons().observe(getViewLifecycleOwner(), capturedPokemons -> {
             adapterCapturados.updateData(capturedPokemons);
         });
@@ -54,18 +70,6 @@ public class pokemonCapturados extends Fragment {
         binding.pokemonsCapturadosRecyclerview.setAdapter(adapterCapturados);
     }
 
-    public void addCapturedPokemon(Pokemon pokemon) {
-        if (!CapturedPokemonManager.isCaptured(pokemon)) {
-            // Agregar al gestor de capturados
-            CapturedPokemonManager.addCapturedPokemon(pokemon);
 
-            // Actualizar la lista local desde el gestor compartido
-            pokemonCapturadosList.clear();
-            pokemonCapturadosList.addAll(CapturedPokemonManager.getCapturedPokemons());
-
-            // Notificar cambios al adaptador
-            adapterCapturados.notifyDataSetChanged();
-        }
-    }
 
 }

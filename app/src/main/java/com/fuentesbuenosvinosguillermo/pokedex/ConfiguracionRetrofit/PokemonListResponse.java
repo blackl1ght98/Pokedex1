@@ -3,27 +3,15 @@ package com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit;
 import java.util.List;
 
 public class PokemonListResponse {
-    /**
-     * Este es el objeto que implementa el metodo Call que esta  en la interfaz PokeApiService si se decidiese implementar la paginacion
-     * esta clase se podria usar para tal fin
-     * */
-    private int count;
-    private String next;
-    private String previous;
+
+
     private List<PokemonResult> results;
-
-    public int getCount() {
-        return count;
-    }
-
-    public String getNext() {
-        return next;
-    }
-
-    public String getPrevious() {
-        return previous;
-    }
-
+    /**
+     * Como en la clase PokemonResult esta pensada para solo recibir el nombre de un solo pokemon esto tenemos que arreglarlo para
+     * que se pueda manejar varios nombres de varios pokemons esta es la razon por la cual se coloca en una lista que va almacenando
+     * todos los nombres de los pokemon y esto permite poder mostrar varios de ellos
+     *
+     * */
     /*
     * @GET("pokemon")
     Call<PokemonListResponse> getPokemonList(
