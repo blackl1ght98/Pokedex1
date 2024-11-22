@@ -19,7 +19,8 @@ public class ViewHolderCapturados extends RecyclerView.ViewHolder {
     public void bind(Pokemon pokemon) {
         // Establecer el nombre del Pokémon
         binding.nombrepokemon.setText(pokemon.getName());
-        binding.indicepokemon.setText(String.valueOf(pokemon.getId()));
+        //Mover a un fragment de detalles
+        binding.ordenPokedex.setText(String.valueOf(pokemon.orderPokedex()));
         binding.pesopokemon.setText(String.valueOf(pokemon.getWeight()));
         binding.alturakemon.setText(String.valueOf(pokemon.getHeight()));
         // Cargar la imagen del Pokémon (usando Glide)

@@ -1,14 +1,20 @@
 package com.fuentesbuenosvinosguillermo.pokedex.RecyclerViewPokedex;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonResult;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokeApiService;
+import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.CapturedPokemonManager;
+import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.PokedexCardviewBinding;
 
 import java.util.List;
@@ -19,14 +25,16 @@ import retrofit2.Response;
 
 public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
     private final List<PokemonResult> pokemonList;
-    private final OnItemClickListener listener;
-    private final PokeApiService pokeApiService;  // Agregar servicio de API
+    private final PokeApiService pokeApiService;
+    private final Context context;
+    private final FragmentActivity activity;
 
-    // Constructor para recibir la lista de Pokémon, un listener y el servicio de la API
-    public AdapterPokedex(List<PokemonResult> pokemonList, OnItemClickListener listener, PokeApiService pokeApiService) {
+    // Constructor
+    public AdapterPokedex(List<PokemonResult> pokemonList, PokeApiService pokeApiService, Context context, FragmentActivity activity) {
         this.pokemonList = pokemonList;
-        this.listener = listener;
         this.pokeApiService = pokeApiService;
+        this.context = context;
+        this.activity = activity;
     }
 
     @NonNull
@@ -51,31 +59,38 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
             @Override
             public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    // Obtener el objeto Pokemon completo con la información de la imagen
                     Pokemon pokemon = response.body();
-
-                    // Vincular los datos del Pokémon al ViewHolder
+                    // Vincular los datos al ViewHolder
                     holder.bind(pokemon);
+
+                    // Configurar el clic en el ítem
+                    holder.itemView.setOnClickListener(v -> handlePokemonCapture(pokemon));
                 }
             }
 
             @Override
             public void onFailure(Call<Pokemon> call, Throwable t) {
-                // Manejar el error si la llamada a la API falla
+                Toast.makeText(context, "Error al cargar detalles del Pokémon", Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
-        // Configurar el clic en el ítem
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(pokemonResult));
+    private void handlePokemonCapture(Pokemon pokemon) {
+        if (!CapturedPokemonManager.isCaptured(pokemon)) {
+            // Capturar el Pokémon y notificar al ViewModel
+            CapturedPokemonManager.addCapturedPokemon(pokemon);
+
+            SharedViewModel viewModel = new ViewModelProvider(activity).get(SharedViewModel.class);
+            viewModel.addCapturedPokemon(pokemon);
+
+            Toast.makeText(context, pokemon.getName() + " ha sido capturado", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, pokemon.getName() + " ya está capturado", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public int getItemCount() {
         return pokemonList.size();
-    }
-
-    // Interfaz para manejar clics en los ítems
-    public interface OnItemClickListener {
-        void onItemClick(PokemonResult pokemon);
     }
 }

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Pokemon {
 //Aqui es donde transformamos manualmente el json en una clase java
-    private int id;
+    private int order;
     private String name;
 
     @SerializedName("base_experience")
@@ -20,8 +20,8 @@ public class Pokemon {
     private Sprites sprites;
 
     //La id que tiene el pokemon
-    public int getId() {
-        return id;
+    public int orderPokedex() {
+        return order;
     }
     //El nombre del pokemon
     public String getName() {
