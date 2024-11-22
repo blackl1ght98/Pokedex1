@@ -30,7 +30,7 @@ public class SharedViewModel extends ViewModel {
     public LiveData<List<Pokemon>> getCapturedPokemons() {
         return capturedPokemons;
     }
-//Metodo que agrega un pokemon a la lista
+   //Metodo que agrega un pokemon a la lista
     public void addCapturedPokemon(Pokemon pokemon) {
         List<Pokemon> currentList = new ArrayList<>(capturedPokemons.getValue());
         currentList.add(pokemon);

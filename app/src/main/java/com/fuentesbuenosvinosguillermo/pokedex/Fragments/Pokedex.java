@@ -49,9 +49,6 @@ public class Pokedex extends Fragment {
 
         return binding.getRoot();
     }
-
-
-
     private void setupRecyclerView() {
         // Crear una instancia de PokedexRepository
         PokedexRepository repository = new PokedexRepository();  // No necesitas llamar a getPokeApiService
@@ -59,60 +56,24 @@ public class Pokedex extends Fragment {
         // Configurar el LayoutManager y el Adapter
         binding.pokedexRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
-
-//        adapterPokedex = new AdapterPokedex(pokemonList, pokemonResult -> {
-//            // Obtener el nombre del Pokémon del PokémonResult
-//            String pokemonName = pokemonResult.getName();
-//
-//            // Realizar la solicitud para obtener los detalles completos del Pokémon
-//            PokeApiService apiService = ConfiguracionRetrofit.getRetrofitInstance().create(PokeApiService.class);
-//            //A esta solicitud que se hace se le pasa el nombre del pokemon como parametro y lo que el servidor devuelva es gestionado por la clase Pokemon
-//            apiService.getPokemonDetails(pokemonName).enqueue(new Callback<Pokemon>() {
-//                @Override
-//                //Metodo que maneja la llamada y respuesta al servidor
-//                public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
-//                    if (response.isSuccessful() && response.body() != null) {
-//                        // Obtener el Pokémon completo
-//                        Pokemon pokemon = response.body();
-//
-//                        // Verificar si el Pokémon ya ha sido capturado
-//                        if (!CapturedPokemonManager.isCaptured(pokemon)) {
-//                            // Agregar Pokémon capturado
-//                            CapturedPokemonManager.addCapturedPokemon(pokemon);
-//                            Toast.makeText(getContext(), pokemon.getName() + " ha sido capturado", Toast.LENGTH_SHORT).show();
-//
-//                            // Actualizar el RecyclerView de Pokémon Capturados
-//                            pokemonCapturados fragment = (pokemonCapturados) getParentFragmentManager().findFragmentByTag("capturadosFragment");
-//                            if (fragment != null) {
-//                                fragment.addCapturedPokemon(pokemon); // Llama al método para agregar al RecyclerView
-//                            }
-//                        } else {
-//                            Toast.makeText(getContext(), pokemon.getName() + " ya está capturado", Toast.LENGTH_SHORT).show();
-//                        }
-//                    } else {
-//                        Toast.makeText(getContext(), "Error al obtener detalles del Pokémon", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Pokemon> call, Throwable t) {
-//                    Toast.makeText(getContext(), "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }, repository.apiService);
-
         adapterPokedex = new AdapterPokedex(pokemonList, pokemonResult -> {
             String pokemonName = pokemonResult.getName();
 
             // Obtener detalles completos del Pokémon
+            //El motivo por el cual se hace otra vez la llamada a la api es para obtener los detalles especificos de cada pokemon
             PokeApiService apiService = ConfiguracionRetrofit.getRetrofitInstance().create(PokeApiService.class);
+            //Esta vez la llamada se realiza a la segunda peticion get de PokeApiService esta peticion es la que devuelve informacion especifica de cada pokemon
             apiService.getPokemonDetails(pokemonName).enqueue(new Callback<Pokemon>() {
                 @Override
+                //Metodo que maneja tanto la llamada como la respuesta del api y esa respuesta lo pasa a la clase Pokemon que tiene metodos especificos para
+                //acceder a cada elemento del pokemon
                 public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
+                    //Si la respuesta del servidor es exitosa
                     if (response.isSuccessful() && response.body() != null) {
+                        //El cuerpo de esa peticion de respuesta se guarda en la variable pokemon de tipo Pokemon
                         Pokemon pokemon = response.body();
-
+                        //Hacemos una llamada a la clase que se encarga de decidir si un pokemon esta capturado o no y si no lo esta lo captura
+                        //y notifica al SharedViewModel para que actualice la vista en tiempo real de pokemon capturados
                         if (!CapturedPokemonManager.isCaptured(pokemon)) {
                             // Agregar al CapturedPokemonManager
                             CapturedPokemonManager.addCapturedPokemon(pokemon);
@@ -137,10 +98,7 @@ public class Pokedex extends Fragment {
             });
         }, repository.apiService);
 
-
-
         binding.pokedexRecyclerview.setAdapter(adapterPokedex);
-
 
         binding.pokedexRecyclerview.setAdapter(adapterPokedex);
     }
