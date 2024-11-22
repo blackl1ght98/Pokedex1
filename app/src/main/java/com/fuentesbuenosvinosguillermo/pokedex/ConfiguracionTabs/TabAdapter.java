@@ -1,4 +1,4 @@
-package com.fuentesbuenosvinosguillermo.pokedex;
+package com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionTabs;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

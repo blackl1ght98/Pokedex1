@@ -1,4 +1,4 @@
-package com.fuentesbuenosvinosguillermo.pokedex;
+package com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

@@ -1,4 +1,4 @@
-package com.fuentesbuenosvinosguillermo.pokedex;
+package com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida;
 
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import java.util.ArrayList;

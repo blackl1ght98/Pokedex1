@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.fuentesbuenosvinosguillermo.pokedex.CapturedPokemonManager;
+import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.CapturedPokemonManager;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.ConfiguracionRetrofit;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokeApiService;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
@@ -19,7 +19,7 @@ import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonList
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonResult;
 import com.fuentesbuenosvinosguillermo.pokedex.PokedexRepository;
 import com.fuentesbuenosvinosguillermo.pokedex.RecyclerViewPokedex.AdapterPokedex;
-import com.fuentesbuenosvinosguillermo.pokedex.SharedViewModel;
+import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.FragmentPokedexBinding;
 
 import java.util.ArrayList;

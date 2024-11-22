@@ -3,8 +3,9 @@ package com.fuentesbuenosvinosguillermo.pokedex;
 import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionTabs.TabAdapter;
 import com.fuentesbuenosvinosguillermo.pokedex.Fragments.Ajustes;
 import com.fuentesbuenosvinosguillermo.pokedex.Fragments.Pokedex;
 import com.fuentesbuenosvinosguillermo.pokedex.Fragments.pokemonCapturados;

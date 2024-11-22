@@ -10,11 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fuentesbuenosvinosguillermo.pokedex.CapturedPokemonManager;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
-import com.fuentesbuenosvinosguillermo.pokedex.R;
 import com.fuentesbuenosvinosguillermo.pokedex.RecyclerViewCapturados.AdapterCapturados;
-import com.fuentesbuenosvinosguillermo.pokedex.SharedViewModel;
+import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.FragmentPokemonCapturadosBinding;
 
 import java.util.ArrayList;
