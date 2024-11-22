@@ -19,6 +19,11 @@ public class AdapterCapturados extends RecyclerView.Adapter<ViewHolderCapturados
     public AdapterCapturados(List<Pokemon> capturadosList) {
         this.capturadosList = capturadosList;
     }
+    public void updateData(List<Pokemon> newPokemonList) {
+        capturadosList.clear(); // Limpia la lista actual
+        capturadosList.addAll(newPokemonList); // Agrega los nuevos datos
+        notifyDataSetChanged(); // Notifica al RecyclerView que los datos han cambiado
+    }
 
     @NonNull
     @Override

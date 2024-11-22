@@ -3,6 +3,7 @@ package com.fuentesbuenosvinosguillermo.pokedex.Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonList
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonResult;
 import com.fuentesbuenosvinosguillermo.pokedex.PokedexRepository;
 import com.fuentesbuenosvinosguillermo.pokedex.RecyclerViewPokedex.AdapterPokedex;
+import com.fuentesbuenosvinosguillermo.pokedex.SharedViewModel;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.FragmentPokedexBinding;
 
 import java.util.ArrayList;
@@ -57,37 +59,69 @@ public class Pokedex extends Fragment {
         // Configurar el LayoutManager y el Adapter
         binding.pokedexRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
 
-//        // Pasa el apiService de la instancia de repository junto con los datos y el listener
-//        adapter = new Adapter(pokemonList, pokemon -> {
-//            // Acción al hacer clic en un Pokémon
-//            Toast.makeText(getContext(), "Seleccionaste: " + pokemon.getName(), Toast.LENGTH_SHORT).show();
-//        }, repository.apiService);  // Aquí pasas el apiService directamente desde PokedexRepository
-        // Pokedex.java
-        // Pokedex.java
+
+
+//        adapterPokedex = new AdapterPokedex(pokemonList, pokemonResult -> {
+//            // Obtener el nombre del Pokémon del PokémonResult
+//            String pokemonName = pokemonResult.getName();
+//
+//            // Realizar la solicitud para obtener los detalles completos del Pokémon
+//            PokeApiService apiService = ConfiguracionRetrofit.getRetrofitInstance().create(PokeApiService.class);
+//            //A esta solicitud que se hace se le pasa el nombre del pokemon como parametro y lo que el servidor devuelva es gestionado por la clase Pokemon
+//            apiService.getPokemonDetails(pokemonName).enqueue(new Callback<Pokemon>() {
+//                @Override
+//                //Metodo que maneja la llamada y respuesta al servidor
+//                public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
+//                    if (response.isSuccessful() && response.body() != null) {
+//                        // Obtener el Pokémon completo
+//                        Pokemon pokemon = response.body();
+//
+//                        // Verificar si el Pokémon ya ha sido capturado
+//                        if (!CapturedPokemonManager.isCaptured(pokemon)) {
+//                            // Agregar Pokémon capturado
+//                            CapturedPokemonManager.addCapturedPokemon(pokemon);
+//                            Toast.makeText(getContext(), pokemon.getName() + " ha sido capturado", Toast.LENGTH_SHORT).show();
+//
+//                            // Actualizar el RecyclerView de Pokémon Capturados
+//                            pokemonCapturados fragment = (pokemonCapturados) getParentFragmentManager().findFragmentByTag("capturadosFragment");
+//                            if (fragment != null) {
+//                                fragment.addCapturedPokemon(pokemon); // Llama al método para agregar al RecyclerView
+//                            }
+//                        } else {
+//                            Toast.makeText(getContext(), pokemon.getName() + " ya está capturado", Toast.LENGTH_SHORT).show();
+//                        }
+//                    } else {
+//                        Toast.makeText(getContext(), "Error al obtener detalles del Pokémon", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Pokemon> call, Throwable t) {
+//                    Toast.makeText(getContext(), "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//        }, repository.apiService);
+
         adapterPokedex = new AdapterPokedex(pokemonList, pokemonResult -> {
-            // Obtener el nombre del Pokémon del PokémonResult
             String pokemonName = pokemonResult.getName();
 
-            // Realizar la solicitud para obtener los detalles completos del Pokémon
+            // Obtener detalles completos del Pokémon
             PokeApiService apiService = ConfiguracionRetrofit.getRetrofitInstance().create(PokeApiService.class);
             apiService.getPokemonDetails(pokemonName).enqueue(new Callback<Pokemon>() {
                 @Override
                 public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
                     if (response.isSuccessful() && response.body() != null) {
-                        // Obtener el Pokémon completo
                         Pokemon pokemon = response.body();
 
-                        // Verificar si el Pokémon ya ha sido capturado
                         if (!CapturedPokemonManager.isCaptured(pokemon)) {
-                            // Agregar Pokémon capturado
+                            // Agregar al CapturedPokemonManager
                             CapturedPokemonManager.addCapturedPokemon(pokemon);
-                            Toast.makeText(getContext(), pokemon.getName() + " ha sido capturado", Toast.LENGTH_SHORT).show();
 
-                            // Actualizar el RecyclerView de Pokémon Capturados
-                            pokemonCapturados fragment = (pokemonCapturados) getParentFragmentManager().findFragmentByTag("capturadosFragment");
-                            if (fragment != null) {
-                                fragment.addCapturedPokemon(pokemon); // Llama al método para agregar al RecyclerView
-                            }
+                            // Notificar al SharedViewModel
+                            SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+                            viewModel.addCapturedPokemon(pokemon);
+
+                            Toast.makeText(getContext(), pokemon.getName() + " ha sido capturado", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getContext(), pokemon.getName() + " ya está capturado", Toast.LENGTH_SHORT).show();
                         }
@@ -102,7 +136,6 @@ public class Pokedex extends Fragment {
                 }
             });
         }, repository.apiService);
-
 
 
 
