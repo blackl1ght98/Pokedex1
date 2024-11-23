@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
+import com.fuentesbuenosvinosguillermo.pokedex.MainActivity;
 import com.fuentesbuenosvinosguillermo.pokedex.RecyclerViewCapturados.AdapterCapturados;
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.FragmentPokemonCapturadosBinding;
@@ -24,6 +25,7 @@ public class pokemonCapturados extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPokemonCapturadosBinding.inflate(inflater, container, false);
+
         // Inicializa el adaptados
         adapterCapturados = new AdapterCapturados(new ArrayList<>());
         // Configurar RecyclerView

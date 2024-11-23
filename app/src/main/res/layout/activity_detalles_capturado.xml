@@ -7,103 +7,142 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetallesCapturado">
+
+    <!-- Imagen del Pokemon -->
     <ImageView
         android:id="@+id/imagepokemon"
         android:layout_width="260dp"
         android:layout_height="188dp"
         android:layout_margin="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_launcher_foreground"
-        tools:layout_editor_absoluteY="174dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
+    <!-- Título: Nombre del Pokemon -->
+    <TextView
+        android:id="@+id/titulo_nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre Pokemon"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/imagepokemon"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        tools:layout_editor_absoluteX="75dp" />
+
+    <!-- Nombre del Pokemon -->
+
+    <!-- Título: Orden en la Pokedex -->
+
+    <!-- Orden en la Pokedex -->
 
     <TextView
         android:id="@+id/nombre_detalle_pokemon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="@string/nombre_pokemon"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/titulo_nombre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.206"
+        app:layout_constraintStart_toEndOf="@id/titulo_nombre"
         app:layout_constraintTop_toBottomOf="@+id/imagepokemon" />
 
     <TextView
-        android:id="@+id/titulo_nombre"
+        android:id="@+id/titulo_pokedex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
-        android:text="Nombre Pokemon"
-        app:layout_constraintTop_toBottomOf="@+id/imagepokemon"
-        tools:layout_editor_absoluteX="75dp" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        android:text="Orden Pokedex"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titulo_nombre" />
+
+    <!-- Título: Peso del Pokemon -->
+
+    <!-- Peso del Pokemon -->
+
+    <!-- Título: Altura del Pokemon -->
+
+    <!-- Altura del Pokemon -->
 
     <TextView
         android:id="@+id/orden_detalle_Pokedex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="28dp"
-        android:text="@string/indice_pokemon"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/orden_pokedex"
-        app:layout_constraintTop_toBottomOf="@+id/nombre_detalle_pokemon" />
 
-    <TextView
-        android:id="@+id/orden_pokedex"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="44dp"
-        android:text="Orden en la pokedex"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titulo_nombre" />
-
-    <TextView
-        android:id="@+id/peso_peso_pokemon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
-        android:text="@string/peso_pokemon"
+        android:text="orden_pokedex"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/titulo_peso"
-        app:layout_constraintTop_toBottomOf="@+id/orden_detalle_Pokedex" />
+        app:layout_constraintHorizontal_bias="0.527"
+        app:layout_constraintStart_toEndOf="@id/titulo_pokedex"
+        app:layout_constraintTop_toBottomOf="@+id/nombre_detalle_pokemon" />
 
     <TextView
         android:id="@+id/titulo_peso"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="40dp"
-        android:text="Peso del Pokemon"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:text="Peso Pokemon"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orden_pokedex" />
+        app:layout_constraintTop_toBottomOf="@+id/titulo_altura" />
 
     <TextView
-        android:id="@+id/altura_detalle_kemon"
+        android:id="@+id/peso_peso_pokemon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="112dp"
-        android:text="@string/altura_pokemon"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="44dp"
+        android:text="peso_pokemon"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.742"
-        app:layout_constraintStart_toEndOf="@+id/titulo_altura"
-        app:layout_constraintTop_toBottomOf="@+id/peso_peso_pokemon" />
+        app:layout_constraintHorizontal_bias="0.527"
+        app:layout_constraintStart_toEndOf="@id/titulo_peso"
+        app:layout_constraintTop_toBottomOf="@+id/orden_detalle_Pokedex" />
 
     <TextView
         android:id="@+id/titulo_altura"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="44dp"
-        android:text="Altura pokemon"
-        app:layout_constraintTop_toBottomOf="@+id/titulo_peso"
-        tools:layout_editor_absoluteX="75dp" />
-  </androidx.constraintlayout.widget.ConstraintLayout>
+        android:text="Altura Pokemon"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titulo_pokedex" />
+
+    <TextView
+        android:id="@+id/altura_detalle_kemon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="altura_pokemon"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.572"
+        app:layout_constraintStart_toEndOf="@+id/titulo_peso"
+        app:layout_constraintTop_toBottomOf="@+id/peso_peso_pokemon" />
+
+    <Button
+        android:id="@+id/eliminar_pokemon"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="Eliminar Pokemon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titulo_peso" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
