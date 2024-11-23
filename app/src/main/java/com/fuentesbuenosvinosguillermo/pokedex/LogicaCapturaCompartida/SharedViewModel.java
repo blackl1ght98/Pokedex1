@@ -1,5 +1,7 @@
 package com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -19,7 +21,7 @@ public class SharedViewModel extends ViewModel {
      * List<Pokemon>: El MutableLiveData contiene una lista de objetos Pokemon. Esto permite mantener y gestionar dinámicamente una colección de Pokémon capturados en la aplicación.
      * */
     private final MutableLiveData<List<Pokemon>> capturedPokemons = new MutableLiveData<>(new ArrayList<>());
-    private final MutableLiveData<Pokemon> selectedPokemon = new MutableLiveData<>();
+
     /**
      * Devuelve el LiveData que representa la lista de Pokémon capturados.
      * Permite a otras clases (como fragmentos) observar los cambios en la lista
@@ -29,21 +31,34 @@ public class SharedViewModel extends ViewModel {
      * la lista a través de métodos específicos como addCapturedPokemon().
      */
     public LiveData<List<Pokemon>> getCapturedPokemons() {
+
+        if (capturedPokemons.getValue() != null) {
+            Log.d("SharedViewModel", "getCapturedPokemons: Lista actual: " + capturedPokemons.getValue().toString());
+        } else {
+            Log.d("SharedViewModel", "getCapturedPokemons: La lista está vacía o es nula.");
+        }
+
         return capturedPokemons;
     }
    //Metodo que agrega un pokemon a la lista
-    public void addCapturedPokemon(Pokemon pokemon) {
+   public void addCapturedPokemon(Pokemon pokemon) {
+       if (pokemon == null) return;
+
+       List<Pokemon> currentList = capturedPokemons.getValue();
+       if (currentList == null) {
+           currentList = new ArrayList<>();
+       }
+       currentList.add(pokemon);
+       Log.d("SharedViewModel", "Pokemon añadido: " + pokemon.getName() + " - Total: " + currentList.size());
+       capturedPokemons.setValue(currentList); // Notifica cambios
+   }
+
+    public void removeCapturedPokemon(Pokemon pokemon) {
         List<Pokemon> currentList = new ArrayList<>(capturedPokemons.getValue());
-        currentList.add(pokemon);
+        currentList.remove(pokemon); // Elimina el Pokémon de la lista
         capturedPokemons.setValue(currentList); // Notifica a los observadores que la lista ha cambiado
-    }
-    // Método para establecer el Pokémon seleccionado
-    public void setSelectedPokemon(Pokemon pokemon) {
-        selectedPokemon.setValue(pokemon);
+        Log.d("SharedViewModel", "Pokemon eliminado: " + pokemon.getName());
     }
 
-    // Método para obtener el Pokémon seleccionado
-    public LiveData<Pokemon> getSelectedPokemon() {
-        return selectedPokemon;
-    }
+
 }

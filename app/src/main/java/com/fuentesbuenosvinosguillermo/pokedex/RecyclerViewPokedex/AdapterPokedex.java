@@ -80,7 +80,7 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
         // lo que permite compartir datos entre la actividad y sus fragments.
             SharedViewModel viewModel = new ViewModelProvider(activity).get(SharedViewModel.class);
             viewModel.addCapturedPokemon(pokemon);
-
+            viewModel.getCapturedPokemons();
             Toast.makeText(context, pokemon.getName() + " ha sido capturado", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, pokemon.getName() + " ya está capturado", Toast.LENGTH_SHORT).show();

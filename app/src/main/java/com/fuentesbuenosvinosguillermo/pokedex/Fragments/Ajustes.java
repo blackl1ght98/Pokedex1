@@ -44,6 +44,16 @@ private FragmentAjustesBinding binding;
         });
         // Asociar el botón de cerrar sesión con el OnClickListener
         binding.cerrarSesion.setOnClickListener(v -> logOut());
+
+        SharedPreferences preferences = getActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
+        boolean isEnabled = preferences.getBoolean("eliminacion_enabled", false);
+        binding.habilitarEliminacion.setChecked(isEnabled);
+
+        binding.habilitarEliminacion.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("eliminacion_enabled", isChecked);
+            editor.apply();
+        });
         return binding.getRoot();
     }
 

@@ -2,6 +2,7 @@ package com.fuentesbuenosvinosguillermo.pokedex;
 
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.ConfiguracionRetrofit;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokeApiService;
+import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonListResponse;
 
 import retrofit2.Call;
@@ -49,4 +50,27 @@ public class PokedexRepository {
             }
         });
     }
+    public void fetchPokemonDetails(String pokemonName, Callback<Pokemon> callback) {
+        // Realiza la llamada al servidor para obtener detalles del Pokémon
+        Call<Pokemon> call = apiService.getPokemonDetails(pokemonName);
+
+        // Ejecuta la llamada asincrónicamente
+        call.enqueue(new Callback<Pokemon>() {
+            @Override
+            public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Si la respuesta es exitosa, pasa los datos al callback
+                    callback.onResponse(call, response);
+                } else {
+                    callback.onFailure(call, new Throwable("Error al obtener los detalles del Pokémon"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Pokemon> call, Throwable t) {
+                callback.onFailure(call, t);
+            }
+        });
+    }
+
 }

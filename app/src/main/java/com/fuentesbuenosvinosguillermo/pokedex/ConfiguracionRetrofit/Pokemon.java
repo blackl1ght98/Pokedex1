@@ -71,5 +71,9 @@ public class Pokemon {
             return backShiny;
         }
     }
+    @Override
+    public String toString() {
+        return "Pokemon{name='" + name + "', weight=" + weight + ", height=" + height + "}";
+    }
 
 }
