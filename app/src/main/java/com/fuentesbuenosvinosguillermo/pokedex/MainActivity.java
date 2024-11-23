@@ -19,10 +19,6 @@ public class MainActivity extends AppCompatActivity {
     private TabAdapter tabAdapter;
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
-
-    // Configuración de la barra de acción
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,14 +45,5 @@ public class MainActivity extends AppCompatActivity {
                 (tab, position) -> tab.setText(tabAdapter.getTitle(position))
         ).attach();
 
-        // Configuración del contenedor de navegación entre fragmentos
-
-
-
-
     }
-
-
-
-
 }

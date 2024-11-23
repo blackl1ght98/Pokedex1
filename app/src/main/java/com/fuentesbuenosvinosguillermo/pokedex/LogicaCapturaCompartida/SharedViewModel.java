@@ -19,6 +19,7 @@ public class SharedViewModel extends ViewModel {
      * List<Pokemon>: El MutableLiveData contiene una lista de objetos Pokemon. Esto permite mantener y gestionar dinámicamente una colección de Pokémon capturados en la aplicación.
      * */
     private final MutableLiveData<List<Pokemon>> capturedPokemons = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<Pokemon> selectedPokemon = new MutableLiveData<>();
     /**
      * Devuelve el LiveData que representa la lista de Pokémon capturados.
      * Permite a otras clases (como fragmentos) observar los cambios en la lista
@@ -35,5 +36,14 @@ public class SharedViewModel extends ViewModel {
         List<Pokemon> currentList = new ArrayList<>(capturedPokemons.getValue());
         currentList.add(pokemon);
         capturedPokemons.setValue(currentList); // Notifica a los observadores que la lista ha cambiado
+    }
+    // Método para establecer el Pokémon seleccionado
+    public void setSelectedPokemon(Pokemon pokemon) {
+        selectedPokemon.setValue(pokemon);
+    }
+
+    // Método para obtener el Pokémon seleccionado
+    public LiveData<Pokemon> getSelectedPokemon() {
+        return selectedPokemon;
     }
 }

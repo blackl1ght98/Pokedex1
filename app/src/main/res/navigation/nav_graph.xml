@@ -19,4 +19,9 @@
         android:name="com.fuentesbuenosvinosguillermo.pokedex.Fragments.Ajustes"
         android:label="fragment_ajustes"
         tools:layout="@layout/fragment_ajustes" />
+    <fragment
+        android:id="@+id/detallesCapturados"
+        android:name="com.fuentesbuenosvinosguillermo.pokedex.Fragments.DetallesCapturados"
+        android:label="fragment_detalles_capturados"
+        tools:layout="@layout/fragment_detalles_capturados" />
 </navigation>

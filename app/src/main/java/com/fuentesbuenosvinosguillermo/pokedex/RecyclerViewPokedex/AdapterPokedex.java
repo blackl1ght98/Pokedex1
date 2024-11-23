@@ -28,6 +28,7 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
     private final PokeApiService pokeApiService;
     private final Context context;
     private final FragmentActivity activity;
+    private PokedexCardviewBinding binding;
 
     // Constructor
     public AdapterPokedex(List<PokemonResult> pokemonList, PokeApiService pokeApiService, Context context, FragmentActivity activity) {
@@ -41,11 +42,7 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
     @Override
     public ViewHolderPokedex onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Inflar el layout utilizando View Binding
-        PokedexCardviewBinding binding = PokedexCardviewBinding.inflate(
-                LayoutInflater.from(parent.getContext()),
-                parent,
-                false
-        );
+         binding = PokedexCardviewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolderPokedex(binding);
     }
 
@@ -79,7 +76,8 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
         if (!CapturedPokemonManager.isCaptured(pokemon)) {
             // Capturar el Pokémon y notificar al ViewModel
             CapturedPokemonManager.addCapturedPokemon(pokemon);
-
+        // FragmentActivity se utiliza para obtener el SharedViewModel asociado a la actividad actual,
+        // lo que permite compartir datos entre la actividad y sus fragments.
             SharedViewModel viewModel = new ViewModelProvider(activity).get(SharedViewModel.class);
             viewModel.addCapturedPokemon(pokemon);
 

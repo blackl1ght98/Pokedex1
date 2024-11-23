@@ -36,4 +36,9 @@ public class TabAdapter extends FragmentStateAdapter {
     public String getTitle(int position) {
         return fragmentTitleList.get(position);
     }
+    // Nuevo método para reemplazar fragmentos dinámicamente
+    public void replaceFragment(Fragment fragment, int position) {
+        fragmentList.set(position, fragment);
+        notifyDataSetChanged();
+    }
 }

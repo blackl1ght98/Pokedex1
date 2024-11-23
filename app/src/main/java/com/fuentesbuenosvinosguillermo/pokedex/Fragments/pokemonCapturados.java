@@ -24,10 +24,10 @@ public class pokemonCapturados extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPokemonCapturadosBinding.inflate(inflater, container, false);
-
+        // Inicializa el adaptados
+        adapterCapturados = new AdapterCapturados(new ArrayList<>());
         // Configurar RecyclerView
         setupRecyclerView();
-
         // Observar cambios en los Pokémon capturados usando el SharedViewModel
         SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         sharedViewModel.getCapturedPokemons().observe(getViewLifecycleOwner(), capturedPokemons -> {
@@ -38,10 +38,6 @@ public class pokemonCapturados extends Fragment {
 
     private void setupRecyclerView() {
         binding.pokemonsCapturadosRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        // Configurar el adaptador sin listener
-        adapterCapturados = new AdapterCapturados(new ArrayList<>());
-
         binding.pokemonsCapturadosRecyclerview.setAdapter(adapterCapturados);
     }
 
