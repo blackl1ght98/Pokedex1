@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -25,9 +26,9 @@ public class pokemonCapturados extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPokemonCapturadosBinding.inflate(inflater, container, false);
-
+        MainActivity mainActivity = (MainActivity) getActivity();
         // Inicializa el adaptados
-        adapterCapturados = new AdapterCapturados(new ArrayList<>());
+        adapterCapturados = new AdapterCapturados(new ArrayList<>(),mainActivity);
         // Configurar RecyclerView
         setupRecyclerView();
         // Observar cambios en los Pokémon capturados usando el SharedViewModel

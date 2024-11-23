@@ -1,28 +1,23 @@
 
 package com.fuentesbuenosvinosguillermo.pokedex;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionTabs.TabAdapter;
 import com.fuentesbuenosvinosguillermo.pokedex.Fragments.Ajustes;
 import com.fuentesbuenosvinosguillermo.pokedex.Fragments.Pokedex;
+import com.fuentesbuenosvinosguillermo.pokedex.Fragments.DetallesPokemonCapturado;
 import com.fuentesbuenosvinosguillermo.pokedex.Fragments.pokemonCapturados;
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.ActivityMainBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -65,8 +60,23 @@ public class MainActivity extends AppCompatActivity {
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(tabAdapter.getTitle(position))
         ).attach();
+        // Aquí puedes usar el siguiente código para navegar a un fragmento de prueba
+        // Agregar el fragmento de prueba dinámicamente
+        viewPager.postDelayed(() -> {
+            // Aquí agregamos un fragmento de prueba al ViewPager2
+            tabAdapter.addFragment(new DetallesPokemonCapturado(), "Fragmento de prueba");
+
+            // Navegar al nuevo fragmento (índice será el último, es decir, el fragmento de prueba)
+            viewPager.setCurrentItem(tabAdapter.getItemCount() - 1, true); // true para animar el cambio
+        }, 2); // Retardo para simular el tiempo de carga o acción previa
 
     }
+    public void redirectToFragment(int position) {
+        // Cambiar la página en el ViewPager2
+        viewPager.setCurrentItem(position, true);
 
+        // Mostrar el ViewPager2 si es necesario
+        viewPager.setVisibility(View.VISIBLE);
+    }
 
 }
