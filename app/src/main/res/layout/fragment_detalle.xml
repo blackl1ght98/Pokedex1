@@ -1,0 +1,139 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".Fragments.DetallesPokemonCapturado">
+
+    <ScrollView
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/container_pokemon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp">
+
+            <!-- Imagen del Pokemon -->
+            <ImageView
+                android:id="@+id/imagepokemon"
+                android:layout_width="260dp"
+
+                android:layout_height="188dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                app:srcCompat="@drawable/ic_launcher_foreground" />
+
+            <!-- Título: Nombre del Pokemon -->
+            <TextView
+                android:id="@+id/titulo_nombre"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:text="Nombre Pokemon"
+                android:textSize="20sp"
+                android:layout_marginTop="16dp" />
+
+            <!-- Nombre del Pokemon -->
+            <TextView
+                android:id="@+id/nombre_detalle_pokemon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nombre_pokemon"
+                android:textSize="20sp"
+                android:layout_marginTop="8dp" />
+
+            <!-- Título: Orden en la Pokedex -->
+            <TextView
+                android:id="@+id/titulo_pokedex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Orden Pokedex"
+                android:textSize="20sp"
+                android:layout_marginTop="16dp" />
+
+            <!-- Orden en la Pokedex -->
+            <TextView
+                android:id="@+id/orden_detalle_Pokedex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="orden_pokedex"
+                android:textSize="20sp"
+                android:layout_marginTop="8dp" />
+
+            <!-- Título: Peso del Pokemon -->
+            <TextView
+                android:id="@+id/titulo_peso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Peso Pokemon"
+                android:textSize="20sp"
+                android:layout_marginTop="16dp" />
+
+            <!-- Peso del Pokemon -->
+            <TextView
+                android:id="@+id/peso_peso_pokemon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="peso_pokemon"
+                android:textSize="20sp"
+                android:layout_marginTop="8dp" />
+
+            <!-- Título: Altura del Pokemon -->
+            <TextView
+                android:id="@+id/titulo_altura"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Altura Pokemon"
+                android:textSize="20sp"
+                android:layout_marginTop="16dp" />
+
+            <!-- Altura del Pokemon -->
+            <TextView
+                android:id="@+id/altura_detalle_kemon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="altura_pokemon"
+                android:textSize="20sp"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/eliminar_pokemon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Eliminar Pokemon" />
+
+            <!-- Contenedor horizontal para los botones Anterior y Siguiente -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+
+                <!-- Botón Anterior alineado a la izquierda -->
+                <Button
+                    android:id="@+id/botonAnterior"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Anterior" />
+
+                <!-- Botón Siguiente alineado a la derecha -->
+                <Button
+                    android:id="@+id/botonSiguiente"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Siguiente" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
