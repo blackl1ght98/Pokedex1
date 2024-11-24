@@ -60,15 +60,22 @@ public class MainActivity extends AppCompatActivity {
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(tabAdapter.getTitle(position))
         ).attach();
-        // Aquí puedes usar el siguiente código para navegar a un fragmento de prueba
-        // Agregar el fragmento de prueba dinámicamente
+        // Agregar el fragmento de prueba DetallesPokemonCapturado de manera temporal
         viewPager.postDelayed(() -> {
-            // Aquí agregamos un fragmento de prueba al ViewPager2
+            // Agregar fragmento de prueba al ViewPager2
             tabAdapter.addFragment(new DetallesPokemonCapturado(), "Fragmento de prueba");
 
             // Navegar al nuevo fragmento (índice será el último, es decir, el fragmento de prueba)
-            viewPager.setCurrentItem(tabAdapter.getItemCount() - 1, true); // true para animar el cambio
-        }, 2); // Retardo para simular el tiempo de carga o acción previa
+            viewPager.setCurrentItem(tabAdapter.getItemCount() - 1, false);
+
+            // Después de un pequeño retardo, redirigir al fragmento Pokedex
+            viewPager.postDelayed(() -> {
+                // Volver al primer fragmento: Pokedex
+                viewPager.setCurrentItem(0, true); // Cambia a Pokedex
+            }, 1); // 2 segundos de espera antes de redirigir a Pokedex
+
+        }, 1); // Retardo para simular el tiempo de carga o acción previa
+
 
     }
     public void redirectToFragment(int position) {
