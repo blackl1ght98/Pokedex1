@@ -9,12 +9,14 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 import com.fuentesbuenosvinosguillermo.pokedex.LoginAndRegister.login;
 import com.fuentesbuenosvinosguillermo.pokedex.R;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.FragmentAjustesBinding;
@@ -73,6 +75,11 @@ private FragmentAjustesBinding binding;
 
     }
     private void logOut(){
+        // Obtener el SharedViewModel
+        SharedViewModel sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+
+        // Limpiar los datos del ViewModel
+        sharedViewModel.clearCapturedPokemons();
         mAuth.signOut();
         Intent intent = new Intent(getActivity(), login.class);
         startActivity(intent);

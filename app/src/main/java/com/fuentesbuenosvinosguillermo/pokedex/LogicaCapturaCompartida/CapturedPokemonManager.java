@@ -22,6 +22,10 @@ public class CapturedPokemonManager {
         }
         return false;
     }
+    public static void removeCapturedPokemon(Pokemon pokemon) {
+        // Busca el Pokémon en la lista y lo elimina si está presente
+        capturedPokemons.removeIf(captured -> captured.getName().equals(pokemon.getName()));
+    }
 
     public static List<Pokemon> getCapturedPokemons() {
         return capturedPokemons;

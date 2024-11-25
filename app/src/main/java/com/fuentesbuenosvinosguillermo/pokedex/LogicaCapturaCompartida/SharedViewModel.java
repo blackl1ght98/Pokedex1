@@ -55,9 +55,13 @@ public class SharedViewModel extends ViewModel {
 
     public void removeCapturedPokemon(Pokemon pokemon) {
         List<Pokemon> currentList = new ArrayList<>(capturedPokemons.getValue());
-        currentList.remove(pokemon); // Elimina el Pokémon de la lista
-        capturedPokemons.setValue(currentList); // Notifica a los observadores que la lista ha cambiado
+        currentList.remove(pokemon);
+        capturedPokemons.setValue(currentList);
         Log.d("SharedViewModel", "Pokemon eliminado: " + pokemon.getName());
+    }
+    public void clearCapturedPokemons() {
+        capturedPokemons.setValue(new ArrayList<>()); // Limpia la lista
+        Log.d("SharedViewModel", "Lista de Pokémon capturados limpiada.");
     }
 
 

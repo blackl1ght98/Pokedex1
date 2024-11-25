@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             viewPager.postDelayed(() -> {
                 // Volver al primer fragmento: Pokedex
                 viewPager.setCurrentItem(0, true); // Cambia a Pokedex
-            }, 1); // 2 segundos de espera antes de redirigir a Pokedex
+            }, 1);
 
         }, 1); // Retardo para simular el tiempo de carga o acción previa
 
