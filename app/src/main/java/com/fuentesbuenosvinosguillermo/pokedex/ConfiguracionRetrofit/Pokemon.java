@@ -2,6 +2,8 @@ package com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Pokemon {
 //Aqui es donde transformamos manualmente el json en una clase java
     private int order;
@@ -18,7 +20,12 @@ public class Pokemon {
     // Agregado para manejar las imágenes
     @SerializedName("sprites")
     private Sprites sprites;
-
+    @SerializedName("types")
+    private List<TypeSlot> types;
+    // Método getter para la lista de tipos
+    public List<TypeSlot> getTypes() {
+        return types;
+    }
     //La id que tiene el pokemon
     public int orderPokedex() {
         return order;
@@ -69,6 +76,35 @@ public class Pokemon {
 
         public String getBackShiny() {
             return backShiny;
+        }
+    }
+    // Clase interna para manejar el arreglo "types"
+    public static class TypeSlot {
+        private int slot;
+
+        @SerializedName("type")
+        private TypeDetail type;
+
+        public int getSlot() {
+            return slot;
+        }
+
+        public TypeDetail getType() {
+            return type;
+        }
+    }
+
+    // Clase interna para manejar el objeto "type" dentro de cada elemento del arreglo "types"
+    public static class TypeDetail {
+        private String name;
+        private String url;
+
+        public String getName() {
+            return name;
+        }
+
+        public String getUrl() {
+            return url;
         }
     }
     @Override

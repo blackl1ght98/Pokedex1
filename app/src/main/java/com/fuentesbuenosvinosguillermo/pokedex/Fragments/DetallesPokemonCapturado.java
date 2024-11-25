@@ -78,13 +78,32 @@ public class DetallesPokemonCapturado extends Fragment {
 
         Pokemon pokemon = pokemons.get(index);
         binding.nombreDetallePokemon.setText(pokemon.getName());
+
+        // Obtener los nombres de los tipos y concatenarlos
+        StringBuilder tipos = new StringBuilder();
+        for (Pokemon.TypeSlot typeSlot : pokemon.getTypes()) {
+            if (typeSlot.getType() != null && typeSlot.getType().getName() != null) {
+                tipos.append(typeSlot.getType().getName()).append(", ");
+            }
+        }
+
+        // Eliminar la última coma y espacio extra
+        if (tipos.length() > 0) {
+            tipos.setLength(tipos.length() - 2);  // Eliminar la coma y el espacio extra al final
+        }
+
+        // Establecer los tipos del Pokémon en el TextView
+        binding.tipoKemon.setText(tipos.toString());
+
         binding.pesoPesoPokemon.setText(String.valueOf(pokemon.getWeight()));
         binding.ordenDetallePokedex.setText(String.valueOf(pokemon.orderPokedex()));
         binding.alturaDetalleKemon.setText(String.valueOf(pokemon.getHeight()));
+
         Glide.with(requireContext())
-               .load(pokemon.getSprites().getFrontDefault())  // URL de la imagen
-               .into(binding.imagepokemon);
+                .load(pokemon.getSprites().getFrontDefault())  // URL de la imagen
+                .into(binding.imagepokemon);
     }
+
     private void eliminarPokemon(SharedViewModel sharedViewModel) {
         SharedPreferences prefs = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
         MainActivity mainActivity = (MainActivity) getActivity();
@@ -105,9 +124,9 @@ public class DetallesPokemonCapturado extends Fragment {
             pokemons.remove(pokemonAEliminar);
 
             if (!pokemons.isEmpty()) {
-                // Ajustar el índice
+
                 if (currentIndex >= pokemons.size()) {
-                    currentIndex = pokemons.size() - 1; // Ir al último Pokémon si el índice actual excede el tamaño
+                    currentIndex = pokemons.size() - 1;
                 }
                 mostrarPokemon(currentIndex);
                 mainActivity.redirectToFragment(1);
@@ -123,11 +142,8 @@ public class DetallesPokemonCapturado extends Fragment {
     }
 
     private void limpiarVistaPokemon() {
-        binding.nombreDetallePokemon.setText("");
-        binding.pesoPesoPokemon.setText("");
-        binding.ordenDetallePokedex.setText("");
-        binding.alturaDetalleKemon.setText("");
-        binding.imagepokemon.setImageResource(0); // Limpia la imagen
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.redirectToFragment(0);
     }
 
 
