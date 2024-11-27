@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -23,6 +24,7 @@ import com.fuentesbuenosvinosguillermo.pokedex.databinding.FragmentAjustesBindin
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Locale;
+import java.util.Objects;
 
 
 public class Ajustes extends Fragment {
@@ -45,9 +47,27 @@ private FragmentAjustesBinding binding;
             }
         });
         // Asociar el botón de cerrar sesión con el OnClickListener
-        binding.cerrarSesion.setOnClickListener(v -> logOut());
 
-        SharedPreferences preferences = getActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
+        binding.cerrarSesion.setOnClickListener(v -> {
+            // Crear un AlertDialog
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(getString(R.string.confirmar_cierre_sesion)) // Título del dialogo, puedes personalizarlo
+                    .setMessage(getString(R.string.desea_cerrar_sesion)) // Mensaje del dialogo, también personalizable
+                    .setPositiveButton(getString(R.string.si), (dialogInterface, i) -> {
+                        // Lógica para cerrar sesión si el usuario selecciona "Sí"
+                        logOut();
+                    })
+                    .setNegativeButton(getString(R.string.no), (dialogInterface, i) -> {
+                        // Solo cerramos el AlertDialog si selecciona "No"
+                        dialogInterface.dismiss();
+                    })
+                    .show();
+        });
+
+
+       // binding.cerrarSesion.setOnClickListener(v -> logOut());
+
+        SharedPreferences preferences = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
         boolean isEnabled = preferences.getBoolean("eliminacion_enabled", false);
         binding.habilitarEliminacion.setChecked(isEnabled);
 

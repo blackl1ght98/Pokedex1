@@ -20,9 +20,17 @@ public class ViewHolderCapturados extends RecyclerView.ViewHolder {
         // Establecer el nombre del Pokémon
         binding.nombrepokemon.setText(pokemon.getName());
         //Mover a un fragment de detalles
-        binding.ordenPokedex.setText(String.valueOf(pokemon.orderPokedex()));
-        binding.pesopokemon.setText(String.valueOf(pokemon.getWeight()));
-        binding.alturakemon.setText(String.valueOf(pokemon.getHeight()));
+        StringBuilder tipos = new StringBuilder();
+        for (Pokemon.TypeSlot typeSlot : pokemon.getTypes()) {
+            if (typeSlot.getType() != null && typeSlot.getType().getName() != null) {
+                tipos.append(typeSlot.getType().getName()).append(", ");
+            }
+        }
+        // Eliminar la última coma y espacio extra
+        if (tipos.length() > 0) {
+            tipos.setLength(tipos.length() - 2);  // Eliminar la coma y el espacio extra al final
+        }
+       binding.tipopokemon.setText(tipos.toString());
         // Cargar la imagen del Pokémon (usando Glide)
         Glide.with(binding.getRoot().getContext())
                 .load(pokemon.getSprites().getFrontDefault()) // URL de la imagen

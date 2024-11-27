@@ -27,7 +27,5 @@ public class CapturedPokemonManager {
         capturedPokemons.removeIf(captured -> captured.getName().equals(pokemon.getName()));
     }
 
-    public static List<Pokemon> getCapturedPokemons() {
-        return capturedPokemons;
-    }
+
 }

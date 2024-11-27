@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,7 +25,7 @@ public class pokemonCapturados extends Fragment {
     private AdapterCapturados adapterCapturados;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPokemonCapturadosBinding.inflate(inflater, container, false);
         MainActivity mainActivity = (MainActivity) getActivity();
         // Inicializa el adaptados

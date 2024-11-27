@@ -23,4 +23,9 @@
     <string name="register">Registrar usuario</string>
     <string name="iniciar_google">Iniciar sesion con google</string>
     <string name="Ir_registro">Registrarse</string>
+    <string name="confirmar_cierre_sesion">Confirmar cierre de sesion</string>
+    <string name="desea_cerrar_sesion">Desea cerrar sesion</string>
+    <string name="si">Si</string>
+    <string name="no">No</string>
+    <string name="tipo_pokemon">tipo</string>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -29,7 +30,7 @@ public class DetallesPokemonCapturado extends Fragment {
     private int currentIndex = 0;  // Índice del Pokémon actual
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentDetalleBinding.inflate(inflater, container, false);
 
@@ -129,7 +130,9 @@ public class DetallesPokemonCapturado extends Fragment {
                     currentIndex = pokemons.size() - 1;
                 }
                 mostrarPokemon(currentIndex);
-                mainActivity.redirectToFragment(1);
+                if (mainActivity != null) {
+                    mainActivity.redirectToFragment(1);
+                }
                 CapturedPokemonManager.removeCapturedPokemon(pokemonAEliminar);
             } else {
                 // Si no quedan Pokémon, limpiar la vista
@@ -143,7 +146,10 @@ public class DetallesPokemonCapturado extends Fragment {
 
     private void limpiarVistaPokemon() {
         MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.redirectToFragment(0);
+
+        if (mainActivity != null) {
+            mainActivity.redirectToFragment(0);
+        }
     }
 
 
