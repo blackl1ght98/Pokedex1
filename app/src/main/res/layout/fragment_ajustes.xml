@@ -12,10 +12,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
         android:text="@string/habilitar_eliminacion_capturados"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.371"
-        app:layout_constraintStart_toEndOf="@+id/habilitar_eliminacion"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="#8E8E93"
+    android:fontFamily="sans-serif-light"
+    android:textSize="16sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.371"
+    app:layout_constraintStart_toEndOf="@+id/habilitar_eliminacion"
+    app:layout_constraintTop_toTopOf="parent" />
+
 
     <Switch
         android:id="@+id/habilitar_eliminacion"
@@ -23,14 +27,19 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="72dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:thumbTint="@color/ios_blue"
+    android:trackTint="@color/ios_track"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
 
     <Switch
         android:id="@+id/cambiar_idioma"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:thumbTint="@color/ios_blue"
+        android:trackTint="@color/ios_track"
         android:layout_marginTop="28dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/habilitar_eliminacion" />
@@ -41,6 +50,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="68dp"
         android:layout_marginTop="44dp"
+        android:textColor="#8E8E93"
+        android:fontFamily="sans-serif-light"
+        android:textSize="16sp"
         android:text="@string/idioma"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.628"
@@ -53,8 +65,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="84dp"
         android:text="@string/cerrar_sesion"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.425"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idioma" />
+
+    android:background="@drawable/ios_button_background"
+    android:padding="12dp"
+    android:fontFamily="sans-serif-light"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.425"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/idioma" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

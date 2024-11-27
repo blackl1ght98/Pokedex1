@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="ios_blue">#007AFF</color> <!-- Azul típico de iOS -->
+    <color name="ios_track">#D1D1D6</color> <!-- Gris claro para el fondo -->
+
 </resources>

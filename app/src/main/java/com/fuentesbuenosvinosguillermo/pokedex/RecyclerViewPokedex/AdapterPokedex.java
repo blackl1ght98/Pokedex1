@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -81,9 +82,17 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
             SharedViewModel viewModel = new ViewModelProvider(activity).get(SharedViewModel.class);
             viewModel.addCapturedPokemon(pokemon);
             viewModel.getCapturedPokemons();
-            Toast.makeText(context, pokemon.getName() + " ha sido capturado", Toast.LENGTH_SHORT).show();
+            new AlertDialog.Builder(context)
+                    .setTitle("¡Captura exitosa!")
+                    .setMessage(pokemon.getName() + " ha sido capturado.")
+                    .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
+                    .show();
         } else {
-            Toast.makeText(context, pokemon.getName() + " ya está capturado", Toast.LENGTH_SHORT).show();
+            new AlertDialog.Builder(context)
+                    .setTitle("Pokémon ya Capturado")
+                    .setMessage(pokemon.getName() + " ya está capturado.")
+                    .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
+                    .show();
         }
     }
 

@@ -34,7 +34,8 @@
             <TextView
                 android:id="@+id/titulo_nombre"
                 android:layout_width="wrap_content"
-
+                android:textColor="#8E8E93"
+                android:fontFamily="sans-serif-light"
                 android:layout_height="wrap_content"
                 android:text="Nombre Pokemon"
                 android:textSize="20sp"
@@ -45,6 +46,8 @@
                 android:id="@+id/nombre_detalle_pokemon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#8E8E93"
+                android:fontFamily="sans-serif-light"
                 android:text="@string/nombre_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="8dp" />
@@ -54,6 +57,8 @@
                 android:id="@+id/titulo_pokedex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#8E8E93"
+                android:fontFamily="sans-serif-light"
                 android:text="Orden Pokedex"
                 android:textSize="20sp"
                 android:layout_marginTop="16dp" />
@@ -62,6 +67,8 @@
             <TextView
                 android:id="@+id/orden_detalle_Pokedex"
                 android:layout_width="wrap_content"
+                android:textColor="#8E8E93"
+                android:fontFamily="sans-serif-light"
                 android:layout_height="wrap_content"
                 android:text="orden_pokedex"
                 android:textSize="20sp"
@@ -71,6 +78,8 @@
             <TextView
                 android:id="@+id/titulo_peso"
                 android:layout_width="wrap_content"
+                android:textColor="#8E8E93"
+                android:fontFamily="sans-serif-light"
                 android:layout_height="wrap_content"
                 android:text="Peso Pokemon"
                 android:textSize="20sp"
@@ -80,6 +89,8 @@
             <TextView
                 android:id="@+id/peso_peso_pokemon"
                 android:layout_width="wrap_content"
+                android:textColor="#8E8E93"
+                android:fontFamily="sans-serif-light"
                 android:layout_height="wrap_content"
                 android:text="peso_pokemon"
                 android:textSize="20sp"
@@ -90,6 +101,8 @@
                 android:id="@+id/titulo_altura"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#8E8E93"
+                android:fontFamily="sans-serif-light"
                 android:text="Altura Pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="16dp" />
@@ -99,6 +112,8 @@
                 android:id="@+id/altura_detalle_kemon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#8E8E93"
+                android:fontFamily="sans-serif-light"
                 android:text="altura_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="8dp" />
@@ -107,6 +122,8 @@
                 android:id="@+id/titulo_tipo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#8E8E93"
+                android:fontFamily="sans-serif-light"
                 android:text="Tipo Pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="16dp" />
@@ -116,12 +133,17 @@
                 android:id="@+id/tipo_kemon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#8E8E93"
+                android:fontFamily="sans-serif-light"
                 android:text="tipo_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="8dp" />
             <Button
                 android:id="@+id/eliminar_pokemon"
                 android:layout_width="match_parent"
+                android:background="@drawable/ios_button_background"
+                android:padding="12dp"
+                android:fontFamily="sans-serif-light"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="Eliminar Pokemon" />
@@ -137,7 +159,9 @@
                 <Button
                     android:id="@+id/botonAnterior"
                     android:layout_width="0dp"
-
+                    android:background="@drawable/ios_button_background"
+                    android:padding="12dp"
+                    android:fontFamily="sans-serif-light"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
 
@@ -147,6 +171,9 @@
                 <Button
                     android:id="@+id/botonSiguiente"
                     android:layout_width="0dp"
+                    android:background="@drawable/ios_button_background"
+                    android:padding="12dp"
+                    android:fontFamily="sans-serif-light"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Siguiente" />

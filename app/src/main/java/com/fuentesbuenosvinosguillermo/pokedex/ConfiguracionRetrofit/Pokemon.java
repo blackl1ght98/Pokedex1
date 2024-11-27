@@ -22,6 +22,7 @@ public class Pokemon {
     private Sprites sprites;
     @SerializedName("types")
     private List<TypeSlot> types;
+
     // Método getter para la lista de tipos
     public List<TypeSlot> getTypes() {
         return types;

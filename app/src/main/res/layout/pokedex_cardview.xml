@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
+        android:id="@+id/cardView"
         android:fitsSystemWindows="true">
 
         <LinearLayout
@@ -42,6 +43,8 @@
                     android:id="@+id/nombrepokemonpokedek"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#8E8E93"
+                    android:fontFamily="sans-serif-light"
                     android:text="@string/nombre_pokemon"
                     android:textSize="20sp" />
 
