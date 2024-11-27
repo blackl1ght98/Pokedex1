@@ -28,7 +28,7 @@ public class ViewHolderCapturados extends RecyclerView.ViewHolder {
         }
         // Eliminar la última coma y espacio extra
         if (tipos.length() > 0) {
-            tipos.setLength(tipos.length() - 2);  // Eliminar la coma y el espacio extra al final
+            tipos.setLength(tipos.length() - 2);
         }
        binding.tipopokemon.setText(tipos.toString());
         // Cargar la imagen del Pokémon (usando Glide)

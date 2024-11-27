@@ -51,8 +51,8 @@ private FragmentAjustesBinding binding;
         binding.cerrarSesion.setOnClickListener(v -> {
             // Crear un AlertDialog
             new AlertDialog.Builder(getActivity())
-                    .setTitle(getString(R.string.confirmar_cierre_sesion)) // Título del dialogo, puedes personalizarlo
-                    .setMessage(getString(R.string.desea_cerrar_sesion)) // Mensaje del dialogo, también personalizable
+                    .setTitle(getString(R.string.confirmar_cierre_sesion)) // Título del dialogo
+                    .setMessage(getString(R.string.desea_cerrar_sesion)) // Mensaje del dialogo
                     .setPositiveButton(getString(R.string.si), (dialogInterface, i) -> {
                         // Lógica para cerrar sesión si el usuario selecciona "Sí"
                         logOut();
@@ -64,8 +64,6 @@ private FragmentAjustesBinding binding;
                     .show();
         });
 
-
-       // binding.cerrarSesion.setOnClickListener(v -> logOut());
 
         SharedPreferences preferences = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
         boolean isEnabled = preferences.getBoolean("eliminacion_enabled", false);

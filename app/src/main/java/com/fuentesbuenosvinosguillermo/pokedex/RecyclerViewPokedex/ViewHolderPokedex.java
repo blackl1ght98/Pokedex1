@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
-import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.CapturedPokemonManager;
+
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.PokedexCardviewBinding;
 
 public class ViewHolderPokedex extends RecyclerView.ViewHolder {
