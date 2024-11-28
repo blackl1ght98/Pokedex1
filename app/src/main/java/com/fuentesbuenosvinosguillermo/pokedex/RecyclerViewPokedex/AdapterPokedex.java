@@ -17,8 +17,12 @@ import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokeApiServ
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.CapturedPokemonManager;
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.PokedexCardviewBinding;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +34,7 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
     private final Context context;
     private final FragmentActivity activity;
     private PokedexCardviewBinding binding;
-
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     // Constructor
     public AdapterPokedex(List<PokemonResult> pokemonList, PokeApiService pokeApiService, Context context, FragmentActivity activity) {
         this.pokemonList = pokemonList;
@@ -81,6 +85,26 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
         // lo que permite compartir datos entre la actividad y sus fragments.
             SharedViewModel viewModel = new ViewModelProvider(activity).get(SharedViewModel.class);
             viewModel.addCapturedPokemon(pokemon);
+            // Crear un mapa para almacenar los datos del Pokémon en Firestore
+            Map<String, Object> pokemonData = new HashMap<>();
+            pokemonData.put("name", pokemon.getName());
+            pokemonData.put("weight", pokemon.getWeight());
+            pokemonData.put("height", pokemon.getHeight());
+            pokemonData.put("orderPokedex",pokemon.orderPokedex());
+            pokemonData.put("types", pokemon.getTypes().stream()
+                    .map(typeSlot -> typeSlot.getType().getName())
+                    .collect(Collectors.toList())); // Lista de tipos
+            pokemonData.put("image", pokemon.getSprites().getFrontDefault());
+
+            // Guardar en Firestore
+            db.collection("captured_pokemons")
+                    .add(pokemonData)
+                    .addOnSuccessListener(documentReference -> {
+                        Toast.makeText(context, "¡Pokémon guardado en Firestore!", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Error al guardar en Firestore: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
             viewModel.getCapturedPokemons();
             new AlertDialog.Builder(context)
                     .setTitle("¡Captura exitosa!")

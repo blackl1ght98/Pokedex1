@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             tabAdapter.addFragment(new DetallesPokemonCapturado(), "Fragmento de prueba");
 
             // Navegar al nuevo fragmento (índice será el último, es decir, el fragmento de prueba)
-            viewPager.setCurrentItem(tabAdapter.getItemCount() - 1, false);
+            viewPager.setCurrentItem(tabAdapter.getItemCount() -1, false);
 
             // Después de un pequeño retardo, redirigir al fragmento Pokedex
             viewPager.postDelayed(() -> {

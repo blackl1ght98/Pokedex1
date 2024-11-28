@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class SharedViewModel extends ViewModel {
      * List<Pokemon>: El MutableLiveData contiene una lista de objetos Pokemon. Esto permite mantener y gestionar dinámicamente una colección de Pokémon capturados en la aplicación.
      * */
     private final MutableLiveData<List<Pokemon>> capturedPokemons = new MutableLiveData<>(new ArrayList<>());
-
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     /**
      * Devuelve el LiveData que representa la lista de Pokémon capturados.
      * Permite a otras clases (como fragmentos) observar los cambios en la lista
@@ -63,6 +64,51 @@ public class SharedViewModel extends ViewModel {
         capturedPokemons.setValue(new ArrayList<>()); // Limpia la lista
         Log.d("SharedViewModel", "Lista de Pokémon capturados limpiada.");
     }
+    public void fetchCapturedPokemons() {
+        db.collection("captured_pokemons")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<Pokemon> pokemons = new ArrayList<>();
+                    for (com.google.firebase.firestore.DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                        Pokemon pokemon = new Pokemon();
+
+                        // Mapear los datos de Firestore al objeto Pokémon
+                        pokemon.setName(document.getString("name"));
+
+                        // Convertir Double a int para height y weight
+                        pokemon.setWeight(document.getDouble("weight") != null ? document.getDouble("weight").intValue() : 0);
+                        pokemon.setHeight(document.getDouble("height") != null ? document.getDouble("height").intValue() : 0);
+
+                        // Manejo de sprites
+                        Pokemon.Sprites sprites = new Pokemon.Sprites();
+                        sprites.setFrontDefault(document.getString("image"));
+                        pokemon.setSprites(sprites);
+
+                        // Manejo de tipos
+                        List<Pokemon.TypeSlot> types = new ArrayList<>();
+                        List<String> typeNames = (List<String>) document.get("types");
+                        if (typeNames != null) {
+                            for (String typeName : typeNames) {
+                                Pokemon.TypeDetail type = new Pokemon.TypeDetail();
+                                type.setName(typeName);
+                                Pokemon.TypeSlot typeSlot = new Pokemon.TypeSlot();
+                                typeSlot.setType(type);
+                                types.add(typeSlot);
+                            }
+                        }
+                        pokemon.setTypes(types);
+
+                        pokemons.add(pokemon);
+                    }
+
+                    capturedPokemons.setValue(pokemons);
+                })
+                .addOnFailureListener(e -> {
+                    // En caso de error, establece la lista como vacía
+                    capturedPokemons.setValue(new ArrayList<>());
+                });
+    }
+
 
 
 }

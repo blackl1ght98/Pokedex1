@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Pokemon {
-//Aqui es donde transformamos manualmente el json en una clase java
     private int order;
     private String name;
 
@@ -17,40 +16,69 @@ public class Pokemon {
 
     @SerializedName("weight")
     private int weight;
-    // Agregado para manejar las imágenes
+
     @SerializedName("sprites")
     private Sprites sprites;
+
     @SerializedName("types")
     private List<TypeSlot> types;
 
-    // Método getter para la lista de tipos
-    public List<TypeSlot> getTypes() {
-        return types;
-    }
-    //La id que tiene el pokemon
+    // Getters
     public int orderPokedex() {
         return order;
     }
-    //El nombre del pokemon
+
     public String getName() {
         return name;
     }
-    //La experiencia del pokemon
+
     public int getBaseExperience() {
         return baseExperience;
     }
-    //La altura del pokemon
+
     public int getHeight() {
         return height;
     }
-    //El peso del pokemon
+
     public int getWeight() {
         return weight;
     }
-//Caso especial de  la conversion a clase de un json cuando en el json hay un objeto que tiene varias propiedades esto se ve reflejado como una clase
-    //y dicha clase tendra todas las propiedades que tenga el objeto
+
     public Sprites getSprites() {
         return sprites;
+    }
+
+    public List<TypeSlot> getTypes() {
+        return types;
+    }
+
+    // Setters
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBaseExperience(int baseExperience) {
+        this.baseExperience = baseExperience;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public void setSprites(Sprites sprites) {
+        this.sprites = sprites;
+    }
+
+    public void setTypes(List<TypeSlot> types) {
+        this.types = types;
     }
 
     public static class Sprites {
@@ -63,6 +91,7 @@ public class Pokemon {
         @SerializedName("back_shiny")
         private String backShiny;
 
+        // Getters
         public String getFrontDefault() {
             return frontDefault;
         }
@@ -78,14 +107,32 @@ public class Pokemon {
         public String getBackShiny() {
             return backShiny;
         }
+
+        // Setters
+        public void setFrontDefault(String frontDefault) {
+            this.frontDefault = frontDefault;
+        }
+
+        public void setBackDefault(String backDefault) {
+            this.backDefault = backDefault;
+        }
+
+        public void setFrontShiny(String frontShiny) {
+            this.frontShiny = frontShiny;
+        }
+
+        public void setBackShiny(String backShiny) {
+            this.backShiny = backShiny;
+        }
     }
-    // Clase interna para manejar el arreglo "types"
+
     public static class TypeSlot {
         private int slot;
 
         @SerializedName("type")
         private TypeDetail type;
 
+        // Getters
         public int getSlot() {
             return slot;
         }
@@ -93,13 +140,22 @@ public class Pokemon {
         public TypeDetail getType() {
             return type;
         }
+
+        // Setters
+        public void setSlot(int slot) {
+            this.slot = slot;
+        }
+
+        public void setType(TypeDetail type) {
+            this.type = type;
+        }
     }
 
-    // Clase interna para manejar el objeto "type" dentro de cada elemento del arreglo "types"
     public static class TypeDetail {
         private String name;
         private String url;
 
+        // Getters
         public String getName() {
             return name;
         }
@@ -107,10 +163,19 @@ public class Pokemon {
         public String getUrl() {
             return url;
         }
+
+        // Setters
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
     }
+
     @Override
     public String toString() {
         return "Pokemon{name='" + name + "', weight=" + weight + ", height=" + height + "}";
     }
-
 }
