@@ -3,6 +3,7 @@ package com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Pokemon {
     private int order;
@@ -178,4 +179,5 @@ public class Pokemon {
     public String toString() {
         return "Pokemon{name='" + name + "', weight=" + weight + ", height=" + height + "}";
     }
+
 }

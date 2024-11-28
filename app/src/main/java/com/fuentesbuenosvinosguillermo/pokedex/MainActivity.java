@@ -12,7 +12,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionTabs.TabAdapter;
 import com.fuentesbuenosvinosguillermo.pokedex.Fragments.Ajustes;
 import com.fuentesbuenosvinosguillermo.pokedex.Fragments.Pokedex;
-import com.fuentesbuenosvinosguillermo.pokedex.Fragments.DetallesPokemonCapturado;
+
 import com.fuentesbuenosvinosguillermo.pokedex.Fragments.pokemonCapturados;
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.ActivityMainBinding;
@@ -60,30 +60,26 @@ public class MainActivity extends AppCompatActivity {
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(tabAdapter.getTitle(position))
         ).attach();
-        // Agregar el fragmento de prueba DetallesPokemonCapturado de manera temporal
-        viewPager.postDelayed(() -> {
-            // Agregar fragmento de prueba al ViewPager2
-            tabAdapter.addFragment(new DetallesPokemonCapturado(), "Fragmento de prueba");
-
-            // Navegar al nuevo fragmento (índice será el último, es decir, el fragmento de prueba)
-            viewPager.setCurrentItem(tabAdapter.getItemCount() -1, false);
-
-            // Después de un pequeño retardo, redirigir al fragmento Pokedex
-            viewPager.postDelayed(() -> {
-                // Volver al primer fragmento: Pokedex
-                viewPager.setCurrentItem(0, true); // Cambia a Pokedex
-            }, 1);
-
-        }, 1); // Retardo para simular el tiempo de carga o acción previa
 
 
     }
     public void redirectToFragment(int position) {
-        // Cambiar la página en el ViewPager2
-        viewPager.setCurrentItem(position, true);
-
-        // Mostrar el ViewPager2 si es necesario
-        viewPager.setVisibility(View.VISIBLE);
+        if (position >= 0 && position < tabAdapter.getItemCount()) {
+            viewPager.setUserInputEnabled(false); // Deshabilitar entrada temporal
+            viewPager.setCurrentItem(position, true); // Navegar al fragmento
+            viewPager.postDelayed(() -> viewPager.setUserInputEnabled(true), 500); // Rehabilitar entrada
+            viewPager.setVisibility(View.VISIBLE);
+        } else {
+            Log.e("Redirect", "Índice de fragmento fuera de límites: " + position);
+        }
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        // Cuando el usuario regresa al fragmento anterior, mostrar el ViewPager2 nuevamente
+        binding.viewPager.setVisibility(View.VISIBLE);
+    }
+
 
 }

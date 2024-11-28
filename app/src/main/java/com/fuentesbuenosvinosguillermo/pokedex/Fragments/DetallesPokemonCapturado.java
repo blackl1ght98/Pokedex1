@@ -21,89 +21,95 @@ import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedVie
 import com.fuentesbuenosvinosguillermo.pokedex.MainActivity;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.FragmentDetalleBinding;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class DetallesPokemonCapturado extends Fragment {
     private FragmentDetalleBinding binding;
     private List<Pokemon> pokemons;  // Lista de Pokémon capturados
-    private int currentIndex = 0;  // Índice del Pokémon actual
+    private int currentIndex =0;
+
+    public DetallesPokemonCapturado() {
+        // Constructor vacío requerido para los fragmentos
+    }
+
+    // Método estático para crear una nueva instancia del fragmento con los datos
+    public static DetallesPokemonCapturado newInstance(Bundle bundle) {
+        DetallesPokemonCapturado fragment = new DetallesPokemonCapturado();
+        fragment.setArguments(bundle); // Establecer el Bundle con los datos
+        return fragment;
+    }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDetalleBinding.inflate(inflater, container, false);
-
-        // Obtener el SharedViewModel
         SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-
-        // Observar los datos de los Pokémon capturados
         sharedViewModel.getCapturedPokemons().observe(getViewLifecycleOwner(), pokemons -> {
             if (pokemons != null && !pokemons.isEmpty()) {
                 this.pokemons = pokemons;
-                Log.d("PruebaFragment", "Pokémon observados: " + pokemons.toString());
-
-                // Mostrar el primer Pokémon en la lista (o el que tenga el índice actual)
-                mostrarPokemon(currentIndex);
-
-                // Configurar botones para navegar entre los Pokémon
-                binding.botonAnterior.setOnClickListener(v -> {
-                    if (currentIndex > 0) {
-                        currentIndex--;  // Reducir el índice para mostrar el anterior
-                        mostrarPokemon(currentIndex);
-                    }
-                });
-
-                binding.botonSiguiente.setOnClickListener(v -> {
-                    if (currentIndex < pokemons.size() - 1) {
-                        currentIndex++;  // Aumentar el índice para mostrar el siguiente
-                        mostrarPokemon(currentIndex);
-                    }
-                });
-            } else {
-                Log.d("PruebaFragment", "No hay Pokémon capturados.");
+                Log.d("DetallesFragment", "Pokémon observados: " + pokemons.toString());
             }
-            // Configurar botón de eliminación
-            binding.eliminarPokemon.setOnClickListener(v -> eliminarPokemon(sharedViewModel));
+
         });
+        // Obtener los valores del Bundle
+        if (getArguments() != null) {
+            String pokemonName = getArguments().getString("pokemonName", "Pokémon desconocido");
+            int pokemonPeso = getArguments().getInt("pokemonPeso", 0);
+            int ordenPokedex = getArguments().getInt("pokemonIndice", 0);
+            int pokemonAltura = getArguments().getInt("pokemonAltura", 0);
+            String imagenUrl = getArguments().getString("imagenPokemon", "");
+            String pokemonTipos = getArguments().getString("pokemonTipos", "");
+
+            // Crear el objeto Pokémon con los datos recuperados del Bundle
+            Pokemon pokemonAEliminar = new Pokemon();
+            pokemonAEliminar.setName(pokemonName);
+            pokemonAEliminar.setWeight(pokemonPeso);
+            pokemonAEliminar.setHeight(pokemonAltura);
+
+            Pokemon.Sprites sprites = new Pokemon.Sprites();
+            sprites.setFrontDefault(imagenUrl);
+            pokemonAEliminar.setSprites(sprites);
+
+            // Aquí, puedes manejar los tipos de Pokémon como desees
+            List<Pokemon.TypeSlot> types = new ArrayList<>();
+            // Aquí se hace de forma básica, asumiendo que pokemonTipos es una lista de tipos.
+            // Asegúrate de que `pokemonTipos` esté formateado adecuadamente.
+            if (!pokemonTipos.isEmpty()) {
+                String[] tiposArray = pokemonTipos.split(","); // Separar los tipos por coma
+                for (String tipo : tiposArray) {
+                    Pokemon.TypeDetail type = new Pokemon.TypeDetail();
+                    type.setName(tipo.trim()); // Eliminar espacios alrededor del tipo
+                    Pokemon.TypeSlot typeSlot = new Pokemon.TypeSlot();
+                    typeSlot.setType(type);
+                    types.add(typeSlot);
+                }
+            }
+            pokemonAEliminar.setTypes(types);
+
+            // Mostrar los valores en la UI
+            binding.nombreDetallePokemon.setText(pokemonName);
+            binding.pesoPesoPokemon.setText(String.valueOf(pokemonPeso));
+            binding.ordenDetallePokedex.setText(String.valueOf(ordenPokedex));
+            binding.alturaDetalleKemon.setText(String.valueOf(pokemonAltura));
+            binding.tipoKemon.setText(pokemonTipos);
+            if (!imagenUrl.isEmpty()) {
+                Glide.with(requireContext())
+                        .load(imagenUrl)
+                        .into(binding.imagepokemon);
+            }
+
+
+
+            binding.eliminarPokemon.setOnClickListener(v->eliminarPokemon(sharedViewModel));
+        }
 
         return binding.getRoot();
     }
 
 
-    private void mostrarPokemon(int index) {
-        if (index < 0 || index >= pokemons.size()) {
-            Toast.makeText(requireContext(), "Índice fuera de rango", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        Pokemon pokemon = pokemons.get(index);
-        binding.nombreDetallePokemon.setText(pokemon.getName());
-
-        // Obtener los nombres de los tipos y concatenarlos
-        StringBuilder tipos = new StringBuilder();
-        for (Pokemon.TypeSlot typeSlot : pokemon.getTypes()) {
-            if (typeSlot.getType() != null && typeSlot.getType().getName() != null) {
-                tipos.append(typeSlot.getType().getName()).append(", ");
-            }
-        }
-
-        // Eliminar la última coma y espacio extra
-        if (tipos.length() > 0) {
-            tipos.setLength(tipos.length() - 2);  // Eliminar la coma y el espacio extra al final
-        }
-
-        // Establecer los tipos del Pokémon en el TextView
-        binding.tipoKemon.setText(tipos.toString());
-
-        binding.pesoPesoPokemon.setText(String.valueOf(pokemon.getWeight()));
-        binding.ordenDetallePokedex.setText(String.valueOf(pokemon.orderPokedex()));
-        binding.alturaDetalleKemon.setText(String.valueOf(pokemon.getHeight()));
-
-        Glide.with(requireContext())
-                .load(pokemon.getSprites().getFrontDefault())  // URL de la imagen
-                .into(binding.imagepokemon);
-    }
 
     private void eliminarPokemon(SharedViewModel sharedViewModel) {
         SharedPreferences prefs = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
@@ -116,7 +122,7 @@ public class DetallesPokemonCapturado extends Fragment {
                 return;
             }
 
-            Pokemon pokemonAEliminar = pokemons.get(currentIndex);
+            Pokemon pokemonAEliminar = pokemons.get(0);
 
             // Eliminar el Pokémon de la lista del ViewModel
             sharedViewModel.removeCapturedPokemon(pokemonAEliminar);
@@ -129,7 +135,7 @@ public class DetallesPokemonCapturado extends Fragment {
                 if (currentIndex >= pokemons.size()) {
                     currentIndex = pokemons.size() - 1;
                 }
-                mostrarPokemon(currentIndex);
+
                 if (mainActivity != null) {
                     mainActivity.redirectToFragment(1);
                 }
@@ -144,6 +150,9 @@ public class DetallesPokemonCapturado extends Fragment {
         }
     }
 
+
+
+    // Limpiar la vista cuando no hay Pokémon
     private void limpiarVistaPokemon() {
         MainActivity mainActivity = (MainActivity) getActivity();
 
@@ -151,7 +160,5 @@ public class DetallesPokemonCapturado extends Fragment {
             mainActivity.redirectToFragment(0);
         }
     }
-
-
-
 }
+
