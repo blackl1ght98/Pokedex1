@@ -115,66 +115,159 @@ public class DetallesPokemonCapturado extends Fragment {
 
 
 
+//    private void eliminarPokemon(SharedViewModel sharedViewModel) {
+//        //Verifica si esta habilitada o no la eliminacion
+//        SharedPreferences prefs = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
+//        boolean eliminacionHabilitada = prefs.getBoolean("eliminacion_enabled", false);
+//
+//        if (!eliminacionHabilitada) {
+//            Toast.makeText(requireContext(), "La eliminación está deshabilitada", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        //Si no hay pokemon que eliminar muestra este mensaje
+//        if (pokemons == null || pokemons.isEmpty()) {
+//            Toast.makeText(requireContext(), "No hay Pokémon para eliminar", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        // Obtiene el nombre del pokemon que ha seleccionado el usuario
+//        String pokemonSeleccionadoNombre = binding.nombreDetallePokemon.getText().toString();
+//        //Establece a null el objeto Pokemon para manejar los datos del pokemon seleccionado
+//        Pokemon pokemonAEliminar = null;
+//
+//        // Encuentra el Pokémon a eliminar basado en el nombre
+//        for (Pokemon pokemon : pokemons) {
+//            if (pokemon.getName().equals(pokemonSeleccionadoNombre)) {
+//                pokemonAEliminar = pokemon;
+//                break;
+//            }
+//        }
+//
+//        if (pokemonAEliminar == null) {
+//            Toast.makeText(requireContext(), "No se encontró el Pokémon para eliminar", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        // Log para depuración
+//        Log.d("EliminarPokemon", "Intentando eliminar: " + pokemonAEliminar.getName());
+//
+//        // Elimina el Pokémon de la lista y del ViewModel
+//        sharedViewModel.removeCapturedPokemon(pokemonAEliminar);
+//        pokemons.remove(pokemonAEliminar);
+//
+//        Toast.makeText(requireContext(), pokemonAEliminar.getName() + " eliminado con éxito", Toast.LENGTH_SHORT).show();
+//
+//        // Si la lista queda vacía, limpia la vista
+//        if (pokemons.isEmpty()) {
+//            limpiarVistaPokemon();
+//        } else {
+//            // Ajusta el índice actual si es necesario
+//            if (currentIndex >= pokemons.size()) {
+//                currentIndex = pokemons.size() - 1;
+//            }
+//
+//            // Actualiza la vista para mostrar el próximo Pokémon
+//            mostrarPokemon(pokemons.get(currentIndex));
+//        }
+//
+//        CapturedPokemonManager.removeCapturedPokemon(pokemonAEliminar);
+//    }
+private void eliminarPokemon(SharedViewModel sharedViewModel) {
+    SharedPreferences prefs = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
+    MainActivity mainActivity = (MainActivity) getActivity();
+    boolean eliminacionHabilitada = prefs.getBoolean("eliminacion_enabled", false);
 
-
-
-    private void eliminarPokemon(SharedViewModel sharedViewModel) {
-        //Verifica si esta habilitada o no la eliminacion
-        SharedPreferences prefs = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
-        boolean eliminacionHabilitada = prefs.getBoolean("eliminacion_enabled", false);
-
-        if (!eliminacionHabilitada) {
-            Toast.makeText(requireContext(), "La eliminación está deshabilitada", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        //Si no hay pokemon que eliminar muestra este mensaje
-        if (pokemons == null || pokemons.isEmpty()) {
-            Toast.makeText(requireContext(), "No hay Pokémon para eliminar", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Obtiene el nombre del pokemon que ha seleccionado el usuario
-        String pokemonSeleccionadoNombre = binding.nombreDetallePokemon.getText().toString();
-        //Establece a null el objeto Pokemon para manejar los datos del pokemon seleccionado
-        Pokemon pokemonAEliminar = null;
-
-        // Encuentra el Pokémon a eliminar basado en el nombre
-        for (Pokemon pokemon : pokemons) {
-            if (pokemon.getName().equals(pokemonSeleccionadoNombre)) {
-                pokemonAEliminar = pokemon;
-                break;
-            }
-        }
-
-        if (pokemonAEliminar == null) {
-            Toast.makeText(requireContext(), "No se encontró el Pokémon para eliminar", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Log para depuración
-        Log.d("EliminarPokemon", "Intentando eliminar: " + pokemonAEliminar.getName());
-
-        // Elimina el Pokémon de la lista y del ViewModel
-        sharedViewModel.removeCapturedPokemon(pokemonAEliminar);
-        pokemons.remove(pokemonAEliminar);
-
-        Toast.makeText(requireContext(), pokemonAEliminar.getName() + " eliminado con éxito", Toast.LENGTH_SHORT).show();
-
-        // Si la lista queda vacía, limpia la vista
-        if (pokemons.isEmpty()) {
-            limpiarVistaPokemon();
-        } else {
-            // Ajusta el índice actual si es necesario
-            if (currentIndex >= pokemons.size()) {
-                currentIndex = pokemons.size() - 1;
-            }
-
-            // Actualiza la vista para mostrar el próximo Pokémon
-            mostrarPokemon(pokemons.get(currentIndex));
-        }
-
-        CapturedPokemonManager.removeCapturedPokemon(pokemonAEliminar);
+    if (!eliminacionHabilitada) {
+        Toast.makeText(requireContext(), "La eliminación está deshabilitada", Toast.LENGTH_SHORT).show();
+        return;
     }
+
+    // Verifica si hay Pokémon en la lista
+    if (pokemons == null || pokemons.isEmpty()) {
+        Toast.makeText(requireContext(), "No quedan Pokémon para eliminar", Toast.LENGTH_SHORT).show();
+        return;
+    }
+
+    // Obtiene el nombre del Pokémon seleccionado en la interfaz
+    String pokemonSeleccionadoNombre = binding.nombreDetallePokemon.getText().toString();
+    Pokemon pokemonAEliminar = null;
+
+    // Encuentra el Pokémon correspondiente en la lista por nombre
+    for (Pokemon pokemon : pokemons) {
+        if (pokemon.getName().equals(pokemonSeleccionadoNombre)) {
+            pokemonAEliminar = pokemon;
+            break;
+        }
+    }
+
+    if (pokemonAEliminar == null) {
+        Toast.makeText(requireContext(), "Pokémon seleccionado no encontrado", Toast.LENGTH_SHORT).show();
+        return;
+    }
+
+    // Copia el objeto en una variable final para usarlo en la lambda
+    final Pokemon pokemonFinalAEliminar = pokemonAEliminar;
+
+    // Log para depuración
+    Log.d("EliminarPokemon", "Intentando eliminar Pokémon: " + pokemonFinalAEliminar.getName());
+
+    // Consulta Firestore para encontrar el documento correspondiente
+    db.collection("captured_pokemons")
+            .whereEqualTo("name", pokemonFinalAEliminar.getName()) // Filtra por nombre (o un campo único)
+            .get()
+            .addOnSuccessListener(queryDocumentSnapshots -> {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        String firestoreId = document.getId();
+
+                        // Elimina el documento en Firestore
+                        db.collection("captured_pokemons")
+                                .document(firestoreId)
+                                .delete()
+                                .addOnSuccessListener(aVoid -> {
+                                    // Elimina el Pokémon localmente
+                                    sharedViewModel.removeCapturedPokemon(pokemonFinalAEliminar);
+                                    pokemons.remove(pokemonFinalAEliminar);
+
+                                    // Marca al Pokémon como no capturado
+                                    CapturedPokemonManager.removeCapturedPokemon(pokemonFinalAEliminar);
+
+                                    Toast.makeText(requireContext(), pokemonFinalAEliminar.getName() + " eliminado con éxito de Firestore", Toast.LENGTH_SHORT).show();
+
+                                    // Actualiza la interfaz
+                                    if (!pokemons.isEmpty()) {
+                                        if (currentIndex >= pokemons.size()) {
+                                            currentIndex = pokemons.size() - 1;
+                                        }
+                                        mostrarPokemon(pokemons.get(currentIndex));
+
+                                        if (mainActivity != null) {
+                                            mainActivity.redirectToFragment(1);
+                                        }
+                                    } else {
+                                        limpiarVistaPokemon();
+                                        Toast.makeText(requireContext(), "No quedan Pokémon capturados", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(requireContext(), "Error al eliminar Pokémon de Firestore: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Log.e("Firestore", "Error eliminando Pokémon de Firestore", e);
+                                });
+                    }
+                } else {
+                    // No se encontró el Pokémon en Firestore
+                    Toast.makeText(requireContext(), "Pokémon no encontrado en Firestore", Toast.LENGTH_SHORT).show();
+                    Log.d("Firestore", "Pokémon no encontrado en Firestore");
+                }
+            })
+            .addOnFailureListener(e -> {
+                Toast.makeText(requireContext(), "Error al obtener datos de Firestore: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("Firestore", "Error al obtener datos de Firestore", e);
+            });
+}
+
+
+
     private void mostrarPokemon(Pokemon pokemon) {
         binding.nombreDetallePokemon.setText(pokemon.getName());
         binding.pesoPokemon.setText(String.valueOf(pokemon.getWeight()));

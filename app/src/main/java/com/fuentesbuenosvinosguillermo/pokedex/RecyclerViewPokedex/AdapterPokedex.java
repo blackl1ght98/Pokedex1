@@ -102,11 +102,12 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
 
             // Guardar en Firestore
             db.collection("captured_pokemons")
-                    .add(pokemonData)  // Agregar el mapa de datos a la colección Firestore
+                    // Agregar el mapa de datos a la colección Firestore
+                    .add(pokemonData)
+                    //Si se guarda exitosamente...
                     .addOnSuccessListener(documentReference -> {
                         // Obtener el ID del documento generado por Firestore
                         String firestoreId = documentReference.getId();
-
                         // Establecer el ID en el objeto Pokémon **después** de que Firestore haya asignado el ID
                         pokemon.setFirestoreId(firestoreId);
 
@@ -118,10 +119,12 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
                         }
 
                         // Ahora que el Pokémon tiene el `firestoreId`, lo actualizamos en Firestore
-                        // Esta es la corrección. Necesitamos actualizar el documento en Firestore con el ID recién generado.
+                        //  Necesitamos actualizar el documento en Firestore con el ID recién generado.
                         db.collection("captured_pokemons")
-                                .document(firestoreId)  // Usamos el `firestoreId` para acceder al documento
-                                .update("firestoreId", firestoreId)  // Actualizar el `firestoreId` en el documento
+                                // Usamos el `firestoreId` para acceder al documento
+                                .document(firestoreId)
+                                // Actualizar el documento para agregar el  `firestoreId`
+                                .update("firestoreId", firestoreId)
                                 .addOnSuccessListener(aVoid -> {
                                     // Mensaje de éxito después de actualizar el documento en Firestore
                                     Log.d("Firestore", "ID de Firestore actualizado correctamente.");

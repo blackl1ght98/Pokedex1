@@ -38,7 +38,7 @@ public class pokemonCapturados extends Fragment {
             adapterCapturados.updateData(capturedPokemons);
         });
         // Inicia la recuperación desde Firestore
-        //sharedViewModel.fetchCapturedPokemons();
+        sharedViewModel.fetchCapturedPokemons();
         return binding.getRoot();
     }
 
