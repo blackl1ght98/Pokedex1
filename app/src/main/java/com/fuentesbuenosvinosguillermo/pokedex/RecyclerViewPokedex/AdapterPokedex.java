@@ -1,6 +1,7 @@
 package com.fuentesbuenosvinosguillermo.pokedex.RecyclerViewPokedex;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -78,19 +79,22 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
     }
 
     private void handlePokemonCapture(Pokemon pokemon) {
+        // Verifica si el Pokémon ya está capturado
         if (!CapturedPokemonManager.isCaptured(pokemon)) {
             // Capturar el Pokémon y notificar al ViewModel
             CapturedPokemonManager.addCapturedPokemon(pokemon);
-        // FragmentActivity se utiliza para obtener el SharedViewModel asociado a la actividad actual,
-        // lo que permite compartir datos entre la actividad y sus fragments.
+
+            // FragmentActivity se utiliza para obtener el SharedViewModel asociado a la actividad actual,
+            // lo que permite compartir datos entre la actividad y sus fragments.
             SharedViewModel viewModel = new ViewModelProvider(activity).get(SharedViewModel.class);
             viewModel.addCapturedPokemon(pokemon);
+
             // Crear un mapa para almacenar los datos del Pokémon en Firestore
             Map<String, Object> pokemonData = new HashMap<>();
             pokemonData.put("name", pokemon.getName());
             pokemonData.put("weight", pokemon.getWeight());
             pokemonData.put("height", pokemon.getHeight());
-            pokemonData.put("orderPokedex",pokemon.orderPokedex());
+            pokemonData.put("orderPokedex", pokemon.orderPokedex());
             pokemonData.put("types", pokemon.getTypes().stream()
                     .map(typeSlot -> typeSlot.getType().getName())
                     .collect(Collectors.toList())); // Lista de tipos
@@ -98,20 +102,54 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
 
             // Guardar en Firestore
             db.collection("captured_pokemons")
-                    .add(pokemonData)
+                    .add(pokemonData)  // Agregar el mapa de datos a la colección Firestore
                     .addOnSuccessListener(documentReference -> {
+                        // Obtener el ID del documento generado por Firestore
+                        String firestoreId = documentReference.getId();
+
+                        // Establecer el ID en el objeto Pokémon **después** de que Firestore haya asignado el ID
+                        pokemon.setFirestoreId(firestoreId);
+
+                        // Verificar en el log si el ID se ha establecido correctamente
+                        if (pokemon.getFirestoreId() != null && !pokemon.getFirestoreId().isEmpty()) {
+                            Log.d("Firestore", "ID de Firestore asignado correctamente: " + pokemon.getFirestoreId());
+                        } else {
+                            Log.d("Firestore", "No se pudo asignar un ID de Firestore.");
+                        }
+
+                        // Ahora que el Pokémon tiene el `firestoreId`, lo actualizamos en Firestore
+                        // Esta es la corrección. Necesitamos actualizar el documento en Firestore con el ID recién generado.
+                        db.collection("captured_pokemons")
+                                .document(firestoreId)  // Usamos el `firestoreId` para acceder al documento
+                                .update("firestoreId", firestoreId)  // Actualizar el `firestoreId` en el documento
+                                .addOnSuccessListener(aVoid -> {
+                                    // Mensaje de éxito después de actualizar el documento en Firestore
+                                    Log.d("Firestore", "ID de Firestore actualizado correctamente.");
+                                })
+                                .addOnFailureListener(e -> {
+                                    // Manejo de errores si la actualización falla
+                                    Log.e("Firestore", "Error al actualizar el ID de Firestore: " + e.getMessage());
+                                });
+
+                        // Mostrar mensaje de éxito al usuario
                         Toast.makeText(context, "¡Pokémon guardado en Firestore!", Toast.LENGTH_SHORT).show();
                     })
                     .addOnFailureListener(e -> {
+                        // Manejo de errores al guardar en Firestore
                         Toast.makeText(context, "Error al guardar en Firestore: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
+
+            // Obtener los Pokémon capturados actualizados del ViewModel
             viewModel.getCapturedPokemons();
+
+            // Mostrar un diálogo informando que el Pokémon ha sido capturado
             new AlertDialog.Builder(context)
                     .setTitle("¡Captura exitosa!")
                     .setMessage(pokemon.getName() + " ha sido capturado.")
                     .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
                     .show();
         } else {
+            // Si el Pokémon ya está capturado, mostrar un mensaje
             new AlertDialog.Builder(context)
                     .setTitle("Pokémon ya Capturado")
                     .setMessage(pokemon.getName() + " ya está capturado.")
@@ -119,6 +157,7 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
                     .show();
         }
     }
+
 
     @Override
     public int getItemCount() {

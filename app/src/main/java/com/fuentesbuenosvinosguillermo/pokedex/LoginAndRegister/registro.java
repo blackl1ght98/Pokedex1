@@ -32,6 +32,7 @@ public class registro extends AppCompatActivity {
         // Obtención de los valores de los campos de texto (EditText) para el correo y la contraseña
         final EditText emailEditText = binding.emailRegistro;
         final EditText passwordEditText = binding.introducePass;
+
         // Configuración del escuchador de clic para el botón de registro
         registro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +40,7 @@ public class registro extends AppCompatActivity {
                 // Obtención de los valores introducidos por el usuario (correo y contraseña)
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
+
                 // Verificar si los campos están vacíos, en cuyo caso mostramos un mensaje de error
                 if (email.isEmpty() || password.isEmpty()) {
                     Toast.makeText(registro.this, "Por favor, ingresa todos los campos.", Toast.LENGTH_SHORT).show();

@@ -87,7 +87,7 @@
 
             <!-- Peso del Pokemon -->
             <TextView
-                android:id="@+id/peso_peso_pokemon"
+                android:id="@+id/peso_pokemon"
                 android:layout_width="wrap_content"
                 android:textColor="#8E8E93"
                 android:fontFamily="sans-serif-light"
@@ -109,7 +109,7 @@
 
             <!-- Altura del Pokemon -->
             <TextView
-                android:id="@+id/altura_detalle_kemon"
+                android:id="@+id/altura_detalle_pokemon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#8E8E93"
@@ -130,7 +130,7 @@
 
             <!-- Altura del Pokemon -->
             <TextView
-                android:id="@+id/tipo_kemon"
+                android:id="@+id/tipo_pokemon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#8E8E93"

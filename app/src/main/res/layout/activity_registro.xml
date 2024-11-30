@@ -21,6 +21,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Etiqueta de Email -->
+
+    <!-- Campo de Entrada de Email -->
+
+
     <TextView
         android:id="@+id/email"
         android:layout_width="wrap_content"
@@ -43,7 +47,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/email" />
-
     <!-- Etiqueta de Contraseña -->
     <TextView
         android:id="@+id/password"
@@ -72,9 +75,10 @@
         android:id="@+id/registro"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="88dp"
         android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/introduce_pass" />
 

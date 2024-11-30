@@ -20,17 +20,21 @@ import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.CapturedP
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 import com.fuentesbuenosvinosguillermo.pokedex.MainActivity;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.FragmentDetalleBinding;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class DetallesPokemonCapturado extends Fragment {
     private FragmentDetalleBinding binding;
     private List<Pokemon> pokemons;  // Lista de Pokémon capturados
     private int currentIndex =0;
-
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private MainActivity activity;
     public DetallesPokemonCapturado() {
         // Constructor vacío requerido para los fragmentos
     }
@@ -90,10 +94,10 @@ public class DetallesPokemonCapturado extends Fragment {
 
             // Mostrar los valores en la UI
             binding.nombreDetallePokemon.setText(pokemonName);
-            binding.pesoPesoPokemon.setText(String.valueOf(pokemonPeso));
+            binding.pesoPokemon.setText(String.valueOf(pokemonPeso));
             binding.ordenDetallePokedex.setText(String.valueOf(ordenPokedex));
-            binding.alturaDetalleKemon.setText(String.valueOf(pokemonAltura));
-            binding.tipoKemon.setText(pokemonTipos);
+            binding.alturaDetallePokemon.setText(String.valueOf(pokemonAltura));
+            binding.tipoPokemon.setText(pokemonTipos);
             if (!imagenUrl.isEmpty()) {
                 Glide.with(requireContext())
                         .load(imagenUrl)
@@ -111,44 +115,81 @@ public class DetallesPokemonCapturado extends Fragment {
 
 
 
+
+
+
     private void eliminarPokemon(SharedViewModel sharedViewModel) {
+        //Verifica si esta habilitada o no la eliminacion
         SharedPreferences prefs = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
-        MainActivity mainActivity = (MainActivity) getActivity();
         boolean eliminacionHabilitada = prefs.getBoolean("eliminacion_enabled", false);
 
-        if (eliminacionHabilitada) {
-            if (pokemons.isEmpty()) {
-                Toast.makeText(requireContext(), "No quedan Pokémon para eliminar", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            Pokemon pokemonAEliminar = pokemons.get(0);
-
-            // Eliminar el Pokémon de la lista del ViewModel
-            sharedViewModel.removeCapturedPokemon(pokemonAEliminar);
-
-            // Actualizar la lista local
-            pokemons.remove(pokemonAEliminar);
-
-            if (!pokemons.isEmpty()) {
-
-                if (currentIndex >= pokemons.size()) {
-                    currentIndex = pokemons.size() - 1;
-                }
-
-                if (mainActivity != null) {
-                    mainActivity.redirectToFragment(1);
-                }
-                CapturedPokemonManager.removeCapturedPokemon(pokemonAEliminar);
-            } else {
-                // Si no quedan Pokémon, limpiar la vista
-                limpiarVistaPokemon();
-                Toast.makeText(requireContext(), "No quedan Pokémon capturados", Toast.LENGTH_SHORT).show();
-            }
-        } else {
+        if (!eliminacionHabilitada) {
             Toast.makeText(requireContext(), "La eliminación está deshabilitada", Toast.LENGTH_SHORT).show();
+            return;
         }
+        //Si no hay pokemon que eliminar muestra este mensaje
+        if (pokemons == null || pokemons.isEmpty()) {
+            Toast.makeText(requireContext(), "No hay Pokémon para eliminar", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Obtiene el nombre del pokemon que ha seleccionado el usuario
+        String pokemonSeleccionadoNombre = binding.nombreDetallePokemon.getText().toString();
+        //Establece a null el objeto Pokemon para manejar los datos del pokemon seleccionado
+        Pokemon pokemonAEliminar = null;
+
+        // Encuentra el Pokémon a eliminar basado en el nombre
+        for (Pokemon pokemon : pokemons) {
+            if (pokemon.getName().equals(pokemonSeleccionadoNombre)) {
+                pokemonAEliminar = pokemon;
+                break;
+            }
+        }
+
+        if (pokemonAEliminar == null) {
+            Toast.makeText(requireContext(), "No se encontró el Pokémon para eliminar", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Log para depuración
+        Log.d("EliminarPokemon", "Intentando eliminar: " + pokemonAEliminar.getName());
+
+        // Elimina el Pokémon de la lista y del ViewModel
+        sharedViewModel.removeCapturedPokemon(pokemonAEliminar);
+        pokemons.remove(pokemonAEliminar);
+
+        Toast.makeText(requireContext(), pokemonAEliminar.getName() + " eliminado con éxito", Toast.LENGTH_SHORT).show();
+
+        // Si la lista queda vacía, limpia la vista
+        if (pokemons.isEmpty()) {
+            limpiarVistaPokemon();
+        } else {
+            // Ajusta el índice actual si es necesario
+            if (currentIndex >= pokemons.size()) {
+                currentIndex = pokemons.size() - 1;
+            }
+
+            // Actualiza la vista para mostrar el próximo Pokémon
+            mostrarPokemon(pokemons.get(currentIndex));
+        }
+
+        CapturedPokemonManager.removeCapturedPokemon(pokemonAEliminar);
     }
+    private void mostrarPokemon(Pokemon pokemon) {
+        binding.nombreDetallePokemon.setText(pokemon.getName());
+        binding.pesoPokemon.setText(String.valueOf(pokemon.getWeight()));
+        binding.alturaDetallePokemon.setText(String.valueOf(pokemon.getHeight()));
+        binding.tipoPokemon.setText(pokemon.getTypes().stream()
+                .map(typeSlot -> typeSlot.getType().getName())
+                .collect(Collectors.joining(", ")));
+
+        Glide.with(requireContext())
+                .load(pokemon.getSprites().getFrontDefault())
+                .into(binding.imagepokemon);
+    }
+
+
+
 
 
 
@@ -160,5 +201,12 @@ public class DetallesPokemonCapturado extends Fragment {
             mainActivity.redirectToFragment(0);
         }
     }
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        // Liberar la referencia del binding para evitar fugas de memoria
+//        binding = null;
+//    }
+
 }
 

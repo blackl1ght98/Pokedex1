@@ -24,11 +24,18 @@ public class Pokemon {
     @SerializedName("types")
     private List<TypeSlot> types;
 
+    public void setFirestoreId(String firestoreId) {
+        this.firestoreId = firestoreId;
+    }
+
+    private String firestoreId;
     // Getters
     public int orderPokedex() {
         return order;
     }
-
+    public String getFirestoreId() {
+        return firestoreId;
+    }
     public String getName() {
         return name;
     }
