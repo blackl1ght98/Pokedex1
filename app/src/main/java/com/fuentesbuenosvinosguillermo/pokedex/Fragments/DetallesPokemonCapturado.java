@@ -190,17 +190,7 @@ private void eliminarPokemon(SharedViewModel sharedViewModel) {
                                         }
                                         mostrarPokemon(pokemons.get(currentIndex));
                                         requireActivity().onBackPressed();
-//                                        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
-//                                            @Override
-//                                            public void handleOnBackPressed() {
-//                                                // Aquí defines lo que pasa al retroceder
-//                                                if (!pokemons.isEmpty()) {
-//                                                    mostrarPokemon(pokemons.get(currentIndex)); // Ejemplo
-//                                                } else {
-//                                                    requireActivity().getSupportFragmentManager().popBackStack(); // Navega hacia atrás en la pila de fragmentos
-//                                                }
-//                                            }
-//                                        });
+
 
 
 
@@ -208,8 +198,8 @@ private void eliminarPokemon(SharedViewModel sharedViewModel) {
                                         //limpiarVistaPokemon();
 
                                         Toast.makeText(requireContext(), "No quedan Pokémon capturados", Toast.LENGTH_SHORT).show();
-                                        //requireActivity().onBackPressed();
-                                        requireActivity().getSupportFragmentManager().popBackStack();
+                                       requireActivity().onBackPressed();
+                                       // requireActivity().getSupportFragmentManager().popBackStack();
                                     }
                                 })
                                 .addOnFailureListener(e -> {

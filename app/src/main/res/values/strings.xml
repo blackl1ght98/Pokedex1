@@ -26,4 +26,6 @@
     <string name="tipo_pokemon">Tipo pokemon</string>
     <string name="eliminar_pokemon">Eliminar pokemon</string>
     <string name="develop">Aplicacion desarrollada por Guillermo Fuentes Buenosvinos</string>
+    <string name="captura">¡Captura exitosa!</string>
+    <string name="capturado"> ha sido capturado</string>
 </resources>

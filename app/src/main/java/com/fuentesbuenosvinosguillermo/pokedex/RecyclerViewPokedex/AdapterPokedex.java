@@ -17,6 +17,7 @@ import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonResu
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokeApiService;
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.CapturedPokemonManager;
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
+import com.fuentesbuenosvinosguillermo.pokedex.R;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.PokedexCardviewBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -147,8 +148,8 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
 
             // Mostrar un diálogo informando que el Pokémon ha sido capturado
             new AlertDialog.Builder(context)
-                    .setTitle("¡Captura exitosa!")
-                    .setMessage(pokemon.getName() + " ha sido capturado.")
+                    .setTitle(activity.getString(R.string.captura))
+                    .setMessage(pokemon.getName() +  activity.getString( R.string.capturado))
                     .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
                     .show();
         } else {
