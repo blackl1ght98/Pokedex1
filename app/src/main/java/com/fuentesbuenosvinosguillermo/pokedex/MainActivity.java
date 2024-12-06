@@ -1,8 +1,11 @@
 
 package com.fuentesbuenosvinosguillermo.pokedex;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.window.SplashScreen;
+import android.window.SplashScreenView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +22,7 @@ import com.fuentesbuenosvinosguillermo.pokedex.databinding.ActivityMainBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         // Uso del binding para llamar a la actividad principal
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         SharedViewModel sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
 

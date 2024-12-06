@@ -14,17 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pokedex"
         tools:targetApi="31" >
-        <activity
-            android:name=".DetallesCapturado"
-            android:exported="false" />
-        <activity
-            android:name=".DetalleCapturado"
-            android:exported="false" />
+
         <activity
             android:name=".LoginAndRegister.registro"
+
             android:exported="true" />
         <activity
             android:name=".LoginAndRegister.login"
+
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +31,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
+
             android:exported="true" />
     </application>
 

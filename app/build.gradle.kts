@@ -48,6 +48,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("androidx.core:core-splashscreen:1.0.0")
     // Firebase BoM para manejar las versiones automáticamente
     implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
 
