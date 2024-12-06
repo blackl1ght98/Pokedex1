@@ -43,7 +43,8 @@ public class Ajustes extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         // Obtener idioma guardado
         SharedPreferences prefs = requireActivity().getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
-        String savedLanguage = prefs.getString("language", "es"); // Por defecto, español
+        //Establecemos un idioma por defecto en este caso el español
+        String savedLanguage = prefs.getString("language", "es");
         // Establecer el idioma de la aplicación según la configuración guardada
         setLocale(savedLanguage);
         // Configurar la posición inicial del Switch según el idioma guardado
@@ -66,21 +67,12 @@ public class Ajustes extends Fragment {
                 requireActivity().recreate();
             }
         });
-        SharedPreferences preferences = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
-        boolean isEnabled = preferences.getBoolean("eliminacion_enabled", false);
-        binding.habilitarEliminacion.setChecked(isEnabled);
 
-        binding.habilitarEliminacion.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("eliminacion_enabled", isChecked);
-            editor.apply();
-        });
-
-        setupUI(prefs);
+        //Llamamos al metodo que maneja la logica de eliminacion y otros botones
+        setupUI();
 
         return binding.getRoot();
     }
-
 
     private void setLocale(String language) {
         Log.d(TAG, "Estableciendo idioma: " + language);
@@ -95,12 +87,10 @@ public class Ajustes extends Fragment {
         // Cambia la configuración solo para la aplicación
         config.setLocale(locale);
         resources.updateConfiguration(config, resources.getDisplayMetrics());
-
-        Log.d(TAG, "Configuración de idioma actualizada para la aplicación.");
     }
 
 
-    private void setupUI(SharedPreferences prefs) {
+    private void setupUI() {
         // Configuración para cerrar sesión
         binding.cerrarSesion.setOnClickListener(v -> {
             Log.d(TAG, "Botón cerrar sesión presionado.");
@@ -130,7 +120,7 @@ public class Ajustes extends Fragment {
                     })
                     .show();
         });
-
+        SharedPreferences prefs = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
         // Configuración para habilitar eliminación
         boolean isEnabled = prefs.getBoolean("eliminacion_enabled", false);
         binding.habilitarEliminacion.setChecked(isEnabled);

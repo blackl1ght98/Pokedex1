@@ -33,7 +33,7 @@ public class Pokedex extends Fragment {
 
     private FragmentPokedexBinding binding;
     private AdapterPokedex adapterPokedex;
-    private List<PokemonResult> pokemonList = new ArrayList<>();
+    private List<PokemonResult> pokemonList = new ArrayList<>();//Le pasamos este objeto ya que solo se mostrara el nombre
     private PokeApiService apiService;
 
     @Override
@@ -41,6 +41,7 @@ public class Pokedex extends Fragment {
                              Bundle savedInstanceState) {
         // Configurar View Binding
         binding = FragmentPokedexBinding.inflate(inflater, container, false);
+        //Inicializamos retrofit
         apiService = ConfiguracionRetrofit.getRetrofitInstance().create(PokeApiService.class);
 
         // Configurar RecyclerView
@@ -54,11 +55,18 @@ public class Pokedex extends Fragment {
 
     private void setupRecyclerView() {
         // Crear una instancia del Adapter y pasarlo al RecyclerView
+        /**
+         * A la variable adapter le pasamos varios parametros
+         * @param pokemonList este primer parametro es la lista de pokemon
+         * @param apiService este parametro es para realizar la llamada a la api
+         * @param getContext() obtiene el contexto de la actividad actual
+         * @param requireActivity() le decimos que requiere la actividad actual para funcionar
+         * */
         adapterPokedex = new AdapterPokedex(pokemonList, apiService, getContext(), requireActivity());
         binding.pokedexRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.pokedexRecyclerview.setAdapter(adapterPokedex);
     }
-
+//Metodo que obtiene la lista de pokemons hasta 150 pokemon
     private void fetchPokemonList() {
         // Llamar al repositorio para obtener datos
         PokedexRepository repository = new PokedexRepository();

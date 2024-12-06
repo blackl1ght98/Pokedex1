@@ -35,6 +35,7 @@ public class pokemonCapturados extends Fragment {
         // Observar cambios en los Pokémon capturados usando el SharedViewModel
         SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         sharedViewModel.getCapturedPokemons().observe(getViewLifecycleOwner(), capturedPokemons -> {
+            //Actualizamos los cambios en tiempo real en caso de haberlos
             adapterCapturados.updateData(capturedPokemons);
         });
         // Inicia la recuperación desde Firestore

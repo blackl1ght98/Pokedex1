@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TabAdapter extends FragmentStateAdapter {
-
+/**
+* Clase que se encarga de mantener la configuracion de la navegacion entre tabs
+*
+* */
     private final List<Fragment> fragmentList = new ArrayList<>();
     private final List<String> fragmentTitleList = new ArrayList<>();
 

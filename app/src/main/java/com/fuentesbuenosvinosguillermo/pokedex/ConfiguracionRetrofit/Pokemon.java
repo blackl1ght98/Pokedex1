@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.Objects;
 
 public class Pokemon {
+    /**
+     * Esta es la clase que aporta las caracteristicas de cada pokemon a parte de eso hay dos metodos que la api no devuelve que son
+     * setFirestoreId y getFirestoreId con su propiedad firestoreId esto nos sirve solo para que almacene la id de firestores
+     * lo demas es todo caracteristicas de los pokemon, al ser caracteristicas esta clase solo es usada por el segundo get que hay en
+     * la interfaz PokeApiService.
+     * */
     private int order;
     private String name;
 
