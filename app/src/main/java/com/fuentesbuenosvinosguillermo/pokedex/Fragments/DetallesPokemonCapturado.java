@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,6 +20,7 @@ import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.CapturedPokemonManager;
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 import com.fuentesbuenosvinosguillermo.pokedex.MainActivity;
+import com.fuentesbuenosvinosguillermo.pokedex.R;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.FragmentDetalleBinding;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -238,15 +240,32 @@ private void eliminarPokemon(SharedViewModel sharedViewModel) {
                                     if (!pokemons.isEmpty()) {
                                         if (currentIndex >= pokemons.size()) {
                                             currentIndex = pokemons.size() - 1;
+
+
+
                                         }
                                         mostrarPokemon(pokemons.get(currentIndex));
+                                        //requireActivity().onBackPressed();
+                                        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+                                            @Override
+                                            public void handleOnBackPressed() {
+                                                // Aquí defines lo que pasa al retroceder
+                                                if (!pokemons.isEmpty()) {
+                                                    mostrarPokemon(pokemons.get(currentIndex)); // Ejemplo
+                                                } else {
+                                                    requireActivity().getSupportFragmentManager().popBackStack(); // Navega hacia atrás en la pila de fragmentos
+                                                }
+                                            }
+                                        });
 
-                                        if (mainActivity != null) {
-                                            mainActivity.redirectToFragment(1);
-                                        }
+
+
                                     } else {
-                                        limpiarVistaPokemon();
+                                        //limpiarVistaPokemon();
+
                                         Toast.makeText(requireContext(), "No quedan Pokémon capturados", Toast.LENGTH_SHORT).show();
+                                        //requireActivity().onBackPressed();
+                                        requireActivity().getSupportFragmentManager().popBackStack();
                                     }
                                 })
                                 .addOnFailureListener(e -> {
