@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Pokedex</string>
     <string name="nombre_pokemon">Nombre</string>
-    <string name="indice_pokemon">Indice</string>
-    <string name="peso_pokemon">Peso</string>
-    <string name="altura_pokemon">Altura</string>
+    <string name="indice_pokemon">Orden pokedex</string>
+    <string name="peso_pokemon">Peso Pokemon</string>
+    <string name="altura_pokemon">Altura pokemon</string>
     <string name="ajustes">Ajustes</string>
     <string name="Acercade">Acerca de...</string>
     <string name="pagina_inicio">Pagina Inicio</string>
@@ -23,5 +23,7 @@
     <string name="desea_cerrar_sesion">Desea cerrar sesion</string>
     <string name="si">Si</string>
     <string name="no">No</string>
-    <string name="tipo_pokemon">tipo</string>
+    <string name="tipo_pokemon">Tipo pokemon</string>
+    <string name="eliminar_pokemon">Eliminar pokemon</string>
+    <string name="develop">Aplicacion desarrollada por Guillermo Fuentes Buenosvinos</string>
 </resources>

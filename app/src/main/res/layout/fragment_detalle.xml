@@ -37,7 +37,7 @@
                 android:textColor="#8E8E93"
                 android:fontFamily="sans-serif-light"
                 android:layout_height="wrap_content"
-                android:text="Nombre Pokemon"
+                android:text="@string/nombre_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="16dp" />
 
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#8E8E93"
                 android:fontFamily="sans-serif-light"
-                android:text="Orden Pokedex"
+                android:text="@string/indice_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="16dp" />
 
@@ -70,7 +70,7 @@
                 android:textColor="#8E8E93"
                 android:fontFamily="sans-serif-light"
                 android:layout_height="wrap_content"
-                android:text="orden_pokedex"
+                android:text="@string/indice_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="8dp" />
 
@@ -81,7 +81,7 @@
                 android:textColor="#8E8E93"
                 android:fontFamily="sans-serif-light"
                 android:layout_height="wrap_content"
-                android:text="Peso Pokemon"
+                android:text="@string/peso_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="16dp" />
 
@@ -92,7 +92,7 @@
                 android:textColor="#8E8E93"
                 android:fontFamily="sans-serif-light"
                 android:layout_height="wrap_content"
-                android:text="peso_pokemon"
+                android:text="@string/peso_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="8dp" />
 
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#8E8E93"
                 android:fontFamily="sans-serif-light"
-                android:text="Altura Pokemon"
+                android:text="@string/altura_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="16dp" />
 
@@ -114,17 +114,17 @@
                 android:layout_height="wrap_content"
                 android:textColor="#8E8E93"
                 android:fontFamily="sans-serif-light"
-                android:text="altura_pokemon"
+                android:text="@string/altura_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="8dp" />
-<!---->
+
             <TextView
                 android:id="@+id/titulo_tipo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#8E8E93"
                 android:fontFamily="sans-serif-light"
-                android:text="Tipo Pokemon"
+                android:text="@string/tipo_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="16dp" />
 
@@ -135,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#8E8E93"
                 android:fontFamily="sans-serif-light"
-                android:text="tipo_pokemon"
+                android:text="@string/tipo_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="8dp" />
             <Button
@@ -146,7 +146,7 @@
                 android:fontFamily="sans-serif-light"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Eliminar Pokemon" />
+                android:text="@string/eliminar_pokemon" />
 
             <!-- Contenedor horizontal para los botones Anterior y Siguiente -->
             <LinearLayout

@@ -63,7 +63,17 @@ private FragmentAjustesBinding binding;
                     })
                     .show();
         });
+        binding.acercade.setOnClickListener(v->{
 
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(getString(R.string.Acercade))
+                    .setMessage(getString(R.string.develop)) // Mensaje del dialogo
+                    .setPositiveButton(getString(R.string.si), (dialogInterface, i) -> {
+                        dialogInterface.dismiss();
+                    })
+
+                    .show();
+        });
 
         SharedPreferences preferences = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
         boolean isEnabled = preferences.getBoolean("eliminacion_enabled", false);

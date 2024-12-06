@@ -117,63 +117,7 @@ public class DetallesPokemonCapturado extends Fragment {
 
 
 
-//    private void eliminarPokemon(SharedViewModel sharedViewModel) {
-//        //Verifica si esta habilitada o no la eliminacion
-//        SharedPreferences prefs = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
-//        boolean eliminacionHabilitada = prefs.getBoolean("eliminacion_enabled", false);
-//
-//        if (!eliminacionHabilitada) {
-//            Toast.makeText(requireContext(), "La eliminación está deshabilitada", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        //Si no hay pokemon que eliminar muestra este mensaje
-//        if (pokemons == null || pokemons.isEmpty()) {
-//            Toast.makeText(requireContext(), "No hay Pokémon para eliminar", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        // Obtiene el nombre del pokemon que ha seleccionado el usuario
-//        String pokemonSeleccionadoNombre = binding.nombreDetallePokemon.getText().toString();
-//        //Establece a null el objeto Pokemon para manejar los datos del pokemon seleccionado
-//        Pokemon pokemonAEliminar = null;
-//
-//        // Encuentra el Pokémon a eliminar basado en el nombre
-//        for (Pokemon pokemon : pokemons) {
-//            if (pokemon.getName().equals(pokemonSeleccionadoNombre)) {
-//                pokemonAEliminar = pokemon;
-//                break;
-//            }
-//        }
-//
-//        if (pokemonAEliminar == null) {
-//            Toast.makeText(requireContext(), "No se encontró el Pokémon para eliminar", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        // Log para depuración
-//        Log.d("EliminarPokemon", "Intentando eliminar: " + pokemonAEliminar.getName());
-//
-//        // Elimina el Pokémon de la lista y del ViewModel
-//        sharedViewModel.removeCapturedPokemon(pokemonAEliminar);
-//        pokemons.remove(pokemonAEliminar);
-//
-//        Toast.makeText(requireContext(), pokemonAEliminar.getName() + " eliminado con éxito", Toast.LENGTH_SHORT).show();
-//
-//        // Si la lista queda vacía, limpia la vista
-//        if (pokemons.isEmpty()) {
-//            limpiarVistaPokemon();
-//        } else {
-//            // Ajusta el índice actual si es necesario
-//            if (currentIndex >= pokemons.size()) {
-//                currentIndex = pokemons.size() - 1;
-//            }
-//
-//            // Actualiza la vista para mostrar el próximo Pokémon
-//            mostrarPokemon(pokemons.get(currentIndex));
-//        }
-//
-//        CapturedPokemonManager.removeCapturedPokemon(pokemonAEliminar);
-//    }
+
 private void eliminarPokemon(SharedViewModel sharedViewModel) {
     SharedPreferences prefs = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
     MainActivity mainActivity = (MainActivity) getActivity();
@@ -245,18 +189,18 @@ private void eliminarPokemon(SharedViewModel sharedViewModel) {
 
                                         }
                                         mostrarPokemon(pokemons.get(currentIndex));
-                                        //requireActivity().onBackPressed();
-                                        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
-                                            @Override
-                                            public void handleOnBackPressed() {
-                                                // Aquí defines lo que pasa al retroceder
-                                                if (!pokemons.isEmpty()) {
-                                                    mostrarPokemon(pokemons.get(currentIndex)); // Ejemplo
-                                                } else {
-                                                    requireActivity().getSupportFragmentManager().popBackStack(); // Navega hacia atrás en la pila de fragmentos
-                                                }
-                                            }
-                                        });
+                                        requireActivity().onBackPressed();
+//                                        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+//                                            @Override
+//                                            public void handleOnBackPressed() {
+//                                                // Aquí defines lo que pasa al retroceder
+//                                                if (!pokemons.isEmpty()) {
+//                                                    mostrarPokemon(pokemons.get(currentIndex)); // Ejemplo
+//                                                } else {
+//                                                    requireActivity().getSupportFragmentManager().popBackStack(); // Navega hacia atrás en la pila de fragmentos
+//                                                }
+//                                            }
+//                                        });
 
 
 
