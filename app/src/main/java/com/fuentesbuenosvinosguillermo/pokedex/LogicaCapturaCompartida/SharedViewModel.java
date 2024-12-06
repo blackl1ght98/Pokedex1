@@ -83,7 +83,7 @@ public class SharedViewModel extends ViewModel {
                         // Convertir Double a int para height y weight
                         pokemon.setWeight(document.getDouble("weight") != null ? document.getDouble("weight").intValue() : 0);
                         pokemon.setHeight(document.getDouble("height") != null ? document.getDouble("height").intValue() : 0);
-
+                        pokemon.setOrder(document.getDouble("orderPokedex") != null ? document.getDouble("orderPokedex").intValue():0);
                         // Manejo de sprites
                         Pokemon.Sprites sprites = new Pokemon.Sprites();
                         sprites.setFrontDefault(document.getString("image"));

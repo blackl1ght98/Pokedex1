@@ -41,28 +41,19 @@ public class Ajustes extends Fragment {
 
         // Inicializamos FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
-        Log.d(TAG, "FirebaseAuth inicializado.");
-
         // Obtener idioma guardado
         SharedPreferences prefs = requireActivity().getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
         String savedLanguage = prefs.getString("language", "es"); // Por defecto, español
-        Log.d(TAG, "Idioma guardado: " + savedLanguage);
-
         // Establecer el idioma de la aplicación según la configuración guardada
-        setLocale(savedLanguage);  // Cambia el idioma de la aplicación aquí
-
+        setLocale(savedLanguage);
         // Configurar la posición inicial del Switch según el idioma guardado
         boolean isLanguageSpanish = savedLanguage.equals("es");
         binding.cambiarIdioma.setChecked(!isLanguageSpanish); // Inglés: true, Español: false
-        Log.d(TAG, "Estado inicial del Switch cambiarIdioma: " + binding.cambiarIdioma.isChecked());
 
         // Listener para manejar el cambio de idioma
         binding.cambiarIdioma.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Log.d(TAG, "Switch cambiarIdioma activado. Nuevo estado: " + isChecked);
-            String newLanguage = isChecked ? "en" : "es"; // Inglés si está activado, Español si no
+            String newLanguage = isChecked ? "en" : "es"; // Inglés si está activado, Español si no esta activado
             if (!newLanguage.equals(savedLanguage)) {
-                Log.d(TAG, "Cambio detectado de idioma: " + newLanguage);
-
                 // Cambiar idioma
                 setLocale(newLanguage);
 
@@ -70,12 +61,9 @@ public class Ajustes extends Fragment {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("language", newLanguage);
                 editor.apply();
-                Log.d(TAG, "Idioma guardado en SharedPreferences: " + newLanguage);
 
                 // Reiniciar actividad para aplicar el cambio de idioma
                 requireActivity().recreate();
-            } else {
-                Log.d(TAG, "El idioma seleccionado es el mismo que el actual. No se realiza ningún cambio.");
             }
         });
         SharedPreferences preferences = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
@@ -88,7 +76,7 @@ public class Ajustes extends Fragment {
             editor.apply();
         });
 
-
+        setupUI(prefs);
 
         return binding.getRoot();
     }
@@ -113,8 +101,6 @@ public class Ajustes extends Fragment {
 
 
     private void setupUI(SharedPreferences prefs) {
-        Log.d(TAG, "Configurando la interfaz de usuario.");
-
         // Configuración para cerrar sesión
         binding.cerrarSesion.setOnClickListener(v -> {
             Log.d(TAG, "Botón cerrar sesión presionado.");
@@ -134,7 +120,7 @@ public class Ajustes extends Fragment {
 
         // Configuración para "Acerca de"
         binding.acercade.setOnClickListener(v -> {
-            Log.d(TAG, "Botón Acerca de presionado.");
+
             new AlertDialog.Builder(requireActivity())
                     .setTitle(getString(R.string.Acercade))
                     .setMessage(getString(R.string.develop))
@@ -148,29 +134,25 @@ public class Ajustes extends Fragment {
         // Configuración para habilitar eliminación
         boolean isEnabled = prefs.getBoolean("eliminacion_enabled", false);
         binding.habilitarEliminacion.setChecked(isEnabled);
-        Log.d(TAG, "Estado inicial del Switch habilitarEliminacion: " + isEnabled);
+
 
         binding.habilitarEliminacion.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Log.d(TAG, "Switch habilitarEliminacion activado. Nuevo estado: " + isChecked);
+
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("eliminacion_enabled", isChecked);
             editor.apply();
-            Log.d(TAG, "Estado de habilitarEliminacion guardado en SharedPreferences: " + isChecked);
+
         });
     }
 
     private void logOut() {
-        Log.d(TAG, "Cerrando sesión...");
+
         // Obtener el SharedViewModel
         SharedViewModel sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
-
         // Limpiar los datos del ViewModel
         sharedViewModel.clearCapturedPokemons();
-        Log.d(TAG, "Datos del SharedViewModel limpiados.");
-
         // Cerrar sesión en Firebase
         mAuth.signOut();
-        Log.d(TAG, "Sesión de Firebase cerrada.");
 
         // Navegar a la pantalla de inicio de sesión
         Intent intent = new Intent(getActivity(), login.class);
