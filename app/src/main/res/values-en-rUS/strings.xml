@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pokedex</string>
+    <string name="nombre_pokemon">Name</string>
+    <string name="indice_pokemon">Index</string>
+    <string name="peso_pokemon">Weight</string>
+    <string name="altura_pokemon">Height</string>
+    <string name="ajustes">Settings</string>
+    <string name="Acercade">About</string>
+
+    <string name="pagina_inicio">Start Page</string>
+    <string name="lista_pokemons">List pokemons</string>
+    <string name="habilitar_eliminacion_capturados">Enable delete</string>
+    <string name="idioma">Change languaje</string>
+    <string name="cerrar_sesion">logout</string>
+    <string name="pokedex">Pokedex</string>
+    <string name="pokemon_capturados">Captured Pokemon</string>
+    <string name="longin">login</string>
+    <string name="introduce_email">put your email</string>
+    <string name="introduce_password">put your password</string>
+    <string name="register">register user</string>
+    <string name="iniciar_google">login with google</string>
+    <string name="Ir_registro">register</string>
+    <string name="confirmar_cierre_sesion">confirm session closure</string>
+    <string name="desea_cerrar_sesion">you wish to log out</string>
+    <string name="si">yes</string>
+    <string name="no">no</string>
+    <string name="tipo_pokemon">type</string>
+</resources>

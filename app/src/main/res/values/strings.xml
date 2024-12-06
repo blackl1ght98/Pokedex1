@@ -1,15 +1,11 @@
 <resources>
     <string name="app_name">Pokedex</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="nombre_pokemon">Nombre</string>
     <string name="indice_pokemon">Indice</string>
     <string name="peso_pokemon">Peso</string>
     <string name="altura_pokemon">Altura</string>
     <string name="ajustes">Ajustes</string>
     <string name="Acercade">Acerca de...</string>
-
-    <string name="nav_settings">Ajustes</string>
     <string name="pagina_inicio">Pagina Inicio</string>
     <string name="lista_pokemons">Lista Pokemons</string>
     <string name="habilitar_eliminacion_capturados">Habilitar eliminación pokemons capturados</string>
