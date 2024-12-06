@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
         // Configurar el adaptador
         tabAdapter = new TabAdapter(this);
         tabAdapter.addFragment(new Pokedex(), "Pokedex");
-        tabAdapter.addFragment(new pokemonCapturados(), "Pokemon capturados");
-        tabAdapter.addFragment(new Ajustes(), "Ajustes");
+        tabAdapter.addFragment(new pokemonCapturados(), getString(R.string.pokemon_capturado));
+        tabAdapter.addFragment(new Ajustes(), getString(R.string.ajustes));
 
         viewPager.setAdapter(tabAdapter);
 

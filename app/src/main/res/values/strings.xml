@@ -28,4 +28,5 @@
     <string name="develop">Aplicacion desarrollada por Guillermo Fuentes Buenosvinos</string>
     <string name="captura">¡Captura exitosa!</string>
     <string name="capturado"> ha sido capturado</string>
+    <string name="pokemon_capturado"> Pokemon Capturado</string>
 </resources>

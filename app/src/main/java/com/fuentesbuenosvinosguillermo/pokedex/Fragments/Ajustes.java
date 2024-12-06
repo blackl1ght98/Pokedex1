@@ -44,7 +44,7 @@ public class Ajustes extends Fragment {
         // Obtener idioma guardado
         SharedPreferences prefs = requireActivity().getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
         //Establecemos un idioma por defecto en este caso el español
-        String savedLanguage = prefs.getString("language", "es");
+        String savedLanguage = prefs.getString("language", null);
         // Establecer el idioma de la aplicación según la configuración guardada
         setLocale(savedLanguage);
         // Configurar la posición inicial del Switch según el idioma guardado
@@ -63,10 +63,13 @@ public class Ajustes extends Fragment {
                 editor.putString("language", newLanguage);
                 editor.apply();
 
-                // Reiniciar actividad para aplicar el cambio de idioma
-                requireActivity().recreate();
+                // Reiniciar actividad para aplicar el cambio de idioma, pero solo si el idioma cambió
+                if (!savedLanguage.equals(newLanguage)) {
+                    requireActivity().recreate();
+                }
             }
         });
+
 
         //Llamamos al metodo que maneja la logica de eliminacion y otros botones
         setupUI();
@@ -87,6 +90,7 @@ public class Ajustes extends Fragment {
         // Cambia la configuración solo para la aplicación
         config.setLocale(locale);
         resources.updateConfiguration(config, resources.getDisplayMetrics());
+
     }
 
 
