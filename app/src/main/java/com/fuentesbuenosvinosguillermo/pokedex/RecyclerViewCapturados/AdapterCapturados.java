@@ -61,41 +61,6 @@ public void onBindViewHolder(@NonNull ViewHolderCapturados holder, int position)
     // Vincular los datos del Pokémon al ViewHolder
     holder.bind(pokemon);
 
-    // Mostrar un Toast al hacer clic en el item
-//    holder.itemView.setOnClickListener(v -> {
-//        // Mostrar un mensaje Toast con el nombre del Pokémon
-//        Toast.makeText(holder.itemView.getContext(),
-//                "Has seleccionado a: " + pokemon.getName(),
-//                Toast.LENGTH_SHORT).show();
-//        StringBuilder tipos = new StringBuilder();
-//        for (Pokemon.TypeSlot typeSlot : pokemon.getTypes()) {
-//            if (typeSlot.getType() != null && typeSlot.getType().getName() != null) {
-//                tipos.append(typeSlot.getType().getName()).append(", ");
-//            }
-//        }
-//
-//        // Eliminar la última coma y espacio extra
-//        if (tipos.length() > 0) {
-//            tipos.setLength(tipos.length() - 2);
-//        }
-//        Bundle bundle = new Bundle();
-//        bundle.putString("pokemonName", pokemon.getName());
-//        bundle.putInt("pokemonPeso", pokemon.getWeight());
-//        bundle.putInt("pokemonIndice", pokemon.orderPokedex());
-//        bundle.putInt("pokemonAltura", pokemon.getHeight());
-//        bundle.putString("imagenPokemon", pokemon.getSprites().getFrontDefault());
-//        bundle.putString("pokemonTipos", tipos.toString());
-//        DetallesPokemonCapturado detallesFragment =  DetallesPokemonCapturado.newInstance(bundle);
-//        detallesFragment.setArguments(bundle);
-//        if (activity != null) {
-//            activity.getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.main_container, detallesFragment)
-//                    .addToBackStack(null)
-//
-//                    .commit();
-//            activity.findViewById(R.id.viewPager).setVisibility(View.GONE);
-//        }
-//    });
     holder.itemView.setOnClickListener(v -> {
         sharedViewModel.setSelectedPokemon(pokemon);
 

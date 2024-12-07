@@ -1,17 +1,25 @@
 package com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
+import com.fuentesbuenosvinosguillermo.pokedex.R;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 /**
  * Una clase que extiende ViewModel, lo que permite es compartir datos entre diferentes componentes de la UI (por ejemplo, Fragmentos)
  * de forma segura mientras se mantiene el ciclo de vida de los datos independiente de las vistas.
@@ -245,5 +253,97 @@ public class SharedViewModel extends ViewModel {
     public LiveData<Pokemon> getSelectedPokemon() {
         return selectedPokemon;
     }
+    // Método para capturar Pokémon desde el ViewModel
+    public void capturePokemon(Pokemon pokemon, Context context) {
+        // Verificar si el Pokémon ya está capturado localmente
+        if (CapturedPokemonManager.isCaptured(pokemon)) {
+            showAlreadyCapturedDialog(context, pokemon);
+            return;
+        }
+
+        // Verificar si el Pokémon ya está en Firestore
+        db.collection("captured_pokemons")
+                .whereEqualTo("name", pokemon.getName())
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        // El Pokémon ya está en Firestore
+                        showAlreadyCapturedDialog(context, pokemon);
+                    } else {
+                        // Proceder con la captura y guardado en Firestore
+                        capturePokemonInFirestore(pokemon, context);
+                        // Aquí agregamos el Pokémon a la lista local (suponiendo que 'currentList' es la lista de Pokémon capturados)
+                        List<Pokemon> currentList = capturedPokemons.getValue(); // Obtener la lista actual desde el LiveData
+                        if (currentList == null) {
+                            currentList = new ArrayList<>();
+                        }
+                        currentList.add(pokemon); // Añadir el Pokémon capturado a la lista
+                        capturedPokemons.setValue(currentList);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Manejo de errores si la consulta falla
+                    Log.e("Firestore", "Error al verificar captura en Firestore: " + e.getMessage());
+                    Toast.makeText(context, "Error al verificar el estado del Pokémon", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void showAlreadyCapturedDialog(Context context, Pokemon pokemon) {
+        new AlertDialog.Builder(context)
+                .setTitle("Pokémon ya Capturado")
+                .setMessage(pokemon.getName() + " ya está capturado.")
+                .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+    private void capturePokemonInFirestore(Pokemon pokemon, Context context) {
+        // Añadir el Pokémon a la lista de capturados localmente
+        CapturedPokemonManager.addCapturedPokemon(pokemon);
+
+        // Crear los datos del Pokémon para Firestore
+        Map<String, Object> pokemonData = new HashMap<>();
+        pokemonData.put("name", pokemon.getName());
+        pokemonData.put("weight", pokemon.getWeight());
+        pokemonData.put("height", pokemon.getHeight());
+        pokemonData.put("orderPokedex", pokemon.orderPokedex());
+        pokemonData.put("types", pokemon.getTypes().stream()
+                .map(typeSlot -> typeSlot.getType().getName())
+                .collect(Collectors.toList()));
+        pokemonData.put("image", pokemon.getSprites().getFrontDefault());
+
+        // Guardar el Pokémon en Firestore
+        db.collection("captured_pokemons")
+                .add(pokemonData)
+                .addOnSuccessListener(documentReference -> {
+                    String firestoreId = documentReference.getId();
+                    pokemon.setFirestoreId(firestoreId);
+
+                    // Actualizar Firestore con el firestoreId
+                    db.collection("captured_pokemons")
+                            .document(firestoreId)
+                            .update("firestoreId", firestoreId)
+                            .addOnSuccessListener(aVoid -> Log.d("Firestore", "ID de Firestore actualizado correctamente."))
+                            .addOnFailureListener(e -> Log.e("Firestore", "Error al actualizar el ID de Firestore: " + e.getMessage()));
+
+                    // Mostrar mensaje de éxito
+                    Toast.makeText(context, "¡Pokémon guardado en Firestore!", Toast.LENGTH_SHORT).show();
+                    showCaptureSuccessDialog(context, pokemon);
+                })
+                .addOnFailureListener(e -> {
+                    // Manejo de errores si la captura falla
+                    Toast.makeText(context, "Error al guardar en Firestore: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void showCaptureSuccessDialog(Context context, Pokemon pokemon) {
+        // Mostrar un diálogo de éxito al capturar el Pokémon
+        new AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.captura))
+                .setMessage(pokemon.getName() + " " + context.getString(R.string.capturado))
+                .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+
 
 }
