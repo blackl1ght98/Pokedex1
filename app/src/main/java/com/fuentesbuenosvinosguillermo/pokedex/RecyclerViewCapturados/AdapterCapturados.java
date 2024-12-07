@@ -8,12 +8,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import com.fuentesbuenosvinosguillermo.pokedex.Fragments.DetallesPokemonCapturado;
 import com.fuentesbuenosvinosguillermo.pokedex.Fragments.Pokedex;
 import com.fuentesbuenosvinosguillermo.pokedex.Fragments.pokemonCapturados;
+import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 import com.fuentesbuenosvinosguillermo.pokedex.MainActivity;
 import com.fuentesbuenosvinosguillermo.pokedex.R;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.PokemonCapturadosCardviewBinding;
@@ -54,44 +56,59 @@ public void onBindViewHolder(@NonNull ViewHolderCapturados holder, int position)
     // Obtener el Pokémon de la lista
     Pokemon pokemon = capturadosList.get(position);
 
+    SharedViewModel sharedViewModel = new ViewModelProvider(activity).get(SharedViewModel.class);
+
     // Vincular los datos del Pokémon al ViewHolder
     holder.bind(pokemon);
 
     // Mostrar un Toast al hacer clic en el item
+//    holder.itemView.setOnClickListener(v -> {
+//        // Mostrar un mensaje Toast con el nombre del Pokémon
+//        Toast.makeText(holder.itemView.getContext(),
+//                "Has seleccionado a: " + pokemon.getName(),
+//                Toast.LENGTH_SHORT).show();
+//        StringBuilder tipos = new StringBuilder();
+//        for (Pokemon.TypeSlot typeSlot : pokemon.getTypes()) {
+//            if (typeSlot.getType() != null && typeSlot.getType().getName() != null) {
+//                tipos.append(typeSlot.getType().getName()).append(", ");
+//            }
+//        }
+//
+//        // Eliminar la última coma y espacio extra
+//        if (tipos.length() > 0) {
+//            tipos.setLength(tipos.length() - 2);
+//        }
+//        Bundle bundle = new Bundle();
+//        bundle.putString("pokemonName", pokemon.getName());
+//        bundle.putInt("pokemonPeso", pokemon.getWeight());
+//        bundle.putInt("pokemonIndice", pokemon.orderPokedex());
+//        bundle.putInt("pokemonAltura", pokemon.getHeight());
+//        bundle.putString("imagenPokemon", pokemon.getSprites().getFrontDefault());
+//        bundle.putString("pokemonTipos", tipos.toString());
+//        DetallesPokemonCapturado detallesFragment =  DetallesPokemonCapturado.newInstance(bundle);
+//        detallesFragment.setArguments(bundle);
+//        if (activity != null) {
+//            activity.getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.main_container, detallesFragment)
+//                    .addToBackStack(null)
+//
+//                    .commit();
+//            activity.findViewById(R.id.viewPager).setVisibility(View.GONE);
+//        }
+//    });
     holder.itemView.setOnClickListener(v -> {
-        // Mostrar un mensaje Toast con el nombre del Pokémon
-        Toast.makeText(holder.itemView.getContext(),
-                "Has seleccionado a: " + pokemon.getName(),
-                Toast.LENGTH_SHORT).show();
-        StringBuilder tipos = new StringBuilder();
-        for (Pokemon.TypeSlot typeSlot : pokemon.getTypes()) {
-            if (typeSlot.getType() != null && typeSlot.getType().getName() != null) {
-                tipos.append(typeSlot.getType().getName()).append(", ");
-            }
-        }
+        sharedViewModel.setSelectedPokemon(pokemon);
 
-        // Eliminar la última coma y espacio extra
-        if (tipos.length() > 0) {
-            tipos.setLength(tipos.length() - 2);
-        }
-        Bundle bundle = new Bundle();
-        bundle.putString("pokemonName", pokemon.getName());
-        bundle.putInt("pokemonPeso", pokemon.getWeight());
-        bundle.putInt("pokemonIndice", pokemon.orderPokedex());
-        bundle.putInt("pokemonAltura", pokemon.getHeight());
-        bundle.putString("imagenPokemon", pokemon.getSprites().getFrontDefault());
-        bundle.putString("pokemonTipos", tipos.toString());
-        DetallesPokemonCapturado detallesFragment =  DetallesPokemonCapturado.newInstance(bundle);
-        detallesFragment.setArguments(bundle);
+        DetallesPokemonCapturado detallesFragment = new DetallesPokemonCapturado();
         if (activity != null) {
             activity.getSupportFragmentManager().beginTransaction()
                     .replace(R.id.main_container, detallesFragment)
                     .addToBackStack(null)
-
                     .commit();
             activity.findViewById(R.id.viewPager).setVisibility(View.GONE);
         }
     });
+
 }
 
     @Override
