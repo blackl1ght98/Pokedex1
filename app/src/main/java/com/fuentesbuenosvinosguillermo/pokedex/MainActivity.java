@@ -1,11 +1,14 @@
 
 package com.fuentesbuenosvinosguillermo.pokedex;
-import android.os.Build;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.window.SplashScreen;
-import android.window.SplashScreenView;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +25,8 @@ import com.fuentesbuenosvinosguillermo.pokedex.databinding.ActivityMainBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.util.Locale;
+
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -35,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         // Uso del binding para llamar a la actividad principal
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        //El motivo por el cual llamamos al metodo que recupera el idioma antes de que la vista se muestre es para que se aplique de forma correcta
+        applySavedLanguage();
         setContentView(binding.getRoot());
 
 
@@ -84,6 +91,26 @@ public class MainActivity extends AppCompatActivity {
 
         // Cuando el usuario regresa al fragmento anterior, mostrar el ViewPager2 nuevamente
         binding.viewPager.setVisibility(View.VISIBLE);
+    }
+    //Metodo para recuperar el idioma guardado en shared preferences
+    private void applySavedLanguage() {
+        // Obtener las preferencias guardadas
+        SharedPreferences prefs = getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
+
+        // Recuperar el idioma guardado (null si no existe)
+        String savedLanguage = prefs.getString("language", null);
+
+        // Solo aplicar cambios si existe un idioma guardado
+        if (savedLanguage != null) {
+            Locale locale = new Locale(savedLanguage);
+            Locale.setDefault(locale);
+
+            Resources resources = getResources();
+            Configuration config = resources.getConfiguration();
+
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+        }
     }
 
 
