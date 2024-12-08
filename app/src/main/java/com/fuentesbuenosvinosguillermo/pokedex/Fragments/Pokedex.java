@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokeApiServ
 
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonListResponse;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonResult;
+import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 import com.fuentesbuenosvinosguillermo.pokedex.PokedexRepository;
 import com.fuentesbuenosvinosguillermo.pokedex.RecyclerViewPokedex.AdapterPokedex;
 
@@ -43,12 +46,25 @@ public class Pokedex extends Fragment {
         binding = FragmentPokedexBinding.inflate(inflater, container, false);
         //Inicializamos retrofit
         apiService = ConfiguracionRetrofit.getRetrofitInstance().create(PokeApiService.class);
-
+        SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         // Configurar RecyclerView
         setupRecyclerView();
+        // Observar los cambios en la lista de Pokémon desde el ViewModel
+        sharedViewModel.getPokemonList(0, 150).observe(getViewLifecycleOwner(), pokemonListResponse -> {
+            if (pokemonListResponse != null && pokemonListResponse.getResults() != null) {
+                // Actualiza la lista de Pokémon
+                pokemonList.clear(); // Limpiar la lista antes de agregar los nuevos datos
+                pokemonList.addAll(pokemonListResponse.getResults());
 
-        // Cargar datos de Pokémon
-        fetchPokemonList();
+                // Notificar al adaptador que los datos han cambiado
+                adapterPokedex.notifyDataSetChanged();
+            } else {
+                // Manejo del error (si pokemonListResponse es null)
+                Toast.makeText(getContext(), "Error al cargar los Pokémon", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
         return binding.getRoot();
     }
@@ -66,28 +82,7 @@ public class Pokedex extends Fragment {
         binding.pokedexRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.pokedexRecyclerview.setAdapter(adapterPokedex);
     }
-//Metodo que obtiene la lista de pokemons hasta 150 pokemon
-    private void fetchPokemonList() {
-        // Llamar al repositorio para obtener datos
-        PokedexRepository repository = new PokedexRepository();
-        repository.fetchPokemonList(0, 150, new Callback<PokemonListResponse>() {
-            @Override
-            public void onResponse(Call<PokemonListResponse> call, Response<PokemonListResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    // Agregar resultados al adaptador y actualizar RecyclerView
-                    pokemonList.addAll(response.body().getResults());
-                    adapterPokedex.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(getContext(), "Error al cargar los Pokémon", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<PokemonListResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
 
 }

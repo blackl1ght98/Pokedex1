@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools" >
     <!-- Permiso para acceso a Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,6 +19,7 @@
             android:name=".LoginAndRegister.registro"
 
             android:exported="true" />
+
         <activity
             android:name=".LoginAndRegister.login"
 
@@ -33,6 +34,7 @@
             android:name=".MainActivity"
 
             android:exported="true" />
+
     </application>
 
 </manifest>

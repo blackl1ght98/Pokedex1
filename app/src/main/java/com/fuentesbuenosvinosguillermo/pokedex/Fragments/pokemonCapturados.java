@@ -1,10 +1,14 @@
 package com.fuentesbuenosvinosguillermo.pokedex.Fragments;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -61,22 +65,32 @@ public class pokemonCapturados extends Fragment {
 
     // Método para iniciar la actualización periódica
     private void startPeriodicUpdate() {
-        // Runnable que actualizará la lista de Pokémon capturados cada cierto tiempo
         updateRunnable = new Runnable() {
             @Override
             public void run() {
-                // Llamada para actualizar los Pokémon capturados desde Firestore
-                sharedViewModel.fetchCapturedPokemons();
+                if (isConnected()) {
+                    // Solo intenta actualizar si hay conexión
+                    sharedViewModel.fetchCapturedPokemons();
+                } else {
+                    // Muestra un mensaje al usuario si no hay conexión
+                    Toast.makeText(getContext(), "Sin conexión a Internet", Toast.LENGTH_SHORT).show();
+                }
 
-                // Programar la próxima actualización en 10 segundos, el tiempo se puede ajustar al que queramos
+                // Reprograma la próxima ejecución
                 handler.postDelayed(this, 10000);
             }
         };
 
-        // Ejecutar el Runnable por primera vez
         handler.post(updateRunnable);
     }
-
+    private boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+            return activeNetwork != null && activeNetwork.isConnected();
+        }
+        return false;
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

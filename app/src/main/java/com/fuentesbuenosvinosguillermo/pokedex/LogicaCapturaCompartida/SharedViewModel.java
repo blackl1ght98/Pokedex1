@@ -9,7 +9,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+
+import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.ConfiguracionRetrofit;
+import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokeApiService;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
+import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonListResponse;
+import com.fuentesbuenosvinosguillermo.pokedex.PokedexRepository;
 import com.fuentesbuenosvinosguillermo.pokedex.R;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -19,6 +24,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * Una clase que extiende ViewModel, lo que permite es compartir datos entre diferentes componentes de la UI (por ejemplo, Fragmentos)
@@ -33,6 +43,12 @@ public class SharedViewModel extends ViewModel {
     //Variable que inicializa firestore
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final MutableLiveData<Pokemon> selectedPokemon = new MutableLiveData<>();
+    private PokedexRepository repository= new PokedexRepository();
+    private PokeApiService apiService= ConfiguracionRetrofit.getRetrofitInstance().create(PokeApiService.class);
+    private final Map<String, Pokemon> cachedPokemonDetails = new HashMap<>();
+
+
+
     /**
      * Devuelve el LiveData que representa la lista de Pokémon capturados.
      * Permite a otras clases (como fragmentos) observar los cambios en la lista
@@ -343,7 +359,30 @@ public class SharedViewModel extends ViewModel {
                 .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
                 .show();
     }
+    public LiveData<PokemonListResponse> getPokemonList(int offset, int limit) {
+        return repository.fetchPokemonList(offset, limit);
+    }
+    public void fetchPokemonDetails(String pokemonName) {
+        if (cachedPokemonDetails.containsKey(pokemonName)) {
+            selectedPokemon.setValue(cachedPokemonDetails.get(pokemonName));
+            return;
+        }
 
+        apiService.getPokemonDetails(pokemonName).enqueue(new Callback<Pokemon>() {
+            @Override
+            public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Pokemon pokemon = response.body();
+                    cachedPokemonDetails.put(pokemonName, pokemon); // Cachear los detalles
+                    selectedPokemon.setValue(pokemon);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<Pokemon> call, Throwable t) {
+                selectedPokemon.setValue(null);
+            }
+        });
+    }
 
 }

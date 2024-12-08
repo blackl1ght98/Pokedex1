@@ -1,6 +1,9 @@
 
 package com.fuentesbuenosvinosguillermo.pokedex;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -112,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
             resources.updateConfiguration(config, resources.getDisplayMetrics());
         }
     }
+
+
 
 
 }
