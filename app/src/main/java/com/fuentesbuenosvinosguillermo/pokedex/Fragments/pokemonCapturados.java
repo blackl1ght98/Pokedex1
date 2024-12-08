@@ -24,6 +24,33 @@ import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedVie
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.FragmentPokemonCapturadosBinding;
 
 import java.util.ArrayList;
+/**
+ * Este fragmento se encarga de mostrar la lista de Pokémon capturados por el usuario en un RecyclerView,
+ * utilizando View Binding y un ViewModel compartido para gestionar los datos de manera dinámica.
+ *
+ * Flujo principal:
+ * 1. Configura el RecyclerView con un adaptador (AdapterCapturados) para mostrar la lista de Pokémon capturados.
+ * 2. Se utiliza un SharedViewModel para observar y gestionar los datos de los Pokémon capturados desde Firestore.
+ * 3. Los datos observados en el LiveData del ViewModel se reflejan automáticamente en el RecyclerView.
+ * 4. Implementa una verificación periódica de conexión a Internet para actualizar la lista de Pokémon capturados en tiempo real.
+ *
+ * Componentes principales:
+ * - `FragmentPokemonCapturadosBinding`: Proporciona acceso eficiente a las vistas del layout mediante View Binding.
+ * - `SharedViewModel`: Centraliza la lógica para obtener y observar los datos de los Pokémon capturados.
+ * - `AdapterCapturados`: Controla cómo se visualizan los datos de los Pokémon en el RecyclerView.
+ *
+ * Métodos destacados:
+ * - `onCreateView`: Configura el binding, inicializa el RecyclerView y vincula el ViewModel compartido.
+ * - `setupRecyclerView`: Configura el RecyclerView con un LayoutManager y el adaptador correspondiente.
+ * - `startPeriodicUpdate`: Inicia un mecanismo de actualización periódica que verifica la conexión a Internet antes de actualizar los datos.
+ * - `isConnected`: Comprueba si hay conexión a Internet disponible.
+ * - `onDestroyView`: Detiene la tarea periódica al destruirse el fragmento para evitar fugas de memoria.
+ *
+ * Notas importantes:
+ * - La actualización de datos desde Firestore se realiza cada 10 segundos, siempre que haya conexión a Internet.
+ * - Si no hay conexión, se notifica al usuario mediante un Toast.
+ * - La periodicidad de actualización garantiza que la lista de Pokémon capturados esté siempre actualizada.
+ */
 
 public class pokemonCapturados extends Fragment {
     private FragmentPokemonCapturadosBinding binding;

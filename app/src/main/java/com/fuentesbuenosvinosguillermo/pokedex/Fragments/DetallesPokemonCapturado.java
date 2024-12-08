@@ -32,6 +32,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Este fragmento se encarga de mostrar los detalles de un Pokémon capturado.
+ *
+ * En el método 'onCreateView', se observa el estado del Pokémon seleccionado a través del método 'getSelectedPokemon'
+ * del 'SharedViewModel'. Este LiveData mantiene el Pokémon seleccionado y actualiza la interfaz de usuario (UI) con los
+ * detalles correspondientes (nombre, peso, altura, tipo, imagen) cuando se realiza un cambio en el objeto Pokémon.
+ *
+ * El flujo es el siguiente:
+ * 1. Se observa el Pokémon seleccionado a través de LiveData.
+ * 2. Cuando el Pokémon es actualizado (por ejemplo, cuando se selecciona uno nuevo), se actualizan los detalles en la UI:
+ *    - Nombre del Pokémon
+ *    - Peso y altura del Pokémon
+ *    - Orden en la Pokédex
+ *    - Tipos de Pokémon
+ *    - Imagen del Pokémon
+ *
+ * 3. Si el Pokémon tiene una imagen asociada, se carga utilizando la librería Glide.
+ *
+ * Además, se configuran los botones para navegar entre Pokémon y eliminar el Pokémon actual de la lista de capturados:
+ * - 'botonSiguiente' y 'botonAnterior' permiten navegar entre los Pokémon.
+ * - 'eliminarPokemon' elimina el Pokémon seleccionado de la lista de capturados.
+ *
+ * En resumen, este fragmento está diseñado para mostrar la información detallada de un Pokémon y permitir su eliminación o
+ * navegación a otros Pokémon capturados.
+ */
 
 public class DetallesPokemonCapturado extends Fragment {
     private FragmentDetalleBinding binding;
@@ -40,6 +65,7 @@ public class DetallesPokemonCapturado extends Fragment {
     public DetallesPokemonCapturado() {
         // Constructor vacío requerido para los fragmentos
     }
+
 @Override
 public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     binding = FragmentDetalleBinding.inflate(inflater, container, false);

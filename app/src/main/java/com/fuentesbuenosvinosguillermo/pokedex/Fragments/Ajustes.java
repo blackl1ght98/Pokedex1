@@ -28,74 +28,116 @@ import java.util.Locale;
 import java.util.Objects;
 
 
+/**
+ * Este fragmento se encarga de manejar la configuración de la aplicación,
+ * como el cambio de idioma, la gestión de la sesión y la habilitación de
+ * opciones adicionales como la eliminación de elementos.
+ *
+ * En el método 'onCreateView', se inicializan los elementos de la interfaz
+ * de usuario (UI) como los controles para cambiar el idioma, cerrar sesión
+ * y habilitar o deshabilitar la eliminación de elementos.
+ *
+ * El flujo de ejecución de la clase es el siguiente:
+ * 1. Se inicializa el objeto 'FirebaseAuth' para manejar la autenticación
+ *    de usuarios en Firebase.
+ * 2. Se recupera el idioma guardado en las preferencias de la aplicación
+ *    y se configura el idioma correspondiente a través del método 'setLocale'.
+ * 3. Se configura un 'Switch' que permite cambiar el idioma de la aplicación
+ *    entre español e inglés. Cuando el usuario cambia el estado del 'Switch',
+ *    se guarda la nueva preferencia de idioma y se reinicia la actividad para
+ *    aplicar los cambios.
+ * 4. Se configuran los botones de la interfaz para realizar acciones como
+ *    cerrar sesión, mostrar información sobre la aplicación o habilitar la
+ *    eliminación de elementos.
+ *
+ * 5. Si el usuario decide cerrar sesión, se muestra un cuadro de diálogo
+ *    de confirmación. Si se confirma la acción, se ejecuta el método 'logOut'
+ *    que cierra la sesión y redirige al usuario a la pantalla de inicio de sesión.
+ *
+ * 6. Si el usuario habilita o deshabilita la opción de eliminación, se guarda
+ *    la preferencia en las SharedPreferences de la aplicación.
+ *
+ * 7. El idioma de la aplicación se cambia dinámicamente según las preferencias
+ *    del usuario, sin afectar la configuración global del sistema.
+ *
+ * En resumen, este fragmento permite gestionar las configuraciones relacionadas
+ * con el idioma, la sesión y las opciones de eliminación, proporcionando una
+ * interfaz para modificar estas preferencias.
+ */
 public class Ajustes extends Fragment {
     private FragmentAjustesBinding binding;
-
     private FirebaseAuth mAuth;
     private static final String TAG = "AjustesFragment";
 
+    /**
+     * Método que se ejecuta cuando se crea la vista del fragmento.
+     * Configura el idioma inicial, el estado del switch y los botones de la UI.
+     *
+     * @param inflater El objeto LayoutInflater para inflar la vista del fragmento.
+     * @param container El contenedor padre donde se inflará la vista.
+     * @param savedInstanceState El estado guardado de la actividad anterior.
+     * @return La vista del fragmento con los elementos configurados.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentAjustesBinding.inflate(inflater, container, false);
 
-        // Inicializamos FirebaseAuth
+        // Inicializamos FirebaseAuth para manejar la autenticación.
         mAuth = FirebaseAuth.getInstance();
-        // Obtener idioma guardado
+
+        // Obtener idioma guardado de las preferencias de la aplicación.
         SharedPreferences prefs = requireActivity().getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
-        //Establecemos un idioma por defecto en este caso el español
         String savedLanguage = prefs.getString("language", null);
-        // Establecer el idioma de la aplicación según la configuración guardada
+
+        // Establecer el idioma de la aplicación según la configuración guardada.
         setLocale(savedLanguage);
-        // Configurar la posición inicial del Switch según el idioma guardado
+
+        // Configurar el estado inicial del switch de cambio de idioma.
         boolean isLanguageSpanish = savedLanguage.equals("es");
         binding.cambiarIdioma.setChecked(!isLanguageSpanish); // Inglés: true, Español: false
 
-        // Listener para manejar el cambio de idioma
+        // Listener para manejar el cambio de idioma.
         binding.cambiarIdioma.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            String newLanguage = isChecked ? "en" : "es"; // Inglés si está activado, Español si no esta activado
+            String newLanguage = isChecked ? "en" : "es"; // Inglés si está activado, Español si no lo está.
             if (!newLanguage.equals(savedLanguage)) {
-                // Cambiar idioma
-                setLocale(newLanguage);
-
-                // Guardar el nuevo idioma en las preferencias
+                setLocale(newLanguage); // Cambiar idioma.
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("language", newLanguage);
-                editor.apply();
-
-                // Reiniciar actividad para aplicar el cambio de idioma, pero solo si el idioma cambió
+                editor.apply(); // Guardar nuevo idioma.
                 if (!savedLanguage.equals(newLanguage)) {
-                    requireActivity().recreate();
+                    requireActivity().recreate(); // Reiniciar la actividad para aplicar el cambio.
                 }
             }
         });
 
-
-        //Llamamos al metodo que maneja la logica de eliminacion y otros botones
+        // Configurar la interfaz de usuario para manejar la lógica de la sesión y otras opciones.
         setupUI();
 
         return binding.getRoot();
     }
 
+    /**
+     * Método que cambia el idioma de la aplicación sin afectar la configuración global del sistema.
+     *
+     * @param language El código del idioma (por ejemplo, "es" para español, "en" para inglés).
+     */
     private void setLocale(String language) {
         Log.d(TAG, "Estableciendo idioma: " + language);
-
-        // Cambia el idioma solo para la aplicación, no afecta al sistema global.
         Locale locale = new Locale(language);
         Locale.setDefault(locale);
-
         Resources resources = requireActivity().getResources();
         Configuration config = resources.getConfiguration();
-
-        // Cambia la configuración solo para la aplicación
         config.setLocale(locale);
         resources.updateConfiguration(config, resources.getDisplayMetrics());
-
     }
 
-
+    /**
+     * Configura la interfaz de usuario con los botones y las acciones correspondientes,
+     * como cerrar sesión y habilitar eliminación de elementos.
+     */
     private void setupUI() {
-        // Configuración para cerrar sesión
+        // Configuración para cerrar sesión.
         binding.cerrarSesion.setOnClickListener(v -> {
             Log.d(TAG, "Botón cerrar sesión presionado.");
             new AlertDialog.Builder(requireActivity())
@@ -103,56 +145,55 @@ public class Ajustes extends Fragment {
                     .setMessage(getString(R.string.desea_cerrar_sesion))
                     .setPositiveButton(getString(R.string.si), (dialogInterface, i) -> {
                         Log.d(TAG, "Confirmado: cerrar sesión.");
-                        logOut();
+                        logOut(); // Llamada para cerrar sesión.
                     })
                     .setNegativeButton(getString(R.string.no), (dialogInterface, i) -> {
                         Log.d(TAG, "Cancelado: no cerrar sesión.");
-                        dialogInterface.dismiss();
+                        dialogInterface.dismiss(); // Cancelar la acción.
                     })
                     .show();
         });
 
-        // Configuración para "Acerca de"
+        // Configuración para mostrar información sobre la aplicación.
         binding.acercade.setOnClickListener(v -> {
-
             new AlertDialog.Builder(requireActivity())
                     .setTitle(getString(R.string.Acercade))
                     .setMessage(getString(R.string.develop))
                     .setPositiveButton(getString(R.string.si), (dialogInterface, i) -> {
                         Log.d(TAG, "Dialogo Acerca de cerrado.");
-                        dialogInterface.dismiss();
+                        dialogInterface.dismiss(); // Cerrar el diálogo.
                     })
                     .show();
         });
+
+        // Configuración para habilitar eliminación de elementos.
         SharedPreferences prefs = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
-        // Configuración para habilitar eliminación
         boolean isEnabled = prefs.getBoolean("eliminacion_enabled", false);
         binding.habilitarEliminacion.setChecked(isEnabled);
 
-
+        // Listener para manejar el cambio en la opción de habilitar eliminación.
         binding.habilitarEliminacion.setOnCheckedChangeListener((buttonView, isChecked) -> {
-
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("eliminacion_enabled", isChecked);
-            editor.apply();
-
+            editor.apply(); // Guardar el cambio de configuración.
         });
     }
 
+    /**
+     * Método para cerrar sesión en Firebase, limpiar los datos y redirigir a la pantalla de inicio de sesión.
+     */
     private void logOut() {
-
-        // Obtener el SharedViewModel
+        // Obtener el SharedViewModel para limpiar los datos.
         SharedViewModel sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
-        // Limpiar los datos del ViewModel
-        sharedViewModel.clearCapturedPokemons();
-        // Cerrar sesión en Firebase
+        sharedViewModel.clearCapturedPokemons(); // Limpiar Pokémon capturados.
+
+        // Cerrar sesión en Firebase.
         mAuth.signOut();
 
-        // Navegar a la pantalla de inicio de sesión
+        // Navegar a la pantalla de inicio de sesión.
         Intent intent = new Intent(getActivity(), login.class);
         startActivity(intent);
-        requireActivity().finish();
+        requireActivity().finish(); // Finalizar la actividad actual.
         Log.d(TAG, "Navegando a la pantalla de inicio de sesión.");
     }
-
 }
