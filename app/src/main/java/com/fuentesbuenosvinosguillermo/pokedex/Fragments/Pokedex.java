@@ -94,6 +94,7 @@ public class Pokedex extends Fragment {
         /**
          * Parámetros utilizados en el adaptador:
          * - `pokemonList`: Lista de Pokémon que se mostrará en el RecyclerView.
+
          * - `getContext()`: Contexto de la actividad actual.
          * - `requireActivity()`: Actividad requerida para gestionar interacciones.
          */

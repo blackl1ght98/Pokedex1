@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.PokemonCapturadosCardviewBinding;
-
+/**
+ * Clase que tambien es parte de la configuración del recyclerview
+ * */
 public class ViewHolderCapturados extends RecyclerView.ViewHolder {
     private final PokemonCapturadosCardviewBinding binding;
 
@@ -15,7 +17,9 @@ public class ViewHolderCapturados extends RecyclerView.ViewHolder {
         this.binding = binding;
     }
 
-    // Método bind para vincular los datos al layout
+    /**
+     * Metodo que vincula los datos al layout
+     * */
     public void bind(Pokemon pokemon) {
         // Establecer el nombre del Pokémon
         binding.nombrepokemon.setText(pokemon.getName());

@@ -21,27 +21,24 @@ import com.fuentesbuenosvinosguillermo.pokedex.R;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.PokemonCapturadosCardviewBinding;
 
 import java.util.List;
-
+/**
+ * Clase encargada de configurar el RecyclerView
+ * */
 public class AdapterCapturados extends RecyclerView.Adapter<ViewHolderCapturados> {
-    private final List<Pokemon> capturadosList;
+    private SharedViewModel sharedViewModel;
     private MainActivity activity;
-
-    public AdapterCapturados(List<Pokemon> capturadosList, MainActivity activity) {
-        this.capturadosList = capturadosList;
-        this.activity = activity;  // Guardamos la referencia a MainActivity
-    }
-
-
-    public void updateData(List<Pokemon> newPokemonList) {
-        capturadosList.clear(); // Limpia la lista actual
-        capturadosList.addAll(newPokemonList); // Agrega los nuevos datos
-        notifyDataSetChanged(); // Notifica al RecyclerView que los datos han cambiado
+/**
+ * Se crea un constructor que inicializa el sharedviewmodel y la actividad principal
+ * */
+    public AdapterCapturados(MainActivity activity) {
+        this.activity = activity;
+        // Obtener la referencia del ViewModel
+        sharedViewModel = new ViewModelProvider(activity).get(SharedViewModel.class);
     }
 
     @NonNull
     @Override
     public ViewHolderCapturados onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflar el layout utilizando View Binding
         PokemonCapturadosCardviewBinding binding = PokemonCapturadosCardviewBinding.inflate(
                 LayoutInflater.from(parent.getContext()),
                 parent,
@@ -50,36 +47,36 @@ public class AdapterCapturados extends RecyclerView.Adapter<ViewHolderCapturados
         return new ViewHolderCapturados(binding);
     }
 
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolderCapturados holder, int position) {
+        // Obtener el Pokémon de la lista en el ViewModel
+        List<Pokemon> pokemons = sharedViewModel.getCapturedPokemons().getValue();
+        if (pokemons != null) {
+            //Si en la lista hay pokemon se obtiene el pokemon en base a la posicion
+            Pokemon pokemon = pokemons.get(position);
 
-@Override
-public void onBindViewHolder(@NonNull ViewHolderCapturados holder, int position) {
-    // Obtener el Pokémon de la lista
-    Pokemon pokemon = capturadosList.get(position);
+            // Vincular los datos del Pokémon al ViewHolder
+            holder.bind(pokemon);
 
-    SharedViewModel sharedViewModel = new ViewModelProvider(activity).get(SharedViewModel.class);
+            // Configurar el clic para seleccionar un Pokémon
+            holder.itemView.setOnClickListener(v -> {
+                sharedViewModel.setSelectedPokemon(pokemon);
 
-    // Vincular los datos del Pokémon al ViewHolder
-    holder.bind(pokemon);
-
-    holder.itemView.setOnClickListener(v -> {
-       sharedViewModel.setSelectedPokemon(pokemon);
-
-        DetallesPokemonCapturado detallesFragment = new DetallesPokemonCapturado();
-        if (activity != null) {
-            activity.getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.main_container, detallesFragment)
-                    .addToBackStack(null)
-                    .commit();
-            activity.findViewById(R.id.viewPager).setVisibility(View.GONE);
+                DetallesPokemonCapturado detallesFragment = new DetallesPokemonCapturado();
+                activity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_container, detallesFragment)
+                        .addToBackStack(null)
+                        .commit();
+                activity.findViewById(R.id.viewPager).setVisibility(View.GONE);
+            });
         }
-    });
-
-}
+    }
 
     @Override
     public int getItemCount() {
-        return capturadosList.size();
+        // Retornar el tamaño de la lista directamente desde el ViewModel
+        List<Pokemon> pokemons = sharedViewModel.getCapturedPokemons().getValue();
+        return (pokemons != null) ? pokemons.size() : 0;
     }
-
-
 }
+

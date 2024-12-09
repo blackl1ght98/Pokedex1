@@ -14,7 +14,9 @@ import com.fuentesbuenosvinosguillermo.pokedex.R;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.ActivityRegistroBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
+/**
+ * Clase encargada de realizar el registro
+ * */
 public class registro extends AppCompatActivity {
 
     private ActivityRegistroBinding binding;

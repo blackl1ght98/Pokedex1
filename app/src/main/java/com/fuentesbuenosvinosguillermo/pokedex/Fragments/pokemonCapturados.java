@@ -37,22 +37,25 @@ public class pokemonCapturados extends Fragment {
     private SharedViewModel sharedViewModel;
     private Handler handler = new Handler();
     private Runnable updateRunnable;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPokemonCapturadosBinding.inflate(inflater, container, false);
         MainActivity mainActivity = (MainActivity) getActivity();
-        // Inicializa el adaptador, para rellenar el recyclerview
-        adapterCapturados = new AdapterCapturados(new ArrayList<>(), mainActivity);
-        // Configuracion del  RecyclerView
-        setupRecyclerView();
 
         // Obtener el SharedViewModel
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
+        // Inicializa el adaptador sin lista local
+        adapterCapturados = new AdapterCapturados(mainActivity);
+
+        // Configuración del RecyclerView
+        setupRecyclerView();
+
         // Observar cambios en los Pokémon capturados
         sharedViewModel.getCapturedPokemons().observe(getViewLifecycleOwner(), capturedPokemons -> {
-            // Actualizamos los datos en tiempo real cuando haya cambios, por ejemplo cuando un pokemon se elimine
-            adapterCapturados.updateData(capturedPokemons);
+            // Notificar al adaptador que los datos han cambiado
+            adapterCapturados.notifyDataSetChanged();
         });
 
         // Inicia la recuperación inicial desde Firestore
@@ -63,17 +66,18 @@ public class pokemonCapturados extends Fragment {
 
         return binding.getRoot();
     }
+
     /**
-     * Metodo encargado de la configuracion del RecyclerView
-     * */
+     * Método encargado de la configuración del RecyclerView.
+     */
     private void setupRecyclerView() {
         binding.pokemonsCapturadosRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.pokemonsCapturadosRecyclerview.setAdapter(adapterCapturados);
     }
 
     /**
-     * Metodo encargado de realizar una actualizacion periodica para que se obtengan los datos actuales
-     * */
+     * Método encargado de realizar una actualización periódica para obtener los datos actuales.
+     */
     private void startPeriodicUpdate() {
         updateRunnable = new Runnable() {
             @Override
@@ -93,9 +97,10 @@ public class pokemonCapturados extends Fragment {
 
         handler.post(updateRunnable);
     }
+
     /**
-     * Metodo que comprueba si hay conexion a internet
-     * */
+     * Método que comprueba si hay conexión a Internet.
+     */
     private boolean isConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
@@ -104,9 +109,10 @@ public class pokemonCapturados extends Fragment {
         }
         return false;
     }
+
     /**
-     * Metodo que destruye la vista cuando se deja de usar
-     * */
+     * Método que destruye la vista cuando se deja de usar.
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -115,5 +121,5 @@ public class pokemonCapturados extends Fragment {
             handler.removeCallbacks(updateRunnable);
         }
     }
-
 }
+

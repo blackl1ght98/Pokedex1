@@ -20,7 +20,9 @@ import com.fuentesbuenosvinosguillermo.pokedex.databinding.ActivityLoginBinding;
 
 import java.util.Arrays;
 import java.util.List;
-
+/**
+ * Clase encargada de realizar el login
+ * */
 public class login extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
@@ -56,6 +58,7 @@ public class login extends AppCompatActivity {
         setupSignInLauncher();
 
         binding.iniciarGoogle.setOnClickListener(v -> signInWithGoogle());
+        //Si se hace clic en registro direge a la vista de registro
         binding.registrarse.setOnClickListener(v -> {
             Intent intent = new Intent(login.this, registro.class);
             startActivity(intent);
@@ -63,7 +66,7 @@ public class login extends AppCompatActivity {
         binding.iniciarSesion.setOnClickListener(v -> signInWithEmailPassword());
     }
 
-    // Método separado para configurar el lanzador
+    // Método que se encarga de la configuracion necesaria para el login
     private void setupSignInLauncher() {
         signInLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
