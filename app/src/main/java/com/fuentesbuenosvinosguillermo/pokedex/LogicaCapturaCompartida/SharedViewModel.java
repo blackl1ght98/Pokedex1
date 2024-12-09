@@ -33,11 +33,11 @@ import retrofit2.Response;
 /**
  * Esta clase se encarga de compartir los datos entre los fragmentos, usa la arquitectura
  * MVV (Model-View-Viewmodel) que esta arquitectura se utiliza para separar las responsabilidades
- * dentro de una aplicacion.
- * Lo que mas destaca de esta clase es que permite tener centralizada la logica de manejo de datos
- * en un unico sitio.
- *
- * */
+ * dentro de una aplicación.
+ * Lo que más destaca de esta clase es que permite tener centralizada la lógica de manejo de datos
+ * en un único sitio.
+ */
+
 public class SharedViewModel extends ViewModel {
     /**MutableLiveData: Es un tipo de dato reactivo en Android que permite observar cambios en su valor y notificar automáticamente a sus observadores.
      estos observadores es cuando llamamos a un metodo de esta clase y ponemos un .observe()

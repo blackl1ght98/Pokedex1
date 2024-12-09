@@ -32,15 +32,15 @@ import retrofit2.Response;
 
 public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
     private final List<PokemonResult> pokemonList;
-    private final PokeApiService pokeApiService;
+
     private final Context context;
     private final FragmentActivity activity;
     private PokedexCardviewBinding binding;
 
     // Constructor
-    public AdapterPokedex(List<PokemonResult> pokemonList, PokeApiService pokeApiService, Context context, FragmentActivity activity) {
+    public AdapterPokedex(List<PokemonResult> pokemonList,  Context context, FragmentActivity activity) {
         this.pokemonList = pokemonList;
-        this.pokeApiService = pokeApiService;
+
         this.context = context;
         this.activity = activity;
 

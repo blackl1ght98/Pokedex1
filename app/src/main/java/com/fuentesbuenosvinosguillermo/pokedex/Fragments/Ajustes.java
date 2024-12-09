@@ -36,33 +36,7 @@ import java.util.Objects;
  * En el método 'onCreateView', se inicializan los elementos de la interfaz
  * de usuario (UI) como los controles para cambiar el idioma, cerrar sesión
  * y habilitar o deshabilitar la eliminación de elementos.
- *
- * El flujo de ejecución de la clase es el siguiente:
- * 1. Se inicializa el objeto 'FirebaseAuth' para manejar la autenticación
- *    de usuarios en Firebase.
- * 2. Se recupera el idioma guardado en las preferencias de la aplicación
- *    y se configura el idioma correspondiente a través del método 'setLocale'.
- * 3. Se configura un 'Switch' que permite cambiar el idioma de la aplicación
- *    entre español e inglés. Cuando el usuario cambia el estado del 'Switch',
- *    se guarda la nueva preferencia de idioma y se reinicia la actividad para
- *    aplicar los cambios.
- * 4. Se configuran los botones de la interfaz para realizar acciones como
- *    cerrar sesión, mostrar información sobre la aplicación o habilitar la
- *    eliminación de elementos.
- *
- * 5. Si el usuario decide cerrar sesión, se muestra un cuadro de diálogo
- *    de confirmación. Si se confirma la acción, se ejecuta el método 'logOut'
- *    que cierra la sesión y redirige al usuario a la pantalla de inicio de sesión.
- *
- * 6. Si el usuario habilita o deshabilita la opción de eliminación, se guarda
- *    la preferencia en las SharedPreferences de la aplicación.
- *
- * 7. El idioma de la aplicación se cambia dinámicamente según las preferencias
- *    del usuario, sin afectar la configuración global del sistema.
- *
- * En resumen, este fragmento permite gestionar las configuraciones relacionadas
- * con el idioma, la sesión y las opciones de eliminación, proporcionando una
- * interfaz para modificar estas preferencias.
+
  */
 public class Ajustes extends Fragment {
     private FragmentAjustesBinding binding;
