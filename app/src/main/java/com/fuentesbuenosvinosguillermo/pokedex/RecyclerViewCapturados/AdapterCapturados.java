@@ -62,7 +62,7 @@ public void onBindViewHolder(@NonNull ViewHolderCapturados holder, int position)
     holder.bind(pokemon);
 
     holder.itemView.setOnClickListener(v -> {
-        sharedViewModel.setSelectedPokemon(pokemon);
+       sharedViewModel.setSelectedPokemon(pokemon);
 
         DetallesPokemonCapturado detallesFragment = new DetallesPokemonCapturado();
         if (activity != null) {

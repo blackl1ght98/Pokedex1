@@ -4,12 +4,10 @@ import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * Clasee que contiene los metodos necesarios para decidir si un pokemon a sido capturado o no
- *
+ * Clase que contiene los metodos necesarios para decidir si un pokemon a sido capturado o no
  * */
 public class CapturedPokemonManager {
-    //Lista estatica que guarda el estado de si un pokemon a sido capturado o no, a esta lista se le pasa un objeto de tipo Pokemon para poder
-    //extraer datos como el nombre del pokemon.
+    //Lista que almacena los pokemon capturados
     private static List<Pokemon> capturedPokemons = new ArrayList<>();
     /**
      * Metodo que verifica si el pokemon a sido o no capturado, a este metodo se le pasa un parametro
@@ -37,13 +35,5 @@ public class CapturedPokemonManager {
             capturedPokemons.add(pokemon);
         }
     }
-    /**
-     * Metodo que elimina un pokemon de la lista de capturados en base la nombre
-     * */
-    public static void removeCapturedPokemon(Pokemon pokemon) {
-        // Busca el Pokémon en la lista y lo elimina si está presente
-        capturedPokemons.removeIf(captured -> captured.getName().equals(pokemon.getName()));
-    }
-
 
 }

@@ -39,8 +39,6 @@ import java.util.stream.Collectors;
 
 public class DetallesPokemonCapturado extends Fragment {
     private FragmentDetalleBinding binding;
-    // Lista de Pokémon capturados
-    private List<Pokemon> pokemons;
     private int currentIndex =0;
     public DetallesPokemonCapturado() {
         // Constructor vacío requerido para los fragmentos
@@ -85,44 +83,51 @@ public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, 
                         .load(pokemon.getSprites().getFrontDefault())
                         .into(binding.imagepokemon);
             }
+
         }
     });
 
-    // Configurar los botones de navegación
-    binding.botonSiguiente.setOnClickListener(v -> mostrarSiguientePokemon());
-    binding.botonAnterior.setOnClickListener(v -> mostrarPokemonAnterior());
+     // Configurar los botones de navegación, estos botones reciben el sharedviewmodel que como dijimos es la clase que se encarga de
+    //compartir los datos
+    binding.botonSiguiente.setOnClickListener(v -> mostrarSiguientePokemon(sharedViewModel));
+    binding.botonAnterior.setOnClickListener(v -> mostrarPokemonAnterior(sharedViewModel));
     //Configuracion del boton de eliminacion
     binding.eliminarPokemon.setOnClickListener(v -> eliminarPokemon(sharedViewModel));
 
     return binding.getRoot();
 }
 /**
- * Metodo que se ejecuta cuando se hace clic en el boton siguiente mostrando el siguiente pokemon en la lista
+ * Metodo que muestra el siguiente pokemon al hacer clic en el boton siguien recibe como parametro
+ * el sharedviewmodel que es la clase encargada de compartir los datos
  * */
-    private void mostrarSiguientePokemon() {
-        if (pokemons != null && !pokemons.isEmpty()) {
-            // Avanza al siguiente Pokémon
-            currentIndex++;
-            if (currentIndex >= pokemons.size()) {
-                // Vuelve al primer Pokémon si está al final de la lista
-                currentIndex = 0;
+    private void mostrarSiguientePokemon(SharedViewModel sharedViewModel) {
+        sharedViewModel.getCapturedPokemons().observe(getViewLifecycleOwner(), pokemons -> {
+            if (pokemons != null && !pokemons.isEmpty()) {
+                // Avanza al siguiente Pokémon
+                currentIndex++;
+                if (currentIndex >= pokemons.size()) {
+                    // Vuelve al primer Pokémon si está al final de la lista
+                    currentIndex = 0;
+                }
+                mostrarPokemon(pokemons.get(currentIndex));
             }
-            mostrarPokemon(pokemons.get(currentIndex));
-        }
+        });
     }
 /**
- * Metodo que se ejecuta cuando se realiza clic en el boton anterior
+ * Parecido al metodo anterior pero muestra el pokemon anterior
  * */
-    private void mostrarPokemonAnterior() {
-        if (pokemons != null && !pokemons.isEmpty()) {
-            // Retrocede al Pokémon anterior
-            currentIndex--;
-            if (currentIndex < 0) {
-                // Vuelve al último Pokémon si está al principio de la lista
-                currentIndex = pokemons.size() - 1;
+    private void mostrarPokemonAnterior(SharedViewModel sharedViewModel) {
+        sharedViewModel.getCapturedPokemons().observe(getViewLifecycleOwner(), pokemons -> {
+            if (pokemons != null && !pokemons.isEmpty()) {
+                // Retrocede al Pokémon anterior
+                currentIndex--;
+                if (currentIndex < 0) {
+                    // Vuelve al último Pokémon si está al principio de la lista
+                    currentIndex = pokemons.size() - 1;
+                }
+                mostrarPokemon(pokemons.get(currentIndex));
             }
-            mostrarPokemon(pokemons.get(currentIndex));
-        }
+        });
     }
     /**
      * Metodo encargado de eliminar un pokemon recibe un unico parametro que es

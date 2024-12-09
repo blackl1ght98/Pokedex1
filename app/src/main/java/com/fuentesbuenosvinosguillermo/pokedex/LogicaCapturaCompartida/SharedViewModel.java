@@ -41,26 +41,38 @@ import retrofit2.Response;
 public class SharedViewModel extends ViewModel {
     /**MutableLiveData: Es un tipo de dato reactivo en Android que permite observar cambios en su valor y notificar automáticamente a sus observadores.
      estos observadores es cuando llamamos a un metodo de esta clase y ponemos un .observe()
+     Aqui los datos de tipo MutableLiveData solo pueden ser modificados por la propia clase
      * */
     private final MutableLiveData<List<Pokemon>> capturedPokemons = new MutableLiveData<>(new ArrayList<>());
     //Variable que inicializa firestore
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final MutableLiveData<Pokemon> selectedPokemon = new MutableLiveData<>();
+    //Inicializacion de la configuracion para solicitar datos al api
     private PokedexRepository repository= new PokedexRepository();
     private PokeApiService apiService= ConfiguracionRetrofit.getRetrofitInstance().create(PokeApiService.class);
+    //Mapeo local que almacena los datos de los pokemon obtenidos
     private final Map<String, Pokemon> cachedPokemonDetails = new HashMap<>();
 
 
-
     /**
-     * Metodo que realiza una llamada a la api y devuelve informacion de los pokemon en base
-     * al limite que el usuario desea que se muestre este metodo es usado en la clase Pokedex.
-     *  Importante: Aunque los metodos fetchPokemons() y getPokemonList() trabajan en clases distintas van de la mano
-     *  y los dos trabajan como si se tratase de un solo metodo.
-     *  fetchPokemons()-->trabaja en el AdapterPokedex este metodo es el encargado de rellenar el recyclerview con los pokemons
-     *  pero si comprobamos y comentamos este metodo podemos ver que falta algo, efectivamente falta la informacion que es
-     *   el nombre de cada pokemon esto lo proporciona getPokemonList() que esta en la clase pokedex
-     * */
+     * Método que obtiene la lista de Pokémon desde la API, con un límite y un offset definidos por el usuario.
+     * Este método se utiliza en la clase Pokedex para obtener la lista paginada de Pokémon.
+     *
+     * Nota importante:
+     * Aunque los métodos `fetchPokemons()` y `getPokemonList()` residen en clases diferentes (AdapterPokedex y Pokedex, respectivamente),
+     * trabajan en conjunto de manera sincronizada como si fueran parte de un único flujo de ejecución:
+     *
+     * - `getPokemonList()` es llamado en la clase Pokedex para obtener la lista paginada de Pokémon (limitado por el offset y limit)
+     *   mediante el uso del repositorio, y devuelve un objeto `LiveData<PokemonListResponse>`.
+     *
+     * - `fetchPokemons()` se encarga de obtener información adicional sobre cada Pokémon individual, como su nombre y detalles específicos.
+     *   Este método es utilizado dentro del `AdapterPokedex` para obtener los detalles de cada Pokémon en la lista.
+     *   Si los detalles ya están almacenados en caché, no hace la llamada a la API; de lo contrario, realiza una llamada para obtener los detalles
+     *   y los guarda en caché para futuras consultas.
+     *
+     * En resumen, `getPokemonList()` obtiene la lista de Pokémon y `fetchPokemons()` obtiene detalles de cada Pokémon individualmente
+     * para completar la información necesaria para mostrar en la interfaz.
+     */
     public LiveData<PokemonListResponse> getPokemonList(int offset, int limit) {
         return repository.fetchPokemonList(offset, limit);
     }
@@ -93,7 +105,7 @@ public class SharedViewModel extends ViewModel {
 
     /**
      * Metodo usado para capturar un pokemon se usa en la clase AdapterPokedex, la captura ocurre cuando se realiza clic en
-     * el cardview del recyclerview
+     * el cardview del recyclerview de la clase Pokedex
      * */
     public void capturePokemon(Pokemon pokemon, Context context) {
         // Verificar si el Pokémon ya está capturado localmente
@@ -255,11 +267,19 @@ public class SharedViewModel extends ViewModel {
                 });
     }
     /**
-     * Este método se utiliza en las clases 'pokemonCapturados' y 'MainActivity' para obtener una lista de los Pokémon capturados.
-     * Al ser de tipo LiveData, permite que los cambios en la lista de Pokémon se reflejen automáticamente en la UI. Si un Pokémon es
-     * eliminado de la lista, se elimina de la interfaz de usuario, y si se captura de nuevo, se actualizará la UI para reflejar este cambio.
-     * LiveData garantiza que la UI solo se actualice cuando sea necesario, y respeta el ciclo de vida de los componentes que lo observan.
-     * Es una lista local en la que se almacena la informacion devuelta por firestore
+     * Este método devuelve la lista de Pokémon capturados que está almacenada en `capturedPokemons`.
+     *
+     * Nota:
+     * La lista de Pokémon capturados no se obtiene directamente desde la API, sino que se obtiene de Firestore a través del
+     * método `fetchCapturedPokemons()`. Cuando se llama a `fetchCapturedPokemons()`, se realiza una consulta a Firestore
+     * para obtener los datos de los Pokémon capturados y luego se actualiza la variable `capturedPokemons` (de tipo `LiveData<List<Pokemon>>`).
+     *
+     * Este método `getCapturedPokemons()` simplemente devuelve la referencia a la `LiveData` que contiene la lista de Pokémon capturados,
+     * que ya ha sido cargada desde Firestore. No es necesario hacer otra llamada a la API, ya que los datos ya están disponibles en la
+     * `LiveData` y pueden ser observados para reflejar automáticamente cualquier cambio en la UI.
+     *
+     * Como `LiveData` se ajusta al ciclo de vida de los componentes que lo observan, cualquier cambio en la lista de Pokémon capturados
+     * (por ejemplo, al agregar o eliminar un Pokémon) actualizará automáticamente la interfaz de usuario sin necesidad de intervención manual.
      */
     public LiveData<List<Pokemon>> getCapturedPokemons() {
 
