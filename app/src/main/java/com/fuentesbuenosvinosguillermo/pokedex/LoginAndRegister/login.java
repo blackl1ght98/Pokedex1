@@ -1,6 +1,7 @@
 package com.fuentesbuenosvinosguillermo.pokedex.LoginAndRegister;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
@@ -57,13 +58,54 @@ public class login extends AppCompatActivity {
         // Configurar el lanzador para inicio de sesión
         setupSignInLauncher();
 
+// Configuración del ícono escalado
+        Drawable googleIcon = getResources().getDrawable(R.drawable.googleicon);
+        if (googleIcon != null) {
+            // Escalar el ícono
+            int width = 64;  // Ancho en píxeles
+            int height = 64; // Alto en píxeles
+            googleIcon.setBounds(0, 0, width, height);
+            binding.iniciarGoogle.setCompoundDrawables(googleIcon, null, null, null);
+        }
+
+       // Opcional: Ajusta el padding entre el texto y el ícono
+        binding.iniciarGoogle.setCompoundDrawablePadding(16); // Espaciado de 16dp
+
         binding.iniciarGoogle.setOnClickListener(v -> signInWithGoogle());
-        //Si se hace clic en registro direge a la vista de registro
+
+
+        Drawable iniciarSesion = getResources().getDrawable(R.drawable.login);
+        if (iniciarSesion != null) {
+            // Escalar el ícono
+            int width = 64;  // Ancho en píxeles
+            int height = 64; // Alto en píxeles
+            iniciarSesion.setBounds(0, 0, width, height);
+            binding.iniciarSesion.setCompoundDrawables(iniciarSesion, null, null, null);
+        }
+
+        // Opcional: Ajusta el padding entre el texto y el ícono
+        binding.iniciarSesion.setCompoundDrawablePadding(16); // Espaciado de 16dp
+
+        binding.iniciarSesion.setOnClickListener(v -> signInWithEmailPassword());
+
+        Drawable register = getResources().getDrawable(R.drawable.email);
+        if (register != null) {
+            // Escalar el ícono
+            int width = 64;  // Ancho en píxeles
+            int height = 64; // Alto en píxeles
+            register.setBounds(0, 0, width, height);
+            binding.registrarse.setCompoundDrawables(register, null, null, null);
+        }
+
+       // Opcional: Ajusta el padding entre el texto y el ícono
+        binding.registrarse.setCompoundDrawablePadding(16); // Espaciado de 16dp
         binding.registrarse.setOnClickListener(v -> {
             Intent intent = new Intent(login.this, registro.class);
             startActivity(intent);
         });
-        binding.iniciarSesion.setOnClickListener(v -> signInWithEmailPassword());
+
+
+
     }
 
     // Método que se encarga de la configuracion necesaria para el login

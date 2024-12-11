@@ -18,7 +18,7 @@
     <string name="longin">login</string>
     <string name="introduce_email">put your email</string>
     <string name="introduce_password">put your password</string>
-    <string name="register">register user</string>
+    <string name="register">Register with email and password</string>
     <string name="iniciar_google">login with google</string>
     <string name="Ir_registro">register</string>
     <string name="confirmar_cierre_sesion">confirm session closure</string>

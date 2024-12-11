@@ -4,5 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="ios_blue">#007AFF</color> <!-- Azul típico de iOS -->
     <color name="ios_track">#D1D1D6</color> <!-- Gris claro para el fondo -->
-
+    <color name="amarillo">#ffcc00</color>
+    <color name="rojo">#ff0000</color>
+    <color name="azul">#3b4cca</color>
 </resources>
