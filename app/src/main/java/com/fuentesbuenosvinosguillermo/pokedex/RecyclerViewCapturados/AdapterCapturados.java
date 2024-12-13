@@ -62,12 +62,14 @@ public class AdapterCapturados extends RecyclerView.Adapter<ViewHolderCapturados
             holder.itemView.setOnClickListener(v -> {
                 sharedViewModel.setSelectedPokemon(pokemon);
 
+                // Navegar al fragmento de detalles
                 DetallesPokemonCapturado detallesFragment = new DetallesPokemonCapturado();
                 activity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.main_container, detallesFragment)
+                        .replace(R.id.main_container, detallesFragment, "DetallesFragment") // Etiqueta para identificarlo
                         .addToBackStack(null)
                         .commit();
                 activity.findViewById(R.id.viewPager).setVisibility(View.GONE);
+
             });
         }
     }

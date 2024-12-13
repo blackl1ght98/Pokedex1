@@ -15,6 +15,7 @@ import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -75,19 +76,28 @@ public class MainActivity extends AppCompatActivity {
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(tabAdapter.getTitle(position))
         ).attach();
+        // Vincular TabLayout y ViewPager2
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> tab.setText(tabAdapter.getTitle(position))
+        ).attach();
 
+        // Agregar el listener para detectar cambios de tab
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                // Restaurar al cambiar de tab
+                onTabChanged(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
+        });
 
     }
-    public void redirectToFragment(int position) {
-        if (position >= 0 && position < tabAdapter.getItemCount()) {
-            viewPager.setUserInputEnabled(false); // Deshabilitar entrada temporal
-            viewPager.setCurrentItem(position, true); // Navegar al fragmento
-            viewPager.postDelayed(() -> viewPager.setUserInputEnabled(true), 500); // Rehabilitar entrada
-            viewPager.setVisibility(View.VISIBLE);
-        } else {
-            Log.e("Redirect", "Índice de fragmento fuera de límites: " + position);
-        }
-    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -116,6 +126,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Método que se llama al cambiar de tab
+    private void onTabChanged(int position) {
+        // Verificar si el fragmento de detalles está activo
+        Fragment detallesFragment = getSupportFragmentManager().findFragmentByTag("DetallesFragment");
+        if (detallesFragment != null) {
+            // Eliminar el fragmento de detalles
+            getSupportFragmentManager().beginTransaction()
+                    .remove(detallesFragment)
+                    .commit();
+        }
+
+        // Restaurar la visibilidad del ViewPager
+        findViewById(R.id.viewPager).setVisibility(View.VISIBLE);
+    }
 
 
 
