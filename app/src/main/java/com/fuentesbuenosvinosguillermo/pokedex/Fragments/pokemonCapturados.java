@@ -91,7 +91,7 @@ public class pokemonCapturados extends Fragment {
                 }
 
                 // Reprograma la próxima ejecución
-                handler.postDelayed(this, 10000);
+                handler.postDelayed(this, 3000);
             }
         };
 

@@ -1,5 +1,7 @@
 package com.fuentesbuenosvinosguillermo.pokedex.RecyclerViewPokedex;
 
+import android.graphics.Color;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;

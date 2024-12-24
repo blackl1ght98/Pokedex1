@@ -12,7 +12,6 @@ import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Configuraci
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokeApiService;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonListResponse;
-import com.fuentesbuenosvinosguillermo.pokedex.ExitoOFracaso.CaptureResult;
 import com.fuentesbuenosvinosguillermo.pokedex.PokedexRepository;
 import com.fuentesbuenosvinosguillermo.pokedex.Services.FirestoreService;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -22,12 +21,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 
 
 /**
@@ -52,8 +49,11 @@ public class SharedViewModel extends ViewModel {
     private PokeApiService apiService= ConfiguracionRetrofit.getRetrofitInstance().create(PokeApiService.class);
     //Mapeo local que almacena los datos de los pokemon obtenidos
     private final Map<String, Pokemon> cachedPokemonDetails = new HashMap<>();
-    private FirestoreService firestoreService= new FirestoreService(db);
-    private final MutableLiveData<CaptureResult> captureResultLiveData = new MutableLiveData<>();
+    private FirestoreService firestoreService;
+    public SharedViewModel() {
+        // Inicializar el FirestoreService aquí, ya que no hay constructor explícito
+        firestoreService = new FirestoreService(FirebaseFirestore.getInstance());
+    }
 
     /**
      * Método que obtiene la lista de Pokémon desde la API, con un límite y un offset definidos por el usuario.
@@ -103,66 +103,26 @@ public class SharedViewModel extends ViewModel {
             }
         });
     }
-
-public void capturePokemon(Pokemon pokemon) {
-    // Verificar si el Pokémon ya está capturado localmente
-    if (CapturedPokemonManager.isCaptured(pokemon)) {
-        captureResultLiveData.postValue(new CaptureResult(false, pokemon));
-        return;
-    }
-
-    // Verificar si el Pokémon ya está en Firestore
-    firestoreService.checkPokemonExists(pokemon.getName(), new SharedViewModelInterface.FirestoreCallback() {
-        @Override
-        public void onSuccess(boolean exists) {
-            if (exists) {
-                captureResultLiveData.postValue(new CaptureResult(false, pokemon));
-            } else {
-                capturePokemonInFirestore(pokemon);
-            }
+    public void updateCapturedPokemons(List<Pokemon> pokemons) {
+        if (pokemons != null) {
+            capturedPokemons.setValue(pokemons);
         }
-
-        @Override
-        public void onFailure(Exception e) {
-            captureResultLiveData.postValue(new CaptureResult(false, null));
-        }
-    });
-}
-
-    private void capturePokemonInFirestore(Pokemon pokemon) {
-        CapturedPokemonManager.addCapturedPokemon(pokemon);
-
-        firestoreService.savePokemon(pokemon, new SharedViewModelInterface.SaveCallback() {
-            @Override
-            public void onSuccess(String firestoreId) {
-                pokemon.setFirestoreId(firestoreId);
-                captureResultLiveData.postValue(new CaptureResult(true, pokemon));
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                captureResultLiveData.postValue(new CaptureResult(false, null));
-            }
-        });
-    }
-    public LiveData<CaptureResult> getCaptureResultLiveData() {
-        return captureResultLiveData;
     }
 
-    // Método para obtener los Pokémon capturados
+
+
+    public void capturePokemon(Pokemon pokemon, Context context) {
+        // Llamamos al servicio FirestoreService desde el ViewModel
+        firestoreService.capturePokemon(pokemon,context,this);
+
+    }
+
     public void fetchCapturedPokemons() {
-        firestoreService.fetchCapturedPokemons(new SharedViewModelInterface.OnPokemonsFetchedListener() { // Asegúrate de usar la interfaz correctamente
-            @Override
-            public void onPokemonsFetched(List<Pokemon> pokemons) {
-                capturedPokemons.setValue(pokemons); // Actualizar el LiveData con los pokemons
-            }
+        // Llamamos al servicio FirestoreService desde el ViewModel
+        firestoreService.fetchCapturedPokemons(this);
 
-            @Override
-            public void onPokemonsFetchFailed(Exception e) {
-                capturedPokemons.setValue(new ArrayList<>()); // En caso de error, establecer lista vacía
-            }
-        });
     }
+
 
     /**
      * Este método devuelve la lista de Pokémon capturados que está almacenada en `capturedPokemons`.
@@ -205,27 +165,32 @@ public void capturePokemon(Pokemon pokemon) {
         }
         return null;
     }
+    /**
+     * Elimina un Pokémon capturado de la colección "captured_pokemons" en Firestore.
+     * Utiliza un callback (OnDeleteCallback) para notificar al llamador cuando la operación
+     * asincrónica se completa, ya sea con éxito o fallo.
+     *
+     * @param pokemon El Pokémon que se desea eliminar.
+     * @param callback Interfaz que define la acción a realizar al finalizar la operación:
+     *                 - callback.onDelete(true): Eliminación exitosa.
+     *                 - callback.onDelete(false): Fallo en la eliminación.
+     *
+     * El callback permite que el llamador maneje la lógica posterior (como mostrar mensajes
+     * o actualizar la interfaz) sin acoplar esa lógica dentro de este método.
+     * Ademas este metodo de eliminar un pokemon lo elimina en base al nombre y la id de firestore
+     */
 
-    // Método para eliminar un Pokémon
     public void deletePokemonFromFirestore(Pokemon pokemon, SharedViewModelInterface.OnDeleteCallback callback) {
-        firestoreService.deletePokemonFromFirestore(pokemon, new SharedViewModelInterface.OnDeleteCallback() {
-            @Override
-            public void onDelete(boolean success) {
-                if (success) {
-                    // Si la eliminación es exitosa, puedes actualizar la lista de Pokémon capturados
-                    // Por ejemplo, eliminando el Pokémon de la lista local
-                    removeCapturedPokemon(pokemon); // Actualiza tu lista local
-                }
-                callback.onDelete(success); // Notifica al callback del resultado
-            }
-        });
+        // Llamamos al servicio FirestoreService desde el ViewModel
+        firestoreService.deletePokemonFromFirestore(pokemon, callback,this);
+        removeCapturedPokemon(pokemon);
     }
 
     /**
      * Metodo que es usado cuando un pokemon se elimina de firestore para que este se elimine localmente tambien
      * esto evita que los datos sean inconsistentes se usa en el metodo llamado deletePokemonFromFirestore()
      * */
-    private void removeCapturedPokemon(Pokemon pokemon) {
+    public void removeCapturedPokemon(Pokemon pokemon) {
         //Lista que almacena los valores de la lista capturedPokemons
         List<Pokemon> currentList = capturedPokemons.getValue();
         if (currentList != null) {

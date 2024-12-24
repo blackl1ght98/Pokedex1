@@ -2,6 +2,8 @@ package com.fuentesbuenosvinosguillermo.pokedex.Fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 
@@ -40,6 +42,8 @@ import java.util.stream.Collectors;
 public class DetallesPokemonCapturado extends Fragment {
     private FragmentDetalleBinding binding;
     private int currentIndex =0;
+    private Runnable updateRunnable;
+    private SharedViewModel sharedViewModel;
     public DetallesPokemonCapturado() {
         // Constructor vacío requerido para los fragmentos
     }
@@ -55,7 +59,7 @@ public class DetallesPokemonCapturado extends Fragment {
 @Override
 public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     binding = FragmentDetalleBinding.inflate(inflater, container, false);
-    SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+     sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
     //Observador que observa el pokemon que se ha seleccionado
     sharedViewModel.getSelectedPokemon().observe(getViewLifecycleOwner(), pokemon -> {
         if (pokemon != null) {
@@ -194,7 +198,69 @@ public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, 
             }
         });
     }
-        /**
+//    private void eliminarPokemon(SharedViewModel sharedViewModel) {
+//        // Se comprueba si el switch esta habilitado o no para eliminar un pokemon
+//        SharedPreferences prefs = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
+//        boolean eliminacionHabilitada = prefs.getBoolean("eliminacion_enabled", false);
+//
+//        // Si la eliminacion no esta habilitada se muestra el siguiente AlertDialog
+//        if (!eliminacionHabilitada) {
+//            new AlertDialog.Builder(requireContext())
+//                    .setTitle("Eliminación deshabilitada")
+//                    .setMessage("La eliminación no está habilitada. Por favor habilítala.")
+//                    .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
+//                    .show();
+//            return;
+//        }
+//
+//        // Se obtiene el nombre del pokemon que el usuario ha seleccionado
+//        String pokemonSeleccionadoNombre = binding.nombreDetallePokemon.getText().toString();
+//
+//        // Se busca ese pokemon por el nombre, usando la clase compartida
+//        Pokemon pokemonAEliminar = sharedViewModel.findPokemonByName(pokemonSeleccionadoNombre);
+//
+//        // Si el pokemon no se encuentra muestra este AlertDialog
+//        if (pokemonAEliminar == null) {
+//            new AlertDialog.Builder(requireContext())
+//                    .setTitle("Pokemon no encontrado")
+//                    .setMessage("El pokemon seleccionado no se ha encontrado")
+//                    .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
+//                    .show();
+//            return;
+//        }
+//
+//        // Llamamos al método para eliminar el pokemon de Firestore
+//        sharedViewModel.deletePokemonFromFirestore(pokemonAEliminar);
+//
+//        // Observamos el LiveData deleteSuccess
+//        sharedViewModel.getDeleteSuccess().observe(getViewLifecycleOwner(), success -> {
+//           // Verifica si el fragmento sigue adjunto a la actividad
+//                if (success) {
+//                    // Si la eliminación ha sido exitosa
+//                    new AlertDialog.Builder(requireContext())
+//                            .setTitle("Eliminación exitosa")
+//                            .setMessage(pokemonAEliminar.getName() + " eliminado con éxito")
+//                            .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
+//                            .show();
+//
+//                    // Verifica si hay más Pokémon
+//                    if (sharedViewModel.hasPokemons()) {
+//                        // Si hay más Pokémon, muestra el siguiente
+//                        sharedViewModel.getNextPokemon(currentIndex, pokemons -> mostrarPokemon(pokemons));
+//                    } else {
+//                        // Si no quedan Pokémon capturados, vuelve hacia atrás
+//                        Toast.makeText(requireContext(), "No quedan Pokémon capturados", Toast.LENGTH_SHORT).show();
+//                        requireActivity().onBackPressed();
+//                    }
+//                } else {
+//                    // Si se produce un error en la eliminación, muestra este mensaje
+//                    Toast.makeText(requireContext(), "Error al eliminar Pokémon", Toast.LENGTH_SHORT).show();
+//                }
+//
+//        });
+//    }
+
+    /**
      * Metodo que muestra los detalles del pokemon en caso de haberlos
      * recibe un parametro que es
          * @param pokemon  a partir de este objeto se obtiene los detalles de cada pokemon
@@ -210,6 +276,14 @@ public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, 
         Glide.with(requireContext())
                 .load(pokemon.getSprites().getFrontDefault())
                 .into(binding.imagepokemon);
+    }
+    private boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+            return activeNetwork != null && activeNetwork.isConnected();
+        }
+        return false;
     }
 
 }
