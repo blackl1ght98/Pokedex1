@@ -7,13 +7,11 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,18 +19,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
-import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.CapturedPokemonManager;
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
-import com.fuentesbuenosvinosguillermo.pokedex.MainActivity;
 
-import com.fuentesbuenosvinosguillermo.pokedex.R;
+import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModelInterface;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.FragmentDetalleBinding;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -44,6 +36,7 @@ public class DetallesPokemonCapturado extends Fragment {
     private int currentIndex =0;
     private Runnable updateRunnable;
     private SharedViewModel sharedViewModel;
+
     public DetallesPokemonCapturado() {
         // Constructor vacío requerido para los fragmentos
     }
@@ -104,35 +97,44 @@ public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, 
  * Metodo que muestra el siguiente pokemon al hacer clic en el boton siguien recibe como parametro
  * el sharedviewmodel que es la clase encargada de compartir los datos
  * */
-    private void mostrarSiguientePokemon(SharedViewModel sharedViewModel) {
-        sharedViewModel.getCapturedPokemons().observe(getViewLifecycleOwner(), pokemons -> {
-            if (pokemons != null && !pokemons.isEmpty()) {
-                // Avanza al siguiente Pokémon
-                currentIndex++;
-                if (currentIndex >= pokemons.size()) {
-                    // Vuelve al primer Pokémon si está al final de la lista
-                    currentIndex = 0;
+private void mostrarSiguientePokemon(SharedViewModel sharedViewModel) {
+
+
+            // Llamar al método del ViewModel para obtener el siguiente Pokémon
+            sharedViewModel.getNextPokemon(currentIndex, new SharedViewModelInterface.OnNextPokemonCallback() {
+                @Override
+                public void onNextPokemon(Pokemon nextPokemon, int newIndex) {
+                    // Actualiza la UI con el siguiente Pokémon
+                    mostrarPokemon(nextPokemon);
+
+                    // Actualiza el índice actual
+                    currentIndex = newIndex;  // Actualiza el índice con el nuevo valor calculado
                 }
-                mostrarPokemon(pokemons.get(currentIndex));
-            }
-        });
-    }
-/**
- * Parecido al metodo anterior pero muestra el pokemon anterior
- * */
+            });
+
+
+}
+
+
     private void mostrarPokemonAnterior(SharedViewModel sharedViewModel) {
-        sharedViewModel.getCapturedPokemons().observe(getViewLifecycleOwner(), pokemons -> {
-            if (pokemons != null && !pokemons.isEmpty()) {
-                // Retrocede al Pokémon anterior
-                currentIndex--;
-                if (currentIndex < 0) {
-                    // Vuelve al último Pokémon si está al principio de la lista
-                    currentIndex = pokemons.size() - 1;
-                }
-                mostrarPokemon(pokemons.get(currentIndex));
-            }
-        });
+
+
+                // Llamar al método del ViewModel para obtener el Pokémon anterior
+                sharedViewModel.getPreviousPokemon(currentIndex, new SharedViewModelInterface.OnNextPokemonCallback() {
+                    @Override
+                    public void onNextPokemon(Pokemon previousPokemon, int newIndex) {
+                        // Actualiza la UI con el Pokémon anterior
+                        mostrarPokemon(previousPokemon);
+
+                        // Actualiza el índice actual
+                        currentIndex = newIndex;  // Actualiza el índice con el nuevo valor calculado
+                    }
+                });
+
+
     }
+
+
     /**
      * Metodo encargado de eliminar un pokemon recibe un unico parametro que es
      * @param sharedViewModel esta clase compartida entre otros fragmentos y es la encargada de manejar
@@ -186,7 +188,7 @@ public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, 
                     * Si hay mas pokemon se desplaza al siguiente pokemon en base a su posicion(currentIndex) y muestra los detalles
                     * de ese pokemon en cuestion
                     * */
-                    sharedViewModel.getNextPokemon(currentIndex, pokemons -> mostrarPokemon(pokemons));
+                    sharedViewModel.getNextPokemon(currentIndex, (pokemons, nextIndex) -> mostrarPokemon(pokemons));
                 } else {
                     //Si ya no quedan pokemon capturados vuelve hacia atras
                     Toast.makeText(requireContext(), "No quedan Pokémon capturados", Toast.LENGTH_SHORT).show();
@@ -198,67 +200,7 @@ public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, 
             }
         });
     }
-//    private void eliminarPokemon(SharedViewModel sharedViewModel) {
-//        // Se comprueba si el switch esta habilitado o no para eliminar un pokemon
-//        SharedPreferences prefs = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
-//        boolean eliminacionHabilitada = prefs.getBoolean("eliminacion_enabled", false);
-//
-//        // Si la eliminacion no esta habilitada se muestra el siguiente AlertDialog
-//        if (!eliminacionHabilitada) {
-//            new AlertDialog.Builder(requireContext())
-//                    .setTitle("Eliminación deshabilitada")
-//                    .setMessage("La eliminación no está habilitada. Por favor habilítala.")
-//                    .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
-//                    .show();
-//            return;
-//        }
-//
-//        // Se obtiene el nombre del pokemon que el usuario ha seleccionado
-//        String pokemonSeleccionadoNombre = binding.nombreDetallePokemon.getText().toString();
-//
-//        // Se busca ese pokemon por el nombre, usando la clase compartida
-//        Pokemon pokemonAEliminar = sharedViewModel.findPokemonByName(pokemonSeleccionadoNombre);
-//
-//        // Si el pokemon no se encuentra muestra este AlertDialog
-//        if (pokemonAEliminar == null) {
-//            new AlertDialog.Builder(requireContext())
-//                    .setTitle("Pokemon no encontrado")
-//                    .setMessage("El pokemon seleccionado no se ha encontrado")
-//                    .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
-//                    .show();
-//            return;
-//        }
-//
-//        // Llamamos al método para eliminar el pokemon de Firestore
-//        sharedViewModel.deletePokemonFromFirestore(pokemonAEliminar);
-//
-//        // Observamos el LiveData deleteSuccess
-//        sharedViewModel.getDeleteSuccess().observe(getViewLifecycleOwner(), success -> {
-//           // Verifica si el fragmento sigue adjunto a la actividad
-//                if (success) {
-//                    // Si la eliminación ha sido exitosa
-//                    new AlertDialog.Builder(requireContext())
-//                            .setTitle("Eliminación exitosa")
-//                            .setMessage(pokemonAEliminar.getName() + " eliminado con éxito")
-//                            .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
-//                            .show();
-//
-//                    // Verifica si hay más Pokémon
-//                    if (sharedViewModel.hasPokemons()) {
-//                        // Si hay más Pokémon, muestra el siguiente
-//                        sharedViewModel.getNextPokemon(currentIndex, pokemons -> mostrarPokemon(pokemons));
-//                    } else {
-//                        // Si no quedan Pokémon capturados, vuelve hacia atrás
-//                        Toast.makeText(requireContext(), "No quedan Pokémon capturados", Toast.LENGTH_SHORT).show();
-//                        requireActivity().onBackPressed();
-//                    }
-//                } else {
-//                    // Si se produce un error en la eliminación, muestra este mensaje
-//                    Toast.makeText(requireContext(), "Error al eliminar Pokémon", Toast.LENGTH_SHORT).show();
-//                }
-//
-//        });
-//    }
+
 
     /**
      * Metodo que muestra los detalles del pokemon en caso de haberlos

@@ -51,7 +51,7 @@ public class SharedViewModel extends ViewModel {
     private final Map<String, Pokemon> cachedPokemonDetails = new HashMap<>();
     private FirestoreService firestoreService;
     public SharedViewModel() {
-        // Inicializar el FirestoreService aquí, ya que no hay constructor explícito
+        
         firestoreService = new FirestoreService(FirebaseFirestore.getInstance());
     }
 
@@ -214,18 +214,28 @@ public class SharedViewModel extends ViewModel {
      *
      * */
     public void getNextPokemon(int currentIndex, SharedViewModelInterface.OnNextPokemonCallback callback) {
-        // Obtiene la lista actual de pokémon capturados.
         List<Pokemon> currentList = capturedPokemons.getValue();
 
-        // Verifica que la lista no esté vacía o nula.
         if (currentList != null && !currentList.isEmpty()) {
-            // Calcula el índice del próximo Pokémon a retornar.
-            int nextIndex = Math.min(currentIndex, currentList.size() - 1);
+            // Calcula el índice del siguiente Pokémon a retornar (índice circular).
+            int nextIndex = (currentIndex + 1) % currentList.size();
 
-            // Llama al callback pasando el Pokémon encontrado.
-            callback.onNextPokemon(currentList.get(nextIndex));
+            // Llama al callback pasando el siguiente Pokémon.
+            callback.onNextPokemon(currentList.get(nextIndex), nextIndex);
         }
     }
+    public void getPreviousPokemon(int currentIndex, SharedViewModelInterface.OnNextPokemonCallback callback) {
+        List<Pokemon> currentList = capturedPokemons.getValue();
+
+        if (currentList != null && !currentList.isEmpty()) {
+            // Calcula el índice del Pokémon anterior (índice circular).
+            int previousIndex = (currentIndex - 1 + currentList.size()) % currentList.size();
+
+            // Llama al callback pasando el Pokémon anterior.
+            callback.onNextPokemon(currentList.get(previousIndex), previousIndex);
+        }
+    }
+
 
     /**
      * Metodo que obtiene la información del pokemon que se ha seleccionado para marcarlo como capturado o mostrar sus detalles
