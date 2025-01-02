@@ -38,11 +38,13 @@ import retrofit2.Response;
 public class SharedViewModel extends ViewModel {
     /**MutableLiveData: Es un tipo de dato reactivo en Android que permite observar cambios en su valor y notificar automáticamente a sus observadores.
      estos observadores es cuando llamamos a un metodo de esta clase y ponemos un .observe()
-     Aqui los datos de tipo MutableLiveData solo pueden ser modificados por la propia clase
+     Aqui los datos de tipo MutableLiveData solo pueden ser modificados por la propia clase.
+     Aqui lo usamos para modificar la lista de pokemon capturados
      * */
     private final MutableLiveData<List<Pokemon>> capturedPokemons = new MutableLiveData<>(new ArrayList<>());
-    //Variable que inicializa firestore
-    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+   /**
+    * Dependiendo del pokemon que se seleccione muestra la informacion de ese pokemon
+    * */
     private final MutableLiveData<Pokemon> selectedPokemon = new MutableLiveData<>();
     //Inicializacion de la configuracion para solicitar datos al api
     private PokedexRepository repository= new PokedexRepository();
@@ -78,7 +80,7 @@ public class SharedViewModel extends ViewModel {
         return repository.fetchPokemonList(offset, limit);
     }
     /**
-     * Metodo que devuelve caracteristicas de un pokemon
+     * Metodo que realiza la peticion a la api y trae toda la informacion del pokemon en cuestion
      *
      * */
     public void fetchPokemons(String pokemonName) {
@@ -103,20 +105,27 @@ public class SharedViewModel extends ViewModel {
             }
         });
     }
+    /**
+     * Metodo que actualiza la lista de pokemons capturados al agregar uno
+     * */
     public void updateCapturedPokemons(List<Pokemon> pokemons) {
         if (pokemons != null) {
             capturedPokemons.setValue(pokemons);
         }
     }
 
-
+/**
+ * Metodo que agrega el pokemon capturado a firestore
+ * */
 
     public void capturePokemon(Pokemon pokemon, Context context) {
         // Llamamos al servicio FirestoreService desde el ViewModel
         firestoreService.capturePokemon(pokemon,context,this);
 
     }
-
+/**
+ * Metodo que obtiene los pokemons que existan en firestore
+ * */
     public void fetchCapturedPokemons() {
         // Llamamos al servicio FirestoreService desde el ViewModel
         firestoreService.fetchCapturedPokemons(this);
