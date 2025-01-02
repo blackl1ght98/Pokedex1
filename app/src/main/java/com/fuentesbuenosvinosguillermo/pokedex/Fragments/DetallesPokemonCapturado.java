@@ -22,6 +22,7 @@ import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModelInterface;
+import com.fuentesbuenosvinosguillermo.pokedex.R;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.FragmentDetalleBinding;
 
 
@@ -89,7 +90,7 @@ public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, 
     binding.botonSiguiente.setOnClickListener(v -> mostrarSiguientePokemon(sharedViewModel));
     binding.botonAnterior.setOnClickListener(v -> mostrarPokemonAnterior(sharedViewModel));
     //Configuracion del boton de eliminacion
-    binding.eliminarPokemon.setOnClickListener(v -> eliminarPokemon(sharedViewModel));
+    binding.eliminarPokemon.setOnClickListener(v -> eliminarPokemon(sharedViewModel, getContext()));
 
     return binding.getRoot();
 }
@@ -138,16 +139,16 @@ private void mostrarSiguientePokemon(SharedViewModel sharedViewModel) {
      * @param sharedViewModel esta clase compartida entre otros fragmentos y es la encargada de manejar
      *                        los datos que se comparten en tiempo real
      * */
-    private void eliminarPokemon(SharedViewModel sharedViewModel) {
+    private void eliminarPokemon(SharedViewModel sharedViewModel, Context context) {
          //Se comprueba si el switch esta habilitado o no para eliminar un pokemon
         SharedPreferences prefs = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
         boolean eliminacionHabilitada = prefs.getBoolean("eliminacion_enabled", false);
         //Si la eliminacion no esta habilitada se muestra el siguiente AlertDialog
         if (!eliminacionHabilitada) {
             new AlertDialog.Builder(requireContext())
-                    .setTitle("Eliminacion deshabilitada")
-                    .setMessage("La eliminacion no esta habilitada por favor habilitala")
-                    .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
+                    .setTitle(context.getString(R.string.titulo_eliminacion_deshabilitada))
+                    .setMessage(context.getString(R.string.mensaje_eliminacion_deshabilitada))
+                    .setPositiveButton(context.getString(R.string.aceptar), (dialog, which) -> dialog.dismiss())
                     .show();
             return;
         }
@@ -158,9 +159,9 @@ private void mostrarSiguientePokemon(SharedViewModel sharedViewModel) {
         //Si el pokemon no se encuentra muestra este AlertDialog
         if (pokemonAEliminar == null) {
             new AlertDialog.Builder(requireContext())
-                    .setTitle("Pokemon no encontrado")
-                    .setMessage("El pokemon seleccionado no se ha encontrado")
-                    .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
+                    .setTitle(context.getString(R.string.titulo_eliminacion_no_encontrado))
+                    .setMessage(context.getString(R.string.mensaje_eliminacion_no_encontrado))
+                    .setPositiveButton(context.getString(R.string.aceptar), (dialog, which) -> dialog.dismiss())
                     .show();
             return;
         }
@@ -175,9 +176,10 @@ private void mostrarSiguientePokemon(SharedViewModel sharedViewModel) {
             if (success) {
                 //Muestra este AlertDialog de que el pokemon se elimino de forma exitosa
                 new AlertDialog.Builder(requireContext())
-                        .setTitle("Eliminacion exitosa")
-                        .setMessage(pokemonAEliminar.getName() +" eliminado con exito")
-                        .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
+                        .setTitle(context.getString(R.string.titulo_eliminacion_exitosa))
+                        .setMessage(pokemonAEliminar.getName() + " " + context.getString(R.string.mensaje_eliminacion_exitosa))
+
+                        .setPositiveButton(context.getString(R.string.aceptar), (dialog, which) -> dialog.dismiss())
                         .show();
 
                 //Verifica si hay mas pokemon

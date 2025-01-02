@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
-        android:text="@string/habilitar_eliminacion_capturados"
+        android:text="@string/habilitar_eliminacion"
         android:textColor="@color/azul"
         style="@style/PokemonTextStyle"
     android:textSize="16sp"
@@ -27,10 +27,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="72dp"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
         android:thumbTint="@color/ios_blue"
-    android:trackTint="@color/ios_track"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+        android:trackTint="@color/ios_track"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <Switch
@@ -38,9 +40,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
         android:thumbTint="@color/ios_blue"
         android:trackTint="@color/ios_track"
-        android:layout_marginTop="28dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/habilitar_eliminacion" />
 

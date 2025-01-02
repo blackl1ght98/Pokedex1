@@ -10,7 +10,7 @@
 
     <string name="pagina_inicio">Start Page</string>
     <string name="lista_pokemons">List pokemons</string>
-    <string name="habilitar_eliminacion_capturados">Enable delete</string>
+
     <string name="idioma">Change languaje</string>
     <string name="cerrar_sesion">logout</string>
     <string name="pokedex">Pokedex</string>
@@ -31,4 +31,14 @@
     <string name="captura">Successful capture!</string>
     <string name="capturado"> has been captured</string>
     <string name="pokemon_capturado">Captured Pokemon</string>
+    <string name="siguiente">Next</string>
+    <string name="anterior">Previous</string>
+    <string name="titulo_eliminacion_deshabilitada">Deletion disabled</string>
+    <string name="habilitar_eliminacion">Enable eliminacion</string>
+    <string name="mensaje_eliminacion_deshabilitada">Deletion is not enabled, please enable it</string>
+    <string name="aceptar">Accept</string>
+    <string name="titulo_eliminacion_no_encontrado">Pokemon not found</string>
+    <string name="mensaje_eliminacion_no_encontrado">The selected pokemon has not been found</string>
+    <string name="titulo_eliminacion_exitosa">Successful elimination</string>
+    <string name="mensaje_eliminacion_exitosa">successfully eliminated</string>
 </resources>

@@ -165,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/PokemonTextStyle"
-                    android:text="Anterior" />
+                    android:text="@string/anterior" />
 
                 <!-- Botón Siguiente alineado a la derecha -->
                 <Button
@@ -176,7 +176,7 @@
                     style="@style/PokemonTextStyle"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Siguiente" />
+                    android:text="@string/siguiente" />
             </LinearLayout>
 
         </LinearLayout>

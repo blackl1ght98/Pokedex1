@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
-
+        android:hint="@string/introduce_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/email" />
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:minHeight="48dp"
-
+        android:hint="@string/introduce_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/password" />

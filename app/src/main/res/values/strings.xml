@@ -8,7 +8,7 @@
     <string name="Acercade">Acerca de...</string>
     <string name="pagina_inicio">Pagina Inicio</string>
     <string name="lista_pokemons">Lista Pokemons</string>
-    <string name="habilitar_eliminacion_capturados">Habilitar eliminación pokemons capturados</string>
+
     <string name="idioma">Cambiar español/ingles</string>
     <string name="cerrar_sesion">Cerrar sesion</string>
     <string name="pokedex">Pokedex</string>
@@ -29,4 +29,14 @@
     <string name="captura">¡Captura exitosa!</string>
     <string name="capturado"> ha sido capturado</string>
     <string name="pokemon_capturado"> Pokemon Capturado</string>
+    <string name="siguiente">Siguiente</string>
+    <string name="anterior">Anterior</string>
+    <string name="titulo_eliminacion_deshabilitada">Eliminacion deshabilitada</string>
+    <string name="habilitar_eliminacion">Habilitar eliminacion</string>
+    <string name="mensaje_eliminacion_deshabilitada">La eliminacion no esta habilitada por favor habilitala</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="titulo_eliminacion_no_encontrado">Pokemon no encontrado</string>
+    <string name="mensaje_eliminacion_no_encontrado">El pokemon seleccionado no se ha encontrado</string>
+    <string name="titulo_eliminacion_exitosa">Eliminacion exitosa</string>
+    <string name="mensaje_eliminacion_exitosa">eliminado con exito</string>
 </resources>

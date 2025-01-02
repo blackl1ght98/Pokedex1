@@ -16,13 +16,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:autofillHints=""
+        android:hint="@string/introduce_email"
         android:inputType="textEmailAddress"
-
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/email" />
+        app:layout_constraintTop_toBottomOf="@id/email"
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <Button
         android:id="@+id/registrarse"
@@ -53,6 +55,7 @@
 
     <Button
         android:id="@+id/iniciar_sesion"
+        style="@style/PokemonTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -60,11 +63,11 @@
         android:drawablePadding="8dp"
         android:text="@string/longin"
         android:textColor="@color/azul"
-        style="@style/PokemonTextStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/introduce_pass" />
+        app:layout_constraintTop_toBottomOf="@id/introduce_pass"
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <Button
         android:id="@+id/iniciar_google"
@@ -74,11 +77,13 @@
         android:drawableStart="@drawable/googleicon"
         android:text="@string/iniciar_google"
         app:layout_constraintEnd_toEndOf="parent"
-        style="@style/PokemonTextStyle"
-        android:textColor="@color/azul"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iniciar_sesion" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/iniciar_sesion"
+        android:maxWidth="300dp"
+    style="@style/PokemonTextStyle"
+    android:textColor="@color/azul" />
+
 
     <TextView
         android:id="@+id/login"
@@ -100,13 +105,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:hint="@string/introduce_password"
         android:inputType="textPassword"
-
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/password" />
+        app:layout_constraintTop_toBottomOf="@id/password"
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <TextView
         android:id="@+id/password"
