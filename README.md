@@ -37,6 +37,13 @@ Ejecutar la aplicación:
 Conecta un dispositivo Android o inicia un emulador.
 
 Haz clic en el botón de ejecutar en Android Studio.
+### Hacer los pasos Anteriores pero desde Android Studio
+- Abrir Android Studio
+- Hacer clic en el menu hamburguesa
+- Hacer clic en **File** despues le damos a **New** y se mostrara otro desplegable y en este le damos a **Project from version control...**
+- En la ventana que se abre copiamos la url del repositorio y le damos a **Clone**
+## Posibles errores
+Si al abrir el proyecto la version no la coge bien del gradle le damos al mensaje que nos muestra en Android Studio se abrira una ventana y en esta ventana habilitamos los checkbox y le damos a aceptar y el problema se solucionara
 ## Conclusiones del desarrollador
 
 El desarrollo de esta aplicación ha sido una experiencia enriquecedora, llena de desafíos y aprendizajes. Uno de los mayores retos fue implementar la integración con Firebase y gestionar la navegación entre diferentes pantallas. Sin embargo, esto también 
