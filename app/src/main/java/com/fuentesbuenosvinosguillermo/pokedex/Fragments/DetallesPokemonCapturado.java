@@ -118,9 +118,8 @@ private void mostrarSiguientePokemon(SharedViewModel sharedViewModel) {
 
     private void mostrarPokemonAnterior(SharedViewModel sharedViewModel) {
 
-
-                // Llamar al método del ViewModel para obtener el Pokémon anterior
-                sharedViewModel.getPreviousPokemon(currentIndex, new SharedViewModelInterface.OnNextPokemonCallback() {
+    // Llamar al método del ViewModel para obtener el Pokémon anterior
+        sharedViewModel.getPreviousPokemon(currentIndex, new SharedViewModelInterface.OnNextPokemonCallback() {
                     @Override
                     public void onNextPokemon(Pokemon previousPokemon, int newIndex) {
                         // Actualiza la UI con el Pokémon anterior
@@ -130,7 +129,6 @@ private void mostrarSiguientePokemon(SharedViewModel sharedViewModel) {
                         currentIndex = newIndex;  // Actualiza el índice con el nuevo valor calculado
                     }
                 });
-
 
     }
 

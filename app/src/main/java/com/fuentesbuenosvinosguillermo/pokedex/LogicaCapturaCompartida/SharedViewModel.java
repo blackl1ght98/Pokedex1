@@ -14,7 +14,7 @@ import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonListResponse;
 import com.fuentesbuenosvinosguillermo.pokedex.PokedexRepository;
 import com.fuentesbuenosvinosguillermo.pokedex.Services.FirestoreService;
-import com.google.firebase.firestore.DocumentSnapshot;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
