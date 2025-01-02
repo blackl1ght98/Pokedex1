@@ -34,8 +34,8 @@
             <TextView
                 android:id="@+id/titulo_nombre"
                 android:layout_width="wrap_content"
-                android:textColor="#8E8E93"
-                android:fontFamily="sans-serif-light"
+                android:textColor="@color/azul"
+                style="@style/PokemonTextStyle"
                 android:layout_height="wrap_content"
                 android:text="@string/nombre_pokemon"
                 android:textSize="20sp"
@@ -46,8 +46,8 @@
                 android:id="@+id/nombre_detalle_pokemon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#8E8E93"
-                android:fontFamily="sans-serif-light"
+                android:textColor="@color/rojo"
+                style="@style/PokemonTextStyleHollow"
                 android:text="@string/nombre_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="8dp" />
@@ -57,8 +57,8 @@
                 android:id="@+id/titulo_pokedex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#8E8E93"
-                android:fontFamily="sans-serif-light"
+                android:textColor="@color/azul"
+                style="@style/PokemonTextStyle"
                 android:text="@string/indice_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="16dp" />
@@ -67,8 +67,8 @@
             <TextView
                 android:id="@+id/orden_detalle_Pokedex"
                 android:layout_width="wrap_content"
-                android:textColor="#8E8E93"
-                android:fontFamily="sans-serif-light"
+                android:textColor="@color/rojo"
+                style="@style/PokemonTextStyleHollow"
                 android:layout_height="wrap_content"
                 android:text="@string/indice_pokemon"
                 android:textSize="20sp"
@@ -78,8 +78,8 @@
             <TextView
                 android:id="@+id/titulo_peso"
                 android:layout_width="wrap_content"
-                android:textColor="#8E8E93"
-                android:fontFamily="sans-serif-light"
+                android:textColor="@color/azul"
+                style="@style/PokemonTextStyle"
                 android:layout_height="wrap_content"
                 android:text="@string/peso_pokemon"
                 android:textSize="20sp"
@@ -89,8 +89,8 @@
             <TextView
                 android:id="@+id/peso_pokemon"
                 android:layout_width="wrap_content"
-                android:textColor="#8E8E93"
-                android:fontFamily="sans-serif-light"
+                android:textColor="@color/rojo"
+                style="@style/PokemonTextStyleHollow"
                 android:layout_height="wrap_content"
                 android:text="@string/peso_pokemon"
                 android:textSize="20sp"
@@ -101,8 +101,8 @@
                 android:id="@+id/titulo_altura"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#8E8E93"
-                android:fontFamily="sans-serif-light"
+                android:textColor="@color/azul"
+                style="@style/PokemonTextStyle"
                 android:text="@string/altura_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="16dp" />
@@ -112,8 +112,8 @@
                 android:id="@+id/altura_detalle_pokemon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#8E8E93"
-                android:fontFamily="sans-serif-light"
+                android:textColor="@color/rojo"
+                style="@style/PokemonTextStyleHollow"
                 android:text="@string/altura_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="8dp" />
@@ -122,8 +122,8 @@
                 android:id="@+id/titulo_tipo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#8E8E93"
-                android:fontFamily="sans-serif-light"
+                android:textColor="@color/azul"
+                style="@style/PokemonTextStyle"
                 android:text="@string/tipo_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="16dp" />
@@ -133,8 +133,8 @@
                 android:id="@+id/tipo_pokemon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#8E8E93"
-                android:fontFamily="sans-serif-light"
+                android:textColor="@color/rojo"
+                style="@style/PokemonTextStyleHollow"
                 android:text="@string/tipo_pokemon"
                 android:textSize="20sp"
                 android:layout_marginTop="8dp" />
@@ -143,7 +143,7 @@
                 android:layout_width="match_parent"
                 android:background="@drawable/ios_button_background"
                 android:padding="12dp"
-                android:fontFamily="sans-serif-light"
+                style="@style/PokemonTextStyle"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="@string/eliminar_pokemon" />
@@ -161,10 +161,10 @@
                     android:layout_width="0dp"
                     android:background="@drawable/ios_button_background"
                     android:padding="12dp"
-                    android:fontFamily="sans-serif-light"
+
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-
+                    style="@style/PokemonTextStyle"
                     android:text="Anterior" />
 
                 <!-- Botón Siguiente alineado a la derecha -->
@@ -173,7 +173,7 @@
                     android:layout_width="0dp"
                     android:background="@drawable/ios_button_background"
                     android:padding="12dp"
-                    android:fontFamily="sans-serif-light"
+                    style="@style/PokemonTextStyle"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Siguiente" />

@@ -211,6 +211,7 @@ private void mostrarSiguientePokemon(SharedViewModel sharedViewModel) {
         binding.nombreDetallePokemon.setText(pokemon.getName());
         binding.pesoPokemon.setText(String.valueOf(pokemon.getWeight()));
         binding.alturaDetallePokemon.setText(String.valueOf(pokemon.getHeight()));
+        binding.ordenDetallePokedex.setText(String.valueOf(pokemon.orderPokedex()));
         binding.tipoPokemon.setText(pokemon.getTypes().stream()
                 .map(typeSlot -> typeSlot.getType().getName())
                 .collect(Collectors.joining(", ")));

@@ -12,7 +12,9 @@ public class Pokemon {
      * lo demas es todo caracteristicas de los pokemon, al ser caracteristicas esta clase solo es usada por el segundo get que hay en
      * la interfaz PokeApiService.
      * */
+    @SerializedName("order")
     private int order;
+    @SerializedName("name")
     private String name;
 
     @SerializedName("base_experience")
@@ -29,19 +31,17 @@ public class Pokemon {
 
     @SerializedName("types")
     private List<TypeSlot> types;
-
+    private String firestoreId;
     public void setFirestoreId(String firestoreId) {
         this.firestoreId = firestoreId;
     }
 
-    private String firestoreId;
+
     // Getters
     public int orderPokedex() {
         return order;
     }
-    public String getFirestoreId() {
-        return firestoreId;
-    }
+
     public String getName() {
         return name;
     }

@@ -4,7 +4,23 @@
         <item name="windowSplashScreenAnimatedIcon">@null</item>
         <item name="windowSplashScreenBackground">@android:color/transparent</item>
         <item name="windowSplashScreenAnimationDuration">0</item>
+        <!-- Color Customizations -->
+        <item name="colorPrimary">@color/amarillo</item>
+        <item name="colorPrimaryVariant">@color/rojo</item>
+        <item name="colorSecondary">@color/azul</item>
+        <item name="colorOnBackground">@color/amarillo</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorOnSecondary">@android:color/black</item>
     </style>
-
+    <style name="PokemonTextStyle">
+        <item name="android:fontFamily">@font/pokemonsolid</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/rojo</item> <!-- Cambia según el texto -->
+    </style>
+    <style name="PokemonTextStyleHollow">
+        <item name="android:fontFamily">@font/pokemonhollow</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/rojo</item> <!-- Cambia según el texto -->
+    </style>
     <style name="Theme.Pokedex" parent="Base.Theme.Pokedex" />
 </resources>

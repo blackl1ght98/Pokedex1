@@ -43,9 +43,10 @@
                     android:id="@+id/nombrepokemonpokedek"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#8E8E93"
-                    android:fontFamily="sans-serif-light"
+                    android:textColor="@color/azul"
+
                     android:text="@string/nombre_pokemon"
+                    style="@style/PokemonTextStyle"
                     android:textSize="20sp" />
 
             </LinearLayout>
