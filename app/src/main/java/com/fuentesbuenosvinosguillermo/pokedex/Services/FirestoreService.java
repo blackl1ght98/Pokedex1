@@ -90,9 +90,9 @@ public class FirestoreService {
      * */
     public void showAlreadyCapturedDialog(Context context, Pokemon pokemon) {
         new AlertDialog.Builder(context)
-                .setTitle("Pokémon ya Capturado")
-                .setMessage(pokemon.getName() + " ya está capturado.")
-                .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
+                .setTitle(context.getString(R.string.titulo_pokemon_capturado))
+                .setMessage(pokemon.getName() + " " + context.getString(R.string.mensaje_pokemon_capturado))
+                .setPositiveButton(context.getString(R.string.aceptar), (dialog, which) -> dialog.dismiss())
                 .show();
     }
     /**

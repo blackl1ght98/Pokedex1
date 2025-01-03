@@ -132,8 +132,6 @@ private void mostrarSiguientePokemon(SharedViewModel sharedViewModel) {
                 });
 
     }
-
-
     /**
      * Metodo encargado de eliminar un pokemon recibe un unico parametro que es
      * @param sharedViewModel esta clase compartida entre otros fragmentos y es la encargada de manejar

@@ -39,4 +39,6 @@
     <string name="mensaje_eliminacion_no_encontrado">El pokemon seleccionado no se ha encontrado</string>
     <string name="titulo_eliminacion_exitosa">Eliminacion exitosa</string>
     <string name="mensaje_eliminacion_exitosa">eliminado con exito</string>
+    <string name="titulo_pokemon_capturado">Pokémon ya Capturado</string>
+    <string name="mensaje_pokemon_capturado">ya esta capturado</string>
 </resources>

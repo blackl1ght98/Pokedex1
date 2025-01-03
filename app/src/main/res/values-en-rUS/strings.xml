@@ -41,4 +41,6 @@
     <string name="mensaje_eliminacion_no_encontrado">The selected pokemon has not been found</string>
     <string name="titulo_eliminacion_exitosa">Successful elimination</string>
     <string name="mensaje_eliminacion_exitosa">successfully eliminated</string>
+    <string name="titulo_pokemon_capturado">Pokémon already captured</string>
+    <string name="mensaje_pokemon_capturado">already captured</string>
 </resources>
