@@ -12,6 +12,7 @@ import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Configuraci
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokeApiService;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonListResponse;
+import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonResult;
 import com.fuentesbuenosvinosguillermo.pokedex.PokedexRepository;
 import com.fuentesbuenosvinosguillermo.pokedex.Services.FirestoreService;
 
@@ -52,6 +53,7 @@ public class SharedViewModel extends ViewModel {
     //Mapeo local que almacena los datos de los pokemon obtenidos
     private final Map<String, Pokemon> cachedPokemonDetails = new HashMap<>();
     private FirestoreService firestoreService;
+    private MutableLiveData<List<PokemonResult>> pokemonListLiveData = new MutableLiveData<>();
     public SharedViewModel() {
         
         firestoreService = new FirestoreService(FirebaseFirestore.getInstance());
@@ -79,6 +81,7 @@ public class SharedViewModel extends ViewModel {
     public LiveData<PokemonListResponse> getPokemonList(int offset, int limit) {
         return repository.fetchPokemonList(offset, limit);
     }
+
     /**
      * Metodo que realiza la peticion a la api y trae toda la informacion del pokemon en cuestion
      *

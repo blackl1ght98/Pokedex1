@@ -2,8 +2,6 @@ package com.fuentesbuenosvinosguillermo.pokedex.Fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 
 
@@ -21,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 
-import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModelInterface;
 import com.fuentesbuenosvinosguillermo.pokedex.R;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.FragmentDetalleBinding;
 
@@ -61,7 +58,7 @@ public class DetallesPokemonCapturado extends Fragment {
                 // Actualiza la UI con los datos del Pokémon seleccionado
                 binding.nombreDetallePokemon.setText(pokemon.getName());
                 binding.pesoPokemon.setText(String.valueOf(pokemon.getWeight()));
-                binding.ordenDetallePokedex.setText(String.valueOf(pokemon.orderPokedex()));
+                binding.ordenDetallePokedex.setText(String.valueOf(pokemon.getorderPokedex()));
                 binding.alturaDetallePokemon.setText(String.valueOf(pokemon.getHeight()));
 
                 StringBuilder tipos = new StringBuilder();
@@ -213,7 +210,8 @@ public class DetallesPokemonCapturado extends Fragment {
                 } else {
                     //Si ya no quedan pokemon capturados vuelve hacia atras
                     Toast.makeText(requireContext(), "No quedan Pokémon capturados", Toast.LENGTH_SHORT).show();
-                    requireActivity().onBackPressed();
+                    requireActivity().getOnBackPressedDispatcher().onBackPressed();
+
                 }
             } else {
                 //Si se produce un error en la eliminacion muestra este mensaje
@@ -233,7 +231,7 @@ public class DetallesPokemonCapturado extends Fragment {
         binding.nombreDetallePokemon.setText(pokemon.getName());
         binding.pesoPokemon.setText(String.valueOf(pokemon.getWeight()));
         binding.alturaDetallePokemon.setText(String.valueOf(pokemon.getHeight()));
-        binding.ordenDetallePokedex.setText(String.valueOf(pokemon.orderPokedex()));
+        binding.ordenDetallePokedex.setText(String.valueOf(pokemon.getorderPokedex()));
         binding.tipoPokemon.setText(pokemon.getTypes().stream()
                 .map(typeSlot -> typeSlot.getType().getName())
                 .collect(Collectors.joining(", ")));

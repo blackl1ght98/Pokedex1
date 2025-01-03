@@ -4,25 +4,29 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-
+/**
+ * Interfaz de Retrofit que define las dos únicas peticiones que se pueden hacer a la API de PokeAPI:
+ * 1. `getPokemonList()`: Obtiene una lista de Pokémon con paginación.
+ * 2. `getPokemonDetails()`: Obtiene la información específica de un Pokémon en particular.
+ *
+ * Retrofit utiliza el objeto `Call` para realizar solicitudes HTTP y obtener respuestas del servidor.
+ * Este objeto permite ejecutar las solicitudes de manera **sincrónica** o **asincrónica**.
+ *
+ * Cada petición puede incluir parámetros que ayudan a personalizar la respuesta de la API.
+ */
 public interface PokeApiService {
-    //Obtener lista de Pokemon
+
+
     /**
-     * Cuando ya hemos configurado retrofit para poder usuarlo lo siguiente que hacemos es poner las 2 unicas peticiones que se pueden hacer a la api
-     * que la primera get lo que hace es traerte todos los pokemon y la segunda get es para la informacion especifica de cada uno de esos pokemon.
+     * Realiza una solicitud GET para obtener una lista de Pokémon desde la API.
      *
-     * El método `Call` es utilizado por la librería Retrofit para realizar una petición HTTP a un servidor web y obtener una respuesta.
-     * Este método puede ser llamado múltiples veces para hacer múltiples solicitudes al servidor. En este caso el servidor que nos responde es el
-     * que contenga la API de pokeapi
+     * - La URL base está definida en la configuración de Retrofit, y se le añade el endpoint `"pokemon"`.
+     * - Se utilizan los parámetros `offset` y `limit` para controlar la paginación.
+     * - La respuesta se encapsula en un objeto `Call` de tipo `PokemonListResponse`, que contiene la lista de Pokémon obtenida.
      *
-     * Las solicitudes pueden incluir parámetros que se pueden usar varias veces en una misma llamada.
-     * El método `Call` se puede ejecutar de manera **sincrónica** o **asincrónica** dependiendo de cómo se gestione la respuesta.
-     *
-     * En este caso, la llamada realiza una solicitud GET a la ruta "pokemon" del servidor y obtiene una lista de Pokémon.
-     *
-     * @param offset El parámetro `offset` indica desde qué punto comenzar a obtener los datos.
-     * @param limit El parámetro `limit` define la cantidad máxima de resultados a devolver.
-     * @return Un objeto `Call` que contiene la respuesta de tipo `PokemonListResponse`.
+     * @param offset Indica desde qué punto de la lista comenzar a obtener los datos.
+     * @param limit Define la cantidad máxima de Pokémon a devolver en la respuesta.
+     * @return Un objeto `Call` con la lista de Pokémon obtenida desde la API.
      */
     @GET("pokemon")
     Call<PokemonListResponse> getPokemonList(
@@ -30,12 +34,16 @@ public interface PokeApiService {
             @Query("limit") int limit
     );
 
-    //Obtener informacion especifica de un Pokemon
+
     /**
-     * Para cada pokemon se obtienen los detalles de ese pokemon y se manda a la clase Pokemon que es donde esta la gran mayoria de getter
-     * y se le pasa a esta peticion get el nombre del pokemon como parametro
+     * Realiza una solicitud GET para obtener los detalles de un Pokémon específico.
      *
-     * */
+     * - Se accede al endpoint `"pokemon/{name}"`, donde `{name}` es un parámetro dinámico que representa el nombre del Pokémon.
+     * - La respuesta obtenida se mapea a la clase `Pokemon`, que contiene los atributos y métodos necesarios para gestionar la información recibida.
+     *
+     * @param name Nombre del Pokémon del cual se desean obtener los detalles.
+     * @return Un objeto `Call` que contiene la información detallada del Pokémon solicitado.
+     */
     @GET("pokemon/{name}")
     Call<Pokemon> getPokemonDetails(
             @Path("name") String name

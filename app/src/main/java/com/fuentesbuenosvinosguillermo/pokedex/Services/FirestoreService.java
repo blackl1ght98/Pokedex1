@@ -108,7 +108,7 @@ public class FirestoreService {
         pokemonData.put("name", pokemon.getName());
         pokemonData.put("weight", pokemon.getWeight());
         pokemonData.put("height", pokemon.getHeight());
-        pokemonData.put("orderPokedex", pokemon.orderPokedex());
+        pokemonData.put("orderPokedex", pokemon.getorderPokedex());
         pokemonData.put("types", pokemon.getTypes().stream()
                 .map(typeSlot -> typeSlot.getType().getName())
                 .collect(Collectors.toList()));

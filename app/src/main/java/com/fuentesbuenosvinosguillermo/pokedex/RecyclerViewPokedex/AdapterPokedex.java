@@ -35,7 +35,7 @@ import java.util.List;
  * Esta clase es parte de la configuracion del recyclerview
  * */
 public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
-    private final List<PokemonResult> pokemonList;
+    private  List<PokemonResult> pokemonList;
     private final Context context;
     private final FragmentActivity activity;
     private PokedexCardviewBinding binding;
@@ -110,6 +110,7 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
         // Registrar la captura del Pokémon
         viewModel.capturePokemon(pokemon, context);
     }
+
 
 
 

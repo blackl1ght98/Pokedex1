@@ -23,7 +23,8 @@ import com.fuentesbuenosvinosguillermo.pokedex.RecyclerViewCapturados.AdapterCap
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.FragmentPokemonCapturadosBinding;
 
-import java.util.ArrayList;
+import java.util.Objects;
+
 /**
 Este fragmento es usado para mostrar los datos al usuario de los pokemon que va capturando en el layout asociado
  a este fragmento solo se mostrara el nombre del pokemon.
@@ -35,7 +36,7 @@ public class pokemonCapturados extends Fragment {
     private FragmentPokemonCapturadosBinding binding;
     private AdapterCapturados adapterCapturados;
     private SharedViewModel sharedViewModel;
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
     private Runnable updateRunnable;
 
     @Override
@@ -102,7 +103,7 @@ public class pokemonCapturados extends Fragment {
      * Método que comprueba si hay conexión a Internet.
      */
     private boolean isConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
             NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
             return activeNetwork != null && activeNetwork.isConnected();
@@ -117,7 +118,7 @@ public class pokemonCapturados extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         // Detener la actualización periódica cuando el fragmento ya no esté visible
-        if (handler != null && updateRunnable != null) {
+        if (updateRunnable != null) {
             handler.removeCallbacks(updateRunnable);
         }
     }

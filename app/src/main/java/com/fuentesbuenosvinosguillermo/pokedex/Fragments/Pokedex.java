@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import androidx.lifecycle.Observer;
+
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -14,13 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.ConfiguracionRetrofit;
-import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokeApiService;
 
-import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonListResponse;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonResult;
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
-import com.fuentesbuenosvinosguillermo.pokedex.PokedexRepository;
+
 import com.fuentesbuenosvinosguillermo.pokedex.RecyclerViewPokedex.AdapterPokedex;
 
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.FragmentPokedexBinding;
@@ -28,14 +25,12 @@ import com.fuentesbuenosvinosguillermo.pokedex.databinding.FragmentPokedexBindin
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+
 
 /**
  * Este fragmento se encarga de mostrar la lista de Pokémon obtenida desde la API de PokeAPI y permite su visualización
  * en un RecyclerView, utilizando View Binding y un ViewModel compartido para gestionar los datos.
- *
+ * <p>
  Se usa retrofit para realizar las peticiones a la api y tambien se hace uso de un viewmodel que es el encargado de compartir
  los datos
  */
@@ -45,9 +40,9 @@ public class Pokedex extends Fragment {
     // Adaptador para gestionar los datos del RecyclerView.
     private AdapterPokedex adapterPokedex;
     // Lista de Pokémon a mostrar.
-    private List<PokemonResult> pokemonList = new ArrayList<>();
-    // Servicio de API para interactuar con PokeAPI.
-    private PokeApiService apiService;
+    private final List<PokemonResult> pokemonList = new ArrayList<>();
+
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -55,18 +50,22 @@ public class Pokedex extends Fragment {
 
         binding = FragmentPokedexBinding.inflate(inflater, container, false);
         //Inicializa retrofir para hacer peticiones
-        apiService = ConfiguracionRetrofit.getRetrofitInstance().create(PokeApiService.class);
+
         SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
         // Configurar el RecyclerView
         setupRecyclerView();
 
         /**
-         * Observar los cambios en la lista de Pokémon desde el ViewModel.
-         * Cuando la lista se actualiza, se limpia la lista local y se agregan los nuevos datos.
-         * Aqui vemos que recibe 2 parametros:
-         * @param getViewLifecycleOwner() que se encarga de obtener el ciclo de vida del fragmento
-         * @param pokemonListResponse que contiene la respuesta de la api
+          Observar los cambios en la lista de Pokémon desde el ViewModel.
+          Cuando la lista se actualiza, se limpia la lista local y se agregan los nuevos datos.
+          Aqui vemos que recibe 2 parametros:
+          @param getViewLifecycleOwner() que se encarga de obtener el ciclo de vida del fragmento
+         * @param pokemonListResponse que contiene la respuesta de la api.
+         *  Flujo de ejecucion:
+         *     - Se realiza la llamada a la api
+         *     - La api devuelve una lista de pokemon y esta lista es almacenada en pokemonlistresponse
+         *     - La pasa por un filtro el cual es la clase pokemon result encargada de obtener el nombre del pokemon
          */
         sharedViewModel.getPokemonList(0, 150).observe(getViewLifecycleOwner(), pokemonListResponse -> {
             if (pokemonListResponse != null && pokemonListResponse.getResults() != null) {

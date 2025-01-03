@@ -3,15 +3,33 @@ package com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
-import java.util.Objects;
 
 public class Pokemon {
     /**
-     * Esta es la clase que aporta las caracteristicas de cada pokemon a parte de eso hay dos metodos que la api no devuelve que son
-     * setFirestoreId y getFirestoreId con su propiedad firestoreId esto nos sirve solo para que almacene la id de firestores
-     * lo demas es todo caracteristicas de los pokemon, al ser caracteristicas esta clase solo es usada por el segundo get que hay en
-     * la interfaz PokeApiService.
-     * */
+     * Esta clase representa la estructura de un Pokémon obtenida desde la API en formato JSON.
+     * Se encarga de mapear los datos de la API a una clase Java utilizando la anotación `@SerializedName`
+     * de Gson para facilitar la conversión automática entre JSON y objetos de Java.
+     *
+     * - Cada propiedad de la clase corresponde a un campo del JSON devuelto por la API.
+     * - Si un campo del JSON contiene un objeto o una lista, se define como una clase anidada dentro de esta clase.
+     * - La conversión de JSON a objeto Java la maneja Retrofit junto con Gson automáticamente.
+     *
+     * La clase `Pokemon` incluye:
+     * - Información básica del Pokémon como su nombre, peso, altura y experiencia base.
+     * - Imágenes del Pokémon en diferentes vistas (frontal, trasera, normal y shiny).
+     * - Tipos a los que pertenece el Pokémon (agua, fuego, planta, etc.).
+     *
+     * Además, se incluye una propiedad `firestoreId` para la integración con Firebase Firestore.
+     *
+     * Métodos:
+     * - Getters y Setters para cada atributo, permitiendo acceder y modificar los valores.
+     * - Un método `toString()` para representar el objeto de manera legible.
+     *
+     * Clases anidadas:
+     * - `Sprites`: Contiene las URLs de las imágenes del Pokémon.
+     * - `TypeSlot`: Representa la relación entre el Pokémon y su tipo, incluyendo la posición del tipo.
+     * - `TypeDetail`: Almacena el nombre y la URL del tipo de Pokémon.
+     */
     @SerializedName("order")
     private int order;
     @SerializedName("name")
@@ -38,7 +56,7 @@ public class Pokemon {
 
 
     // Getters
-    public int orderPokedex() {
+    public int getorderPokedex() {
         return order;
     }
 
