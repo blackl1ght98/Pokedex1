@@ -218,32 +218,63 @@ public class SharedViewModel extends ViewModel {
         List<Pokemon> currentList = capturedPokemons.getValue();
         return currentList != null && !currentList.isEmpty();
     }
+
     /**
-     * Metodo que va al siguiente pokemon en caso de haberlo este metodo es usado en la clase DetallesPokemonCapturado
+     * Método que obtiene el siguiente Pokémon en la lista de Pokémon capturados.
      *
-     * */
+     * @param currentIndex Índice actual del Pokémon en la lista.
+     * @param callback Callback que recibe el siguiente Pokémon y su nuevo índice.
+     *
+     * Funcionamiento:
+     * - Obtiene la lista actual de Pokémon capturados desde `capturedPokemons`.
+     * - Si la lista no está vacía ni es nula, calcula el índice del siguiente Pokémon
+     *   de manera circular (si llega al final, vuelve al inicio).
+     * - Llama al método `onNextPokemon` del callback, pasándole el siguiente Pokémon y su nuevo índice.
+     */
     public void getNextPokemon(int currentIndex, SharedViewModelInterface.OnNextPokemonCallback callback) {
+        // Obtiene la lista actual de Pokémon capturados
         List<Pokemon> currentList = capturedPokemons.getValue();
 
+        // Verifica si la lista no es nula y contiene elementos
         if (currentList != null && !currentList.isEmpty()) {
-            // Calcula el índice del siguiente Pokémon a retornar (índice circular).
+            // Calcula el índice del siguiente Pokémon de manera circular
             int nextIndex = (currentIndex + 1) % currentList.size();
 
-            // Llama al callback pasando el siguiente Pokémon.
+            // Llama al callback pasando el siguiente Pokémon y el nuevo índice
             callback.onNextPokemon(currentList.get(nextIndex), nextIndex);
         }
     }
+
+    /**
+     * Método que obtiene el Pokémon anterior en la lista de Pokémon capturados.
+     *
+     * @param currentIndex Índice actual del Pokémon en la lista.
+     * @param callback Callback que recibe el Pokémon anterior y su nuevo índice.
+     *
+     * Funcionamiento:
+     * - Obtiene la lista actual de Pokémon capturados desde `capturedPokemons`.
+     * - Si la lista no está vacía ni es nula, calcula el índice del Pokémon anterior
+     *   de manera circular (si el índice es 0, vuelve al final de la lista).
+     * - Llama al método `onNextPokemon` del callback, pasándole el Pokémon anterior y su nuevo índice.
+     *
+     * Nota:
+     * - Se usa la misma interfaz `OnNextPokemonCallback` que en `getNextPokemon`,
+     *   permitiendo reutilizar el mismo callback para avanzar o retroceder en la lista.
+     */
     public void getPreviousPokemon(int currentIndex, SharedViewModelInterface.OnNextPokemonCallback callback) {
+        // Obtiene la lista actual de Pokémon capturados
         List<Pokemon> currentList = capturedPokemons.getValue();
 
+        // Verifica si la lista no es nula y contiene elementos
         if (currentList != null && !currentList.isEmpty()) {
-            // Calcula el índice del Pokémon anterior (índice circular).
+            // Calcula el índice del Pokémon anterior de manera circular
             int previousIndex = (currentIndex - 1 + currentList.size()) % currentList.size();
 
-            // Llama al callback pasando el Pokémon anterior.
+            // Llama al callback pasando el Pokémon anterior y su nuevo índice
             callback.onNextPokemon(currentList.get(previousIndex), previousIndex);
         }
     }
+
 
 
     /**

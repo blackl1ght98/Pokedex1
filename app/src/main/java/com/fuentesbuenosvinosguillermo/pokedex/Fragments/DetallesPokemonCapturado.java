@@ -34,111 +34,134 @@ import java.util.stream.Collectors;
 
 public class DetallesPokemonCapturado extends Fragment {
     private FragmentDetalleBinding binding;
-    private int currentIndex =0;
+    private int currentIndex = 0;
     private Runnable updateRunnable;
     private SharedViewModel sharedViewModel;
 
     public DetallesPokemonCapturado() {
         // Constructor vacío requerido para los fragmentos
     }
+
     /**
      * Método que se ejecuta cuando se crea la vista del fragmento.
      * Configura el como se va a ver un pokemon.
      *
-     * @param inflater El objeto LayoutInflater para inflar la vista del fragmento.
-     * @param container El contenedor padre donde se inflará la vista.
+     * @param inflater           El objeto LayoutInflater para inflar la vista del fragmento.
+     * @param container          El contenedor padre donde se inflará la vista.
      * @param savedInstanceState El estado guardado de la actividad anterior.
      * @return La vista del fragmento con los elementos configurados.
      */
-@Override
-public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    binding = FragmentDetalleBinding.inflate(inflater, container, false);
-     sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-    //Observador que observa el pokemon que se ha seleccionado
-    sharedViewModel.getSelectedPokemon().observe(getViewLifecycleOwner(), pokemon -> {
-        if (pokemon != null) {
-            // Actualiza la UI con los datos del Pokémon seleccionado
-            binding.nombreDetallePokemon.setText(pokemon.getName());
-            binding.pesoPokemon.setText(String.valueOf(pokemon.getWeight()));
-            binding.ordenDetallePokedex.setText(String.valueOf(pokemon.orderPokedex()));
-            binding.alturaDetallePokemon.setText(String.valueOf(pokemon.getHeight()));
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentDetalleBinding.inflate(inflater, container, false);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        //Observador que observa el pokemon que se ha seleccionado
+        sharedViewModel.getSelectedPokemon().observe(getViewLifecycleOwner(), pokemon -> {
+            if (pokemon != null) {
+                // Actualiza la UI con los datos del Pokémon seleccionado
+                binding.nombreDetallePokemon.setText(pokemon.getName());
+                binding.pesoPokemon.setText(String.valueOf(pokemon.getWeight()));
+                binding.ordenDetallePokedex.setText(String.valueOf(pokemon.orderPokedex()));
+                binding.alturaDetallePokemon.setText(String.valueOf(pokemon.getHeight()));
 
-            StringBuilder tipos = new StringBuilder();
-            for (Pokemon.TypeSlot typeSlot : pokemon.getTypes()) {
-                if (typeSlot.getType() != null && typeSlot.getType().getName() != null) {
-                    tipos.append(typeSlot.getType().getName()).append(", ");
+                StringBuilder tipos = new StringBuilder();
+                for (Pokemon.TypeSlot typeSlot : pokemon.getTypes()) {
+                    if (typeSlot.getType() != null && typeSlot.getType().getName() != null) {
+                        tipos.append(typeSlot.getType().getName()).append(", ");
+                    }
                 }
-            }
 
-            // Eliminar la última coma
-            if (tipos.length() > 0) {
-                tipos.setLength(tipos.length() - 2);
-            }
-            binding.tipoPokemon.setText(tipos.toString());
-
-            if (!pokemon.getSprites().getFrontDefault().isEmpty()) {
-                Glide.with(requireContext())
-                        .load(pokemon.getSprites().getFrontDefault())
-                        .into(binding.imagepokemon);
-            }
-
-        }
-    });
-
-     // Configurar los botones de navegación, estos botones reciben el sharedviewmodel que como dijimos es la clase que se encarga de
-    //compartir los datos
-    binding.botonSiguiente.setOnClickListener(v -> mostrarSiguientePokemon(sharedViewModel));
-    binding.botonAnterior.setOnClickListener(v -> mostrarPokemonAnterior(sharedViewModel));
-    //Configuracion del boton de eliminacion
-    binding.eliminarPokemon.setOnClickListener(v -> eliminarPokemon(sharedViewModel, getContext()));
-
-    return binding.getRoot();
-}
-/**
- * Metodo que muestra el siguiente pokemon al hacer clic en el boton siguien recibe como parametro
- * el sharedviewmodel que es la clase encargada de compartir los datos
- * */
-private void mostrarSiguientePokemon(SharedViewModel sharedViewModel) {
-
-
-            // Llamar al método del ViewModel para obtener el siguiente Pokémon
-            sharedViewModel.getNextPokemon(currentIndex, new SharedViewModelInterface.OnNextPokemonCallback() {
-                @Override
-                public void onNextPokemon(Pokemon nextPokemon, int newIndex) {
-                    // Actualiza la UI con el siguiente Pokémon
-                    mostrarPokemon(nextPokemon);
-
-                    // Actualiza el índice actual
-                    currentIndex = newIndex;  // Actualiza el índice con el nuevo valor calculado
+                // Eliminar la última coma
+                if (tipos.length() > 0) {
+                    tipos.setLength(tipos.length() - 2);
                 }
-            });
+                binding.tipoPokemon.setText(tipos.toString());
+
+                if (!pokemon.getSprites().getFrontDefault().isEmpty()) {
+                    Glide.with(requireContext())
+                            .load(pokemon.getSprites().getFrontDefault())
+                            .into(binding.imagepokemon);
+                }
+
+            }
+        });
+
+        //Botones de navegacion que reciben el viewmodel para la interaccion reactiva con el usuario
+        binding.botonSiguiente.setOnClickListener(v -> mostrarSiguientePokemon(sharedViewModel));
+        binding.botonAnterior.setOnClickListener(v -> mostrarPokemonAnterior(sharedViewModel));
+        //Boton de eliminacion de un pokemon que recibe el viewmodel para actualizar la lista en tiempo real
+        binding.eliminarPokemon.setOnClickListener(v -> eliminarPokemon(sharedViewModel, getContext()));
+
+        return binding.getRoot();
+    }
+
+    /**
+     * Método que muestra el siguiente Pokémon al hacer clic en el botón "Siguiente".
+     * Recibe el SharedViewModel, que es la clase encargada de compartir los datos.
+     *
+     * La función getNextPokemon recibe dos parámetros:
+     * 1. `currentIndex`: el índice actual del Pokémon.
+     * 2. Una implementación de la interfaz `OnNextPokemonCallback`, que es una interfaz funcional
+     *    (solo tiene un método abstracto), por lo que se puede usar una expresión lambda en su lugar.
+     *
+     * La interfaz `OnNextPokemonCallback` define un método que recibe:
+     * - `nextPokemon`: el siguiente Pokémon obtenido del ViewModel.
+     * - `newIndex`: el nuevo índice correspondiente al Pokémon mostrado.
+     *
+     * En esta implementación, la lambda reemplaza la interfaz anónima para hacer el código más conciso.
+     */
+    private void mostrarSiguientePokemon(SharedViewModel sharedViewModel) {
+
+        // Llamar al método del ViewModel para obtener el siguiente Pokémon
+        sharedViewModel.getNextPokemon(currentIndex, (nextPokemon, newIndex) -> {
+            // Actualiza la UI con el siguiente Pokémon
+            mostrarPokemon(nextPokemon);
+
+            // Actualiza el índice actual con el nuevo valor calculado
+            currentIndex = newIndex;
+        });
+
+    }
 
 
-}
 
+    /**
+     * Método que muestra el anterior Pokémon al hacer clic en el botón "Anterior".
+     * Recibe el SharedViewModel, que es la clase encargada de compartir los datos.
+     *
+     * La función getNextPokemon recibe dos parámetros:
+     * 1. `currentIndex`: el índice actual del Pokémon.
+     * 2. Una implementación de la interfaz `OnNextPokemonCallback`, que es una interfaz funcional
+     *    (solo tiene un método abstracto), por lo que se puede usar una expresión lambda en su lugar.
+     *
+     * La interfaz `OnNextPokemonCallback` define un método que recibe:
+     * - `nextPokemon`: el anterior Pokémon obtenido del ViewModel.
+     * - `newIndex`: el nuevo índice correspondiente al Pokémon mostrado.
+     *
+     * En esta implementación, la lambda reemplaza la interfaz anónima para hacer el código más conciso.
+     */
 
     private void mostrarPokemonAnterior(SharedViewModel sharedViewModel) {
 
-    // Llamar al método del ViewModel para obtener el Pokémon anterior
-        sharedViewModel.getPreviousPokemon(currentIndex, new SharedViewModelInterface.OnNextPokemonCallback() {
-                    @Override
-                    public void onNextPokemon(Pokemon previousPokemon, int newIndex) {
-                        // Actualiza la UI con el Pokémon anterior
-                        mostrarPokemon(previousPokemon);
+        // Llamar al método del ViewModel para obtener el Pokémon anterior
+        sharedViewModel.getPreviousPokemon(currentIndex, (previousPokemon, newIndex) -> {
+            // Actualiza la UI con el Pokémon anterior
+            mostrarPokemon(previousPokemon);
 
-                        // Actualiza el índice actual
-                        currentIndex = newIndex;  // Actualiza el índice con el nuevo valor calculado
-                    }
-                });
+            // Actualiza el índice actual
+            currentIndex = newIndex;  // Actualiza el índice con el nuevo valor calculado
+        });
 
     }
+
     /**
      * Metodo encargado de eliminar un pokemon recibe un unico parametro que es
+     *
      * @param sharedViewModel esta clase compartida entre otros fragmentos y es la encargada de manejar
      *                        los datos que se comparten en tiempo real
-     * */
+     */
     private void eliminarPokemon(SharedViewModel sharedViewModel, Context context) {
-         //Se comprueba si el switch esta habilitado o no para eliminar un pokemon
+        //Se comprueba si el switch esta habilitado o no para eliminar un pokemon
         SharedPreferences prefs = requireActivity().getSharedPreferences("PokedexPrefs", Context.MODE_PRIVATE);
         boolean eliminacionHabilitada = prefs.getBoolean("eliminacion_enabled", false);
         //Si la eliminacion no esta habilitada se muestra el siguiente AlertDialog
@@ -163,12 +186,12 @@ private void mostrarSiguientePokemon(SharedViewModel sharedViewModel) {
                     .show();
             return;
         }
-    /**
-    * Si el pokemon existe se llama al metodo deletePokemonFromFirestore que este metodo lo que recibe son 2 parametos
-    * @param pokemonAEliminar que lo unico que recibe aquí es el nombre del pokemon
-     * @param succes si esa eliminacion ha tenido exito o no
-     * Como lo estamos llamando desde la clase compartida en cuanto un pokemon es eliminado se actualiza de forma inmediata la interfaz
-    * */
+        /**
+         * Si el pokemon existe se llama al metodo deletePokemonFromFirestore que este metodo lo que recibe son 2 parametos
+         * @param pokemonAEliminar que lo unico que recibe aquí es el nombre del pokemon
+         * @param succes si esa eliminacion ha tenido exito o no
+         * Como lo estamos llamando desde la clase compartida en cuanto un pokemon es eliminado se actualiza de forma inmediata la interfaz
+         * */
         sharedViewModel.deletePokemonFromFirestore(pokemonAEliminar, success -> {
             //Si la eliminacion ha sido exitosa
             if (success) {
@@ -183,9 +206,9 @@ private void mostrarSiguientePokemon(SharedViewModel sharedViewModel) {
                 //Verifica si hay mas pokemon
                 if (sharedViewModel.hasPokemons()) {
                     /*
-                    * Si hay mas pokemon se desplaza al siguiente pokemon en base a su posicion(currentIndex) y muestra los detalles
-                    * de ese pokemon en cuestion
-                    * */
+                     * Si hay mas pokemon se desplaza al siguiente pokemon en base a su posicion(currentIndex) y muestra los detalles
+                     * de ese pokemon en cuestion
+                     * */
                     sharedViewModel.getNextPokemon(currentIndex, (pokemons, nextIndex) -> mostrarPokemon(pokemons));
                 } else {
                     //Si ya no quedan pokemon capturados vuelve hacia atras
@@ -203,8 +226,9 @@ private void mostrarSiguientePokemon(SharedViewModel sharedViewModel) {
     /**
      * Metodo que muestra los detalles del pokemon en caso de haberlos
      * recibe un parametro que es
-         * @param pokemon  a partir de este objeto se obtiene los detalles de cada pokemon
-     * */
+     *
+     * @param pokemon a partir de este objeto se obtiene los detalles de cada pokemon
+     */
     private void mostrarPokemon(Pokemon pokemon) {
         binding.nombreDetallePokemon.setText(pokemon.getName());
         binding.pesoPokemon.setText(String.valueOf(pokemon.getWeight()));
@@ -218,13 +242,7 @@ private void mostrarSiguientePokemon(SharedViewModel sharedViewModel) {
                 .load(pokemon.getSprites().getFrontDefault())
                 .into(binding.imagepokemon);
     }
-    private boolean isConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager != null) {
-            NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
-            return activeNetwork != null && activeNetwork.isConnected();
-        }
-        return false;
-    }
+
+
 
 }
