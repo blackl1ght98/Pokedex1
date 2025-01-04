@@ -43,4 +43,7 @@
     <string name="mensaje_eliminacion_exitosa">successfully eliminated</string>
     <string name="titulo_pokemon_capturado">Pokémon already captured</string>
     <string name="mensaje_pokemon_capturado">already captured</string>
+    <string name="cancelar">Cancel</string>
+    <string name="titulo_confirmar_eliminacion">Confirm deletion</string>
+    <string name="mensaje_eliminacion">Are you sure you want to eliminate %s?</string>
 </resources>

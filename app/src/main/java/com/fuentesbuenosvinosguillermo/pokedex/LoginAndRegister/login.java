@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
@@ -58,8 +59,8 @@ public class login extends AppCompatActivity {
         // Configurar el lanzador para inicio de sesión
         setupSignInLauncher();
 
-// Configuración del ícono escalado
-        Drawable googleIcon = getResources().getDrawable(R.drawable.googleicon);
+       // Configuración del ícono escalado
+        Drawable googleIcon = ContextCompat.getDrawable(this, R.drawable.googleicon);
         if (googleIcon != null) {
             // Escalar el ícono
             int width = 64;  // Ancho en píxeles
@@ -74,7 +75,7 @@ public class login extends AppCompatActivity {
         binding.iniciarGoogle.setOnClickListener(v -> signInWithGoogle());
 
 
-        Drawable iniciarSesion = getResources().getDrawable(R.drawable.login);
+        Drawable iniciarSesion = ContextCompat.getDrawable(this,R.drawable.login);
         if (iniciarSesion != null) {
             // Escalar el ícono
             int width = 64;  // Ancho en píxeles
@@ -88,7 +89,7 @@ public class login extends AppCompatActivity {
 
         binding.iniciarSesion.setOnClickListener(v -> signInWithEmailPassword());
 
-        Drawable register = getResources().getDrawable(R.drawable.email);
+        Drawable register = ContextCompat.getDrawable(this,R.drawable.email);
         if (register != null) {
             // Escalar el ícono
             int width = 64;  // Ancho en píxeles

@@ -35,5 +35,8 @@ public class CapturedPokemonManager {
             capturedPokemons.add(pokemon);
         }
     }
+    public static void removeCapturedPokemon(Pokemon pokemon) {
+        capturedPokemons.removeIf(captured -> captured.getName().equals(pokemon.getName()));
+    }
 
 }
