@@ -2,11 +2,13 @@ package com.fuentesbuenosvinosguillermo.pokedex.RecyclerViewPokedex;
 
 import android.graphics.Color;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 
+import com.fuentesbuenosvinosguillermo.pokedex.R;
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.PokedexCardviewBinding;
 
 public class ViewHolderPokedex extends RecyclerView.ViewHolder {
@@ -31,5 +33,6 @@ public class ViewHolderPokedex extends RecyclerView.ViewHolder {
         // Ejecutar binding pendiente (si es necesario)
         binding.executePendingBindings();
     }
+
 
 }

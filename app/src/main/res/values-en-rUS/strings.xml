@@ -2,9 +2,9 @@
 <resources>
     <string name="app_name">Pokedex</string>
     <string name="nombre_pokemon">Pokemon name</string>
-    <string name="indice_pokemon">Order pokedex</string>
-    <string name="peso_pokemon">Weight pokemon</string>
-    <string name="altura_pokemon">Height pokemon</string>
+    <string name="indice_pokemon">Order in the pokedex</string>
+    <string name="peso_pokemon">Weight of the Pokemon</string>
+    <string name="altura_pokemon">Height of the pokemon</string>
     <string name="ajustes">Settings</string>
     <string name="Acercade">About</string>
 

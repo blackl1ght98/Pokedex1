@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,7 +21,7 @@ import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonResult;
 
 
-
+import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.CapturedPokemonManager;
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 
 
@@ -88,7 +89,12 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
             if (pokemon != null && pokemon.getName().equals(pokemonResult.getName())) {
                 // Vincular los datos del Pokémon al ViewHolder
                 holder.bind(pokemon);
-
+// Verificar si el Pokémon está capturado y cambiar el color
+//                if (CapturedPokemonManager.isCaptured(pokemon)) {
+//                    holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorCaptured));
+//                } else {
+//                    holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorDefault));
+//                }
                 // Establecer un listener de clic en el item para capturar el Pokémon
                 holder.itemView.setOnClickListener(v -> handlePokemonCapture(pokemon));
             }

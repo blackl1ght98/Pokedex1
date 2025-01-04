@@ -7,4 +7,7 @@
     <color name="amarillo">#ffcc00</color>
     <color name="rojo">#ff0000</color>
     <color name="azul">#3b4cca</color>
+    <color name="colorCaptured">#FFCC80</color> <!-- Un color diferente para los capturados -->
+    <color name="colorDefault">#FFFFFF</color>  <!-- El color normal -->
+
 </resources>
