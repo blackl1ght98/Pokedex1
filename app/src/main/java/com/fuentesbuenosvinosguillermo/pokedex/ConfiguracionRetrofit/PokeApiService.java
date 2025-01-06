@@ -21,7 +21,7 @@ public interface PokeApiService {
      * Realiza una solicitud GET para obtener una lista de Pokémon desde la API.
      *
      * - La URL base está definida en la configuración de Retrofit, y se le añade el endpoint `"pokemon"`.
-     * - Se utilizan los parámetros `offset` y `limit` para controlar la paginación.
+     * - Se utilizan los parámetros `offset` y `limit` para controlar cuantos datos va a traer la api.
      * - La respuesta se encapsula en un objeto `Call` de tipo `PokemonListResponse`, que contiene la lista de Pokémon obtenida.
      *
      * @param offset Indica desde qué punto de la lista comenzar a obtener los datos.

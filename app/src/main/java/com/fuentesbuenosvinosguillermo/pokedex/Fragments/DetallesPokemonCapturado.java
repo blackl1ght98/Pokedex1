@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
+import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.CapturedPokemonManager;
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 
 import com.fuentesbuenosvinosguillermo.pokedex.R;
@@ -199,7 +200,7 @@ public class DetallesPokemonCapturado extends Fragment {
 
                         .setPositiveButton(context.getString(R.string.aceptar), (dialog, which) -> dialog.dismiss())
                         .show();
-
+                CapturedPokemonManager.removeCapturedPokemon(pokemonAEliminar);
                 //Verifica si hay mas pokemon
                 if (sharedViewModel.hasPokemons()) {
                     /*

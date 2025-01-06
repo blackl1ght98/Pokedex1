@@ -18,7 +18,7 @@ public class PokemonResult {
 
     private String name;
 
-//Gracias a que en la clase PokemonListResponse almacenamos los pokemons en una lista y esa lista es de tipo PokemonResult esto es lo
+
     public String getName() {
         return name;
     }

@@ -53,7 +53,7 @@ public class SharedViewModel extends ViewModel {
     //Mapeo local que almacena los datos de los pokemon obtenidos
     private final Map<String, Pokemon> cachedPokemonDetails = new HashMap<>();
     private FirestoreService firestoreService;
-    private MutableLiveData<List<PokemonResult>> pokemonListLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<PokemonResult>> pokemonList = new MutableLiveData<>(new ArrayList<>());
     public SharedViewModel() {
         
         firestoreService = new FirestoreService(FirebaseFirestore.getInstance());
@@ -81,6 +81,8 @@ public class SharedViewModel extends ViewModel {
     public LiveData<PokemonListResponse> getPokemonList(int offset, int limit) {
         return repository.fetchPokemonList(offset, limit);
     }
+
+
 
     /**
      * Metodo que realiza la peticion a la api y trae toda la informacion del pokemon en cuestion

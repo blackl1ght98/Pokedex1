@@ -2,18 +2,15 @@ package com.fuentesbuenosvinosguillermo.pokedex.RecyclerViewPokedex;
 
 import android.content.Context;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
 
 
 import androidx.annotation.NonNull;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
+
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,80 +18,55 @@ import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.Pokemon;
 import com.fuentesbuenosvinosguillermo.pokedex.ConfiguracionRetrofit.PokemonResult;
 
 
-import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.CapturedPokemonManager;
+
 import com.fuentesbuenosvinosguillermo.pokedex.LogicaCapturaCompartida.SharedViewModel;
 
 
-import com.fuentesbuenosvinosguillermo.pokedex.R;
+
 import com.fuentesbuenosvinosguillermo.pokedex.databinding.PokedexCardviewBinding;
 
 
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Esta clase es parte de la configuracion del recyclerview
  * */
+
 public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
-    private  List<PokemonResult> pokemonList;
     private final Context context;
     private final FragmentActivity activity;
-    private PokedexCardviewBinding binding;
-    private boolean isDialogShowing =false;
-    // Constructor
-    public AdapterPokedex(List<PokemonResult> pokemonList,  Context context, FragmentActivity activity) {
-        this.pokemonList = pokemonList;
+    private List<PokemonResult> pokemonList = new ArrayList<>(); // Ahora se actualiza dinámicamente
+    private SharedViewModel sharedViewModel;
 
+    // Constructor
+    public AdapterPokedex(Context context, FragmentActivity activity) {
         this.context = context;
         this.activity = activity;
-
+        this.sharedViewModel = new ViewModelProvider(activity).get(SharedViewModel.class);
     }
 
-    /**
-     * Inflar el layout para cada item del RecyclerView.
-     * Este método es llamado cuando el RecyclerView necesita crear una nueva vista para un ítem.
-     *
-     * @param parent El grupo de vistas padre al que el ViewHolder pertenece.
-     * @param viewType El tipo de vista que se debe crear (no se usa en este caso).
-     * @return Un nuevo ViewHolder con el binding de cada item del RecyclerView.
-     */
     @NonNull
     @Override
     public ViewHolderPokedex onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflar el layout utilizando View Binding
-        binding = PokedexCardviewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        PokedexCardviewBinding binding = PokedexCardviewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolderPokedex(binding);
     }
 
-    /**
-     * Vincula los datos de un Pokémon a un ViewHolder. Este método es llamado para cada ítem visible.
-     *
-     * @param holder El ViewHolder donde se mostrará el Pokémon.
-     * @param position La posición del Pokémon dentro de la lista de Pokémon.
-     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolderPokedex holder, int position) {
         // Obtener el Pokémon de la lista en la posición actual
         PokemonResult pokemonResult = pokemonList.get(position);
 
-        // Obtener el ViewModel para manejar los Pokémon
-        SharedViewModel sharedViewModel = new ViewModelProvider(activity).get(SharedViewModel.class);
-
         // Hacer la solicitud para obtener los detalles del Pokémon
         sharedViewModel.fetchPokemons(pokemonResult.getName());
 
-        // Observar los cambios en el Pokémon seleccionado
+        // Observar cambios en el Pokémon seleccionado
         sharedViewModel.getSelectedPokemon().observe(activity, pokemon -> {
-            // Verificar si el Pokémon observado corresponde al de la lista
             if (pokemon != null && pokemon.getName().equals(pokemonResult.getName())) {
                 // Vincular los datos del Pokémon al ViewHolder
                 holder.bind(pokemon);
-// Verificar si el Pokémon está capturado y cambiar el color
-//                if (CapturedPokemonManager.isCaptured(pokemon)) {
-//                    holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorCaptured));
-//                } else {
-//                    holder.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorDefault));
-//                }
+
                 // Establecer un listener de clic en el item para capturar el Pokémon
                 holder.itemView.setOnClickListener(v -> handlePokemonCapture(pokemon));
             }
@@ -102,34 +74,19 @@ public class AdapterPokedex extends RecyclerView.Adapter<ViewHolderPokedex> {
     }
 
     /**
-     * Maneja la captura de un Pokémon cuando el usuario hace clic en un ítem.
-     * Llama al ViewModel para registrar la captura del Pokémon.
-     *
-     * @param pokemon El Pokémon que fue capturado.
+     * Método para actualizar la lista de Pokémon cuando se obtienen nuevos datos del ViewModel.
      */
-
-
-    private void handlePokemonCapture(Pokemon pokemon) {
-        // Obtener el ViewModel para manejar los Pokémon
-        SharedViewModel viewModel = new ViewModelProvider(activity).get(SharedViewModel.class);
-
-        // Registrar la captura del Pokémon
-        viewModel.capturePokemon(pokemon, context);
+    public void updateList(List<PokemonResult> newPokemonList) {
+        this.pokemonList = newPokemonList;
+        notifyDataSetChanged();
     }
 
+    private void handlePokemonCapture(Pokemon pokemon) {
+        sharedViewModel.capturePokemon(pokemon, context);
+    }
 
-
-
-
-
-    /**
-     * Devuelve el número total de ítems en la lista de Pokémon.
-     *
-     * @return El tamaño de la lista de Pokémon.
-     */
     @Override
     public int getItemCount() {
-        // Retornar el tamaño de la lista de Pokémon
         return pokemonList.size();
     }
 }
